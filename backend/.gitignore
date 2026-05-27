@@ -1,0 +1,7 @@
+bin/
+obj/
+.vs/
+.vscode/
+
+# Keep appsettings.json (empty template), but ignore your real passwords:
+appsettings.Development.json
