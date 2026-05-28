@@ -14,11 +14,14 @@ public static class CreateUserEndpoint
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid) return Results.ValidationProblem(validationResult.ToDictionary());
 
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
             var user = new User
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Email = request.Email
+                Email = request.Email,
+                Password = hashedPassword
             };
 
             db.Users.Add(user);
