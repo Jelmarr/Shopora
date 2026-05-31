@@ -8,7 +8,7 @@ public static class CreateUserEndpoint
 {
     public static void MapCreateUser(this IEndpointRouteBuilder app)
     {
-        app.MapPost("api/users", async (CreateUserRequest request, IValidator<CreateUserRequest> validator, AppDbContext db) =>
+        app.MapPost("api/user", async (CreateUserRequest request, IValidator<CreateUserRequest> validator, AppDbContext db) =>
         {
 
             var validationResult = await validator.ValidateAsync(request);

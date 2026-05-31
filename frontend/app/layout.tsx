@@ -1,3 +1,6 @@
+import "@/app/global.css";
+import { Toaster } from "sileo";
+
 export default function RootLayout({
   children,
 }: {
@@ -5,9 +8,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-background text-foreground">
         <header>My Website Header</header>
-        <main>{children}</main> {/* Page content injects here */}
+        <Toaster position="bottom-right" />
+        <main>{children}</main>
         <footer>My Website Footer</footer>
       </body>
     </html>

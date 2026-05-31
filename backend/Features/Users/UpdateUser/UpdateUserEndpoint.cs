@@ -9,17 +9,15 @@ public static class UpdateUserEndpoint
     public static void MapUpdateUser(this IEndpointRouteBuilder app)
     {
         app.MapPut("/api/users/{id:int}", async (
-            int id,
+            Guid id,
             UpdateUserRequest request,
             IValidator<UpdateUserRequest> validator,
             AppDbContext db) =>
         {
 
             var validationResult = await validator.ValidateAsync(request);
-            if (!validationResult.IsValid)
-            {
-                return Results.ValidationProblem(validationResult.ToDictionary());
-            }
+            if (!validationResult.IsValid) return Results.ValidationProblem(validationResult.ToDictionary());
+
 
             var user = await db.Users.FirstOrDefaultAsync(user => user.Id == id);
 
