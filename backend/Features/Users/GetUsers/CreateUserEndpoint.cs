@@ -21,6 +21,7 @@ public static class GetUsersEndpoint
 
             return Results.Ok(users);
 
-        });
+        })
+        .WithTags("User");
     }
 }

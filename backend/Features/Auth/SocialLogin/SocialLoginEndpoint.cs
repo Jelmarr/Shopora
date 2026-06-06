@@ -1,10 +1,9 @@
 using backend.Data;
 using backend.Features.Users.Models;
 using Microsoft.EntityFrameworkCore;
+using backend.Features.Auth.Models;
 
 namespace backend.Features.Auth.SocialLogin;
-
-public record SocialLoginRequest(string Email, string FirstName, string LastName, string Provider);
 
 public static class SocialLoginEndpoint
 {
@@ -23,11 +22,11 @@ public static class SocialLoginEndpoint
                 user = new User
                 {
                     Id = Guid.NewGuid(),
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
+                    FirstName = string.Empty,
+                    LastName = string.Empty,
                     Email = request.Email,
                     Password = string.Empty,
-                    Role = "User",
+                    Role = "Owner",
                     IsVerified = true
                 };
 
@@ -51,6 +50,7 @@ public static class SocialLoginEndpoint
             });
 
             return Results.Ok(new AuthResponse(access, user.Email, user.Role));
-        });
+        })
+        .WithTags("Authentication");
     }
 }

@@ -5,6 +5,8 @@ using System.Text;
 using backend.Features.Users.Models;
 using Microsoft.IdentityModel.Tokens;
 
+namespace backend.Features.Auth;
+
 public class TokenGenerator
 {
     private readonly IConfiguration _config;
@@ -16,7 +18,8 @@ public class TokenGenerator
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim("storeId", user.StoreId.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
@@ -26,7 +29,7 @@ public class TokenGenerator
             audience: _config["Jwt:Audience"],
             claims: claims,
             expires: DateTime.UtcNow.AddMinutes(15),
-            signingCredentials: new SigningCredentials(key, SecurityAlgorithms.Aes256CbcHmacSha512)
+            signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);

@@ -1,6 +1,8 @@
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
 
+namespace backend.Features.Auth;
+
 public static class RefreshEndpoint
 {
     public static void MapRefresh(this IEndpointRouteBuilder app)
@@ -42,8 +44,9 @@ public static class RefreshEndpoint
                 Expires = DateTime.UtcNow.AddDays(7)
             });
 
-            // 7. Return the new access token to the frontend (e.g., Next.js) in memory
+            // 7. Return the new access token to the frontend in memory
             return Results.Ok(new { accessToken = newAccessToken });
-        });
+        })
+        .WithTags("Authentication");
     }
 }

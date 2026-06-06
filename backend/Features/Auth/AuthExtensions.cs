@@ -1,5 +1,7 @@
 using backend.Features.Auth.SocialLogin;
 
+namespace backend.Features.Auth;
+
 public static class AuthExtensions
 {
     public static IEndpointRouteBuilder MapAuthFeatures(this IEndpointRouteBuilder app)
@@ -10,6 +12,7 @@ public static class AuthExtensions
         userGroup.MapLogin();
         userGroup.MapSocialLogin();
         userGroup.MapRefresh();
+        userGroup.MapLogout();
 
         userGroup.RequireCors("_myAllowSpecificOrigins");
 

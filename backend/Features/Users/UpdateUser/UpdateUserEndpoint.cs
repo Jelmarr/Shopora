@@ -42,6 +42,6 @@ public static class UpdateUserEndpoint
 
             return Results.Ok(response);
         })
-        .WithName("UpdateUser");
+        .WithTags("User");
     }
 }

@@ -1,8 +1,11 @@
+using backend.Features.Stores.Models;
+
 namespace backend.Features.Users.Models
 {
     public class User
     {
         public Guid Id { get; set; }
+        public Guid StoreId { get; set; }
         public required string FirstName { get; set; } = string.Empty;
         public required string LastName { get; set; } = string.Empty;
         public required string Email { get; set; } = string.Empty;
@@ -12,5 +15,7 @@ namespace backend.Features.Users.Models
         public string Password { get; set; } = string.Empty;
         public bool IsVerified { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public Store Store { get; set; } = null!;
     }
 }

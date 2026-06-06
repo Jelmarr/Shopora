@@ -38,6 +38,7 @@ public static class CheckEmailEndpoint
                 isExisting = exists,
                 email = targetEmail
             });
-        });
+        })
+        .WithTags("User");
     }
 }

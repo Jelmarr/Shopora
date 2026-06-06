@@ -1,6 +1,8 @@
-using backend.Features.Auth;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
+using backend.Features.Auth.Models;
+
+namespace backend.Features.Auth;
 
 public static class LoginEndpoint
 {
@@ -19,7 +21,7 @@ public static class LoginEndpoint
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
             if (!isPasswordValid)
             {
-                return Results.Json(new { detail = "Wrong password" }, statusCode: 401);
+                return Results.Json(new { detail = "Incorrect password" }, statusCode: 401);
             }
 
             // Generate access and refresh tokens using your domain utility helper
@@ -42,6 +44,8 @@ public static class LoginEndpoint
             });
 
             return Results.Ok(new AuthResponse(access, user.Email, user.Role));
-        });
+        })
+        .RequireRateLimiting(AuthRateLimitPolicies.StrictAuthPolicy)
+        .WithTags("Authentication");
     }
 }
