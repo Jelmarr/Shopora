@@ -1,3 +1,4 @@
+import { Toaster } from "sileo";
 import Sidebar from "@/src/components/Sidebar/Sidebar";
 
 export default function RootLayout({
@@ -8,6 +9,7 @@ export default function RootLayout({
   return (
     <section>
       <Sidebar />
+      <Toaster position="top-center" />
       <main className="flex justify-center mx-auto my-0">{children}</main>
     </section>
   );
