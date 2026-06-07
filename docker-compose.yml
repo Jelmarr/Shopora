@@ -1,7 +1,7 @@
 services:
 
   postgres:
-    image: postgres:18
+    image: postgres
     container_name: shopora-postgres
     environment:
       POSTGRES_DB: ${DB_NAME}
