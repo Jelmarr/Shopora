@@ -1,8 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import Link from "next/link";
 import { apiFetch } from "@/src/lib/api-client";
 import { handleFormError } from "@/src/lib/form-errors";
@@ -10,6 +9,7 @@ import Input from "@/src/components/ui/Input";
 import PasswordStrength from "@/src/components/ui/PasswordStrength";
 import SubmitButton from "@/src/components/ui/SubmitButton";
 import Card from "@/src/components/ui/Card";
+import { useEffect } from "react";
 
 interface CreateUserForm {
   firstName: string;
@@ -23,9 +23,18 @@ const Signup = () => {
 
   const router = useRouter();
 
+  const isValidEmail = email && email.trim() !== "";
+
+  useEffect(() => {
+    if (!isValidEmail) {
+      router.replace("/lookup");
+      return;
+    }
+  }, [email, router, isValidEmail]);
+
   const {
     register,
-    watch,
+    control,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting, isValid },
@@ -52,7 +61,15 @@ const Signup = () => {
     }
   };
 
-  const password = watch("password", "");
+  const password = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  });
+
+  if (!isValidEmail) {
+    return null;
+  }
 
   return (
     <Card>

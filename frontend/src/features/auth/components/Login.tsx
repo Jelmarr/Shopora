@@ -1,6 +1,6 @@
 "use client";
 
-import { ApiError, setAccessToken } from "@/src/lib/api-client";
+import { ApiError } from "@/src/lib/api-client";
 import { getErrorMessage } from "@/src/lib/error-handler";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
@@ -43,7 +43,7 @@ const Login = () => {
         } else {
           setIsVerifying(false);
         }
-      } catch (err) {
+      } catch {
         if (isMounted) {
           router.replace("/lookup");
         }
