@@ -1,4 +1,6 @@
 using backend.Features.Products.CreateProduct;
+using backend.Features.Products.GetProducts;
+using backend.Features.Products.UpdateProduct;
 
 namespace backend.Features.Products;
 
@@ -9,6 +11,8 @@ public static class ProductExtensions
         var userGroup = app.MapGroup("");
 
         userGroup.MapCreateProduct();
+        userGroup.MapUpdateProduct();
+        userGroup.MapGetProducts();
 
         userGroup.RequireCors("_myAllowSpecificOrigins");
 

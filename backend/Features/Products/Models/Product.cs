@@ -20,7 +20,7 @@ public class Product
     public bool TrackInventory { get; set; }
     public bool IsFeatured { get; set; }
     public ProductStatus Status { get; set; }
-    public ICollection<ProductImage> Images = new List<ProductImage>();
+    public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; }
     public bool IsDeleted { get; set; }

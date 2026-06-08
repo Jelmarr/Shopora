@@ -21,9 +21,9 @@ public static class UpdateProduct
 
             var updatedRequest = request with { Id = id };
 
-            await validator.ValidateOrThrowAsync(request, ct);
+            await validator.ValidateOrThrowAsync(updatedRequest, ct);
 
-            var response = await handler.Handle(user, request, ct);
+            var response = await handler.Handle(user, updatedRequest, ct);
 
             return Results.Ok(response);
 

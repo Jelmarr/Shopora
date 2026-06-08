@@ -52,6 +52,7 @@ public class UpdateProductHandler
 
             var product = await _db.Products
                 .Include(p => p.Images)
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == request.Id && p.StoreId == storeId, ct);
 
             if (product is null)
