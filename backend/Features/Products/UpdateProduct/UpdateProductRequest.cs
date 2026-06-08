@@ -1,14 +1,15 @@
 using backend.Features.Products.Enums;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Features.Products.CreateProduct;
+namespace backend.Features.Products.UpdateProduct;
 
-public record CreateProductRequest
+public record UpdateProductRequest
 {
+    public Guid Id { get; init; }
+    public Guid StoreId { get; init; }
+    public Guid CategoryId { get; init; }
     public string Name { get; init; } = string.Empty;
     public string SKU { get; init; } = string.Empty;
-    public Guid CategoryId { get; init; }
     public string Description { get; init; } = string.Empty;
     public decimal Price { get; init; }
     public decimal? CompareAtPrice { get; init; }

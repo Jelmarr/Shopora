@@ -1,7 +1,6 @@
 using backend.Features.Products.Enums;
 using backend.Features.Categories.Models;
 using backend.Features.Stores.Models;
-using backend.Features.Products.ProductImages;
 
 namespace backend.Features.Products.Models;
 

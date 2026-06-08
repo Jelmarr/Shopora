@@ -3,6 +3,7 @@ using backend.Core.Exceptions;
 using backend.Core.Extensions;
 using backend.Data;
 using backend.Features.Products.Models;
+using backend.Features.Products.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Features.Products.CreateProduct;
@@ -10,10 +11,12 @@ namespace backend.Features.Products.CreateProduct;
 public class CreateProductHandler
 {
     private readonly AppDbContext _db;
+    private readonly ICloudinaryService _cloudinaryService;
 
-    public CreateProductHandler(AppDbContext db)
+    public CreateProductHandler(AppDbContext db, ICloudinaryService cloudinaryService)
     {
         _db = db;
+        _cloudinaryService = cloudinaryService;
     }
 
     public async Task<CreateProductResponse> Handle(
@@ -21,58 +24,88 @@ public class CreateProductHandler
         CreateProductRequest request,
         CancellationToken ct)
     {
-
         var storeId = user.GetStoreId();
-        var userId = user.GetUserId();
 
-        var categoryExists = await _db.Categories.AnyAsync(
-            c => c.CategoryId == request.CategoryId && c.StoreId == storeId,
-            ct
-        );
+        var uploadResults = new List<CloudinaryUploadResult>();
 
-        if (!categoryExists)
+        if (request.Images != null && request.Images.Count > 0)
         {
-            throw new NotFoundException("Category not found.");
+            var uploadTasks = request.Images.Select(image => _cloudinaryService.UploadImageAsync(image));
+            uploadResults = (await Task.WhenAll(uploadTasks)).ToList();
         }
 
-        var skuExists = await _db.Products.AnyAsync(
-            p => p.SKU == request.SKU && p.StoreId == storeId,
-            ct
-        );
+        using var transaction = await _db.Database.BeginTransactionAsync(ct);
 
-        if (skuExists)
+        try
         {
-            throw new ConflictException("SKU already exists");
+            var categoryExists = await _db.Categories.AnyAsync(
+                c => c.CategoryId == request.CategoryId && c.StoreId == storeId,
+                ct
+            );
+
+            if (!categoryExists)
+            {
+                throw new NotFoundException("Category not found.");
+            }
+
+            var skuExists = await _db.Products.AnyAsync(
+                p => p.SKU == request.SKU && p.StoreId == storeId,
+                ct
+            );
+
+            if (skuExists)
+            {
+                throw new ConflictException("SKU already exists");
+            }
+
+            var product = new Product
+            {
+                Id = Guid.NewGuid(),
+                CategoryId = request.CategoryId,
+                StoreId = storeId,
+                Name = request.Name,
+                SKU = request.SKU,
+                Description = request.Description,
+                Price = request.Price,
+                CompareAtPrice = request.CompareAtPrice,
+                CostPrice = request.CostPrice,
+                Stock = request.Stock,
+                LowStockThreshold = request.LowStockThreshold,
+                IsFeatured = request.IsFeatured,
+                Status = request.Status,
+                CreatedAt = DateTime.UtcNow,
+                Images = new List<ProductImage>()
+            };
+
+            foreach (var upload in uploadResults)
+            {
+                product.Images.Add(new ProductImage { ImageUrl = upload.Url });
+            }
+
+            _db.Products.Add(product);
+
+            await _db.SaveChangesAsync(ct);
+
+            await transaction.CommitAsync(ct);
+
+            return new CreateProductResponse(
+                product.Id,
+                product.Name,
+                product.Price,
+                product.Status
+            );
         }
-
-        var product = new Product
+        catch (Exception)
         {
-            Id = Guid.NewGuid(),
-            CategoryId = request.CategoryId,
-            StoreId = storeId,
-            Name = request.Name,
-            SKU = request.SKU,
-            Description = request.Description,
-            Price = request.Price,
-            CompareAtPrice = request.CompareAtPrice,
-            CostPrice = request.CostPrice,
-            Stock = request.Stock,
-            LowStockThreshold = request.LowStockThreshold,
-            IsFeatured = request.IsFeatured,
-            Status = request.Status,
-            CreatedAt = DateTime.UtcNow
-        };
+            await transaction.RollbackAsync(ct);
 
-        _db.Products.Add(product);
+            if (uploadResults.Any())
+            {
+                var deleteTasks = uploadResults.Select(img => _cloudinaryService.DeleteImageAsync(img.PublicId));
+                await Task.WhenAll(deleteTasks);
+            }
 
-        await _db.SaveChangesAsync(ct);
-
-        return new CreateProductResponse(
-            product.Id,
-            product.Name,
-            product.Price,
-            product.Status
-        );
+            throw;
+        }
     }
-
 }

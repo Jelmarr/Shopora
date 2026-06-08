@@ -1,10 +1,10 @@
 using backend.Features.Users;
-using backend.Core.Middlewares;
 using backend.Core.DependencyInjection;
 using backend.Features.Auth;
 using backend.Features.Products;
 using backend.DependencyInjection;
 using backend.Features.Categories;
+using backend.Features.Products.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

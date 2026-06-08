@@ -133,3 +133,4 @@ C:\Users\Jelmar\Shopora\backend\obj\Debug\net10.0\refint\backend.dll
 C:\Users\Jelmar\Shopora\backend\obj\Debug\net10.0\backend.pdb
 C:\Users\Jelmar\Shopora\backend\obj\Debug\net10.0\backend.genruntimeconfig.cache
 C:\Users\Jelmar\Shopora\backend\obj\Debug\net10.0\ref\backend.dll
+C:\Users\Jelmar\Shopora\backend\bin\Debug\net10.0\CloudinaryDotNet.dll

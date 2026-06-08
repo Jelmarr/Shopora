@@ -1,15 +1,15 @@
 using FluentValidation;
 
-namespace backend.Features.Products.CreateProduct;
+namespace backend.Features.Products.UpdateProduct;
 
-public class CreateProductValidator : AbstractValidator<CreateProductRequest>
+public class UpdateProductValidator : AbstractValidator<UpdateProductRequest>
 {
-    public CreateProductValidator()
+    public UpdateProductValidator()
     {
         RuleFor(x => x.Name)
-            .NotEmpty()
-            .WithMessage("Product name is required.")
-            .MaximumLength(255);
+           .NotEmpty()
+           .WithMessage("Product name is required.")
+           .MaximumLength(255);
 
         RuleFor(x => x.SKU)
             .NotEmpty()

@@ -1,4 +1,6 @@
+using backend.Core.Configurations;
 using backend.Data;
+using backend.Features.Products.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -10,7 +12,7 @@ public static class InfrastructureExtensions
 
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        // 1. CORS Setup
+        // CORS Setup
         services.AddCors(options =>
         {
             options.AddPolicy(name: AllowSpecificOrigins, policy =>
@@ -22,18 +24,23 @@ public static class InfrastructureExtensions
             });
         });
 
-        // 2. Global JSON Setup
+        // Global JSON Setup
         services.ConfigureHttpJsonOptions(options =>
         {
             options.SerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
         });
 
-        // 3. PostgreSQL Database Registration
+        // PostgreSQL Database Registration
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
-        // 4. OpenAPI Configuration
+        //  OpenAPI Configuration
         services.AddOpenApi();
+
+        // Cloudinary
+        services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
+
+        services.AddScoped<ICloudinaryService, CloudinaryService>();
 
         return services;
     }

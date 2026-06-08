@@ -1,6 +1,7 @@
 using FluentValidation;
 using backend.Core.Extensions;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Features.Products.CreateProduct;
 
@@ -11,7 +12,7 @@ public static class CreateProduct
         app.MapPost("/api/product",
             async (
             ClaimsPrincipal user,
-            CreateProductRequest request,
+            [FromForm] CreateProductRequest request,
             IValidator<CreateProductRequest> validator,
             CreateProductHandler handler,
             CancellationToken ct) =>
@@ -27,6 +28,8 @@ public static class CreateProduct
 
         })
         .RequireAuthorization()
-        .WithTags("Product");
+        .WithTags("Product")
+        .Accepts<CreateProductRequest>("multipart/form-data")
+        .DisableAntiforgery();
     }
 }
