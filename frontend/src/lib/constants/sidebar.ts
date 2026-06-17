@@ -33,6 +33,7 @@ export const sidebarNavigation: SidebarGroup[] = [
         icon: Package,
         subMenu: [
           { label: "Products", href: "/store/products" },
+          { label: "Add Product", href: "/store/add-product" },
           { label: "Categories", href: "/store/categories" },
           { label: "Inventory & Lots", href: "/store/inventory" },
           { label: "Suppliers", href: "/store/suppliers" },

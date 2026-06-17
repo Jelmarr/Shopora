@@ -26,7 +26,13 @@ export async function apiFetch<T>(
 ): Promise<T> {
   // 1. Automatically attach the active Access Token if we have one in memory
   const headers = new Headers(options?.headers);
-  headers.set("Content-Type", "application/json");
+
+  // Only set Content-Type to JSON if the payload isn't FormData
+  if (options?.body instanceof FormData) {
+    headers.delete("Content-Type");
+  } else if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
 
   if (cachedAccessToken) {
     headers.set("Authorization", `Bearer ${cachedAccessToken}`);
@@ -62,6 +68,10 @@ export async function apiFetch<T>(
 
         // Re-build headers and RETRY the original user request with the fresh key!
         headers.set("Authorization", `Bearer ${cachedAccessToken}`);
+
+        if (options?.body instanceof FormData) {
+          headers.delete("Content-Type");
+        }
 
         response = await fetch(`${API_URL}${endpoint}`, {
           ...options,

@@ -17,7 +17,9 @@ const Sidebar = () => {
   const sidebarPx = minified ? MINI_W : SIDEBAR_W;
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <>
+      <style>{`:root { --sidebar-w: ${sidebarPx}px; }`}</style>
+
       {/* Mobile backdrop */}
       {mobileOpen && (
         <div
@@ -145,14 +147,6 @@ const Sidebar = () => {
         </button>
       )}
 
-      {/* ── Main content ── */}
-      <main
-        style={{ marginLeft: sidebarPx, transition: "margin-left 300ms ease" }}
-        className="flex-1 overflow-auto hidden lg:block"
-      >
-        {/* Page content goes here */}
-      </main>
-
       {/* Mobile content */}
       <div className="lg:hidden flex-1 overflow-auto p-6">
         <button
@@ -164,7 +158,7 @@ const Sidebar = () => {
           Open Menu
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

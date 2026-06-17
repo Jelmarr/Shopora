@@ -17,6 +17,7 @@ interface CreateUserForm {
   email: string;
   password: string;
 }
+
 const Signup = () => {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
