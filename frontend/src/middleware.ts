@@ -11,13 +11,13 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/login") ||
     pathname.startsWith("/signup");
 
-  const isDashboardPage = pathname.startsWith("/store/dashboard");
+  const isStoreRoute = pathname.startsWith("/store");
 
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/store/dashboard", req.url));
   }
 
-  if (!token && isDashboardPage) {
+  if (!token && isStoreRoute) {
     return NextResponse.redirect(new URL("/lookup", req.url));
   }
 
@@ -25,5 +25,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/store/dashboard/:path*", "/lookup", "/login", "/signup"],
+  matcher: ["/store/:path", "/lookup", "/login", "/signup"],
 };

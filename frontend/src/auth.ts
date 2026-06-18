@@ -41,7 +41,6 @@ export default NextAuth({
           if (!res.ok) return null;
 
           const data: AuthResponse = await res.json();
-          console.log("Raw payload from .NET Backend:", data);
           if (data && data.accessToken) {
             return {
               id: data.email,

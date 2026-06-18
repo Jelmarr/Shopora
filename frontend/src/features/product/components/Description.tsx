@@ -16,7 +16,9 @@ const Description = () => {
   return (
     <Card>
       <CardHeader className="pb-4">
-        <CardTitle className="text-base">Description</CardTitle>
+        <CardTitle className="text-base">
+          Description <span className="text-destructive">*</span>
+        </CardTitle>
         <CardDescription>
           Write a product description visible to customers.
         </CardDescription>
@@ -28,8 +30,8 @@ const Description = () => {
           placeholder="Describe the product — materials, fit, sizing notes, use case..."
           className={`${
             errors.description
-              ? "border-destructive focus-visible:ring-destructive"
-              : ""
+              ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+              : "border-input focus-within:ring-1 focus-within:ring-ring"
           } min-h-50 resize-none text-sm leading-relaxed`}
         />
         <p className="text-right text-[11px] text-muted-foreground">0 / 2000</p>

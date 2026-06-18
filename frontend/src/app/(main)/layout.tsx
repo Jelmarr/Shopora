@@ -14,7 +14,7 @@ export default function StoreLayout({
           transition: "margin-left 300ms ease",
         }}
       >
-        <div className="max-w-[67.5rem] mx-auto">{children}</div>
+        <div className="max-w-270 mx-auto">{children}</div>
       </main>
     </div>
   );

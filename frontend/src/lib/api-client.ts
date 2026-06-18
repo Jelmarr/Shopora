@@ -38,59 +38,72 @@ export async function apiFetch<T>(
     headers.set("Authorization", `Bearer ${cachedAccessToken}`);
   }
 
+  console.log("--- API FETCH OUTBOUND CHECK ---");
+  console.log("Endpoint:", endpoint);
+  console.log("Memory Token Available:", !!cachedAccessToken);
+  console.log("Sent Headers:", Object.fromEntries(headers.entries()));
+  console.log("--------------------------------");
+
   // 2. Execute the initial request
-  let response = await fetch(`${API_URL}${endpoint}`, {
+  const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers,
+    credentials: "include",
   });
 
-  const isAuthEndpoint =
-    endpoint === "/api/auth/refresh" ||
-    endpoint.includes("/api/auth/login") ||
-    endpoint.includes("/api/auth/social");
+  // const isAuthEndpoint =
+  //   endpoint === "/api/auth/refresh" ||
+  //   endpoint.includes("/api/auth/login") ||
+  //   endpoint.includes("/api/auth/social");
 
   // 3. INTERCEPT 401 UNAUTHORIZED (AccessToken Expired)
   // Ensure we don't intercept if the refresh endpoint itself is the one failing with a 401
-  if (response.status === 401 && !isAuthEndpoint) {
-    try {
-      // Call your backend refresh endpoint.
-      // Note: The browser automatically includes the secure HttpOnly cookie behind the scenes!
-      const refreshResponse = await fetch(`${API_URL}/api/auth/refresh`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
+  // if (response.status === 401 && !isAuthEndpoint) {
+  //   try {
+  //     // Call your backend refresh endpoint.
+  //     // Note: The browser automatically includes the secure HttpOnly cookie behind the scenes!
+  //     const refreshResponse = await fetch(`${API_URL}/api/auth/refresh`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       credentials: "include",
+  //     });
 
-      if (refreshResponse.ok) {
-        const tokenData = await refreshResponse.json();
+  //     if (refreshResponse.ok) {
+  //       const tokenData = await refreshResponse.json();
 
-        // Save the new token into memory
-        cachedAccessToken = tokenData.accessToken;
+  //       // Save the new token into memory
+  //       cachedAccessToken = tokenData.accessToken;
 
-        // Re-build headers and RETRY the original user request with the fresh key!
-        headers.set("Authorization", `Bearer ${cachedAccessToken}`);
+  //       if (updateSessionTrigger) {
+  //         await updateSessionTrigger();
+  //       }
 
-        if (options?.body instanceof FormData) {
-          headers.delete("Content-Type");
-        }
+  //       // Re-build headers and RETRY the original user request with the fresh key!
+  //       headers.set("Authorization", `Bearer ${cachedAccessToken}`);
 
-        response = await fetch(`${API_URL}${endpoint}`, {
-          ...options,
-          headers,
-        });
-      } else {
-        // If the refresh token is expired or deleted from DB, clear token and force logout route
-        cachedAccessToken = null;
-        if (typeof window !== "undefined") {
-          window.location.href = "/lookup";
-        }
-      }
-    } catch {
-      cachedAccessToken = null;
-      if (typeof window !== "undefined") {
-        window.location.href = "/lookup";
-      }
-    }
-  }
+  //       if (options?.body instanceof FormData) {
+  //         headers.delete("Content-Type");
+  //       }
+
+  //       response = await fetch(`${API_URL}${endpoint}`, {
+  //         ...options,
+  //         headers,
+  //         credentials: "include",
+  //       });
+  //     } else {
+  //       // If the refresh token is expired or deleted from DB, clear token and force logout route
+  //       cachedAccessToken = null;
+  //       if (typeof window !== "undefined") {
+  //         window.location.href = "/lookup";
+  //       }
+  //     }
+  //   } catch {
+  //     cachedAccessToken = null;
+  //     if (typeof window !== "undefined") {
+  //       window.location.href = "/lookup";
+  //     }
+  //   }
+  // }
 
   // 4. Parse the response body cleanly (matching your original logic)
   const text = await response.text();

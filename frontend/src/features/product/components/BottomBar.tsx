@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button";
+import Spinner from "@/src/components/ui/Spinner";
 import { Save } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 
 const BottomBar = () => {
-  const { watch } = useFormContext();
+  const {
+    watch,
+    formState: { isSubmitting },
+  } = useFormContext();
 
   const hasVariants = watch("hasVariants");
 
@@ -21,13 +25,17 @@ const BottomBar = () => {
           Save as Draft
         </Button>
         {hasVariants && (
-          <Button variant="outline" size="sm">
-            Save & Create Variants
+          <Button variant="outline" size="sm" type="submit">
+            {isSubmitting ? (
+              <Spinner label="Saving..." />
+            ) : (
+              "Save & Create Variants"
+            )}
           </Button>
         )}
         <Button size="sm" className="gap-1.5" type="submit">
           <Save className="h-4 w-4" />
-          Publish Product
+          {isSubmitting ? <Spinner label="Publishing..." /> : "Publish Product"}
         </Button>
       </div>
     </div>

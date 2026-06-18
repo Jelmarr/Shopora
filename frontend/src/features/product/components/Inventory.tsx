@@ -44,8 +44,8 @@ const Inventory = () => {
                 placeholder="e.g. SHP-0042-WHT"
                 className={
                   errors.sku
-                    ? "border-destructive focus-visible:ring-destructive"
-                    : ""
+                    ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                    : "border-input focus-within:ring-1 focus-within:ring-ring"
                 }
                 {...register("sku")}
               />
@@ -68,10 +68,11 @@ const Inventory = () => {
                 id="stock"
                 type="number"
                 placeholder="0"
+                step="0.01"
                 className={
                   errors.stock
-                    ? "border-destructive focus-visible:ring-destructive"
-                    : ""
+                    ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                    : "border-input focus-within:ring-1 focus-within:ring-ring"
                 }
                 {...register("stock")}
               />
@@ -96,7 +97,11 @@ const Inventory = () => {
             id="lowStockThreshold"
             type="number"
             placeholder="5"
-            className={`w-full ${errors.lowStockThreshold ? "border-destructive focus-visible:ring-destructive" : ""}`}
+            className={`w-full ${
+              errors.lowStockThreshold
+                ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                : "border-input focus-within:ring-1 focus-within:ring-ring"
+            }`}
             {...register("lowStockThreshold")}
           />
           {errors.lowStockThreshold ? (

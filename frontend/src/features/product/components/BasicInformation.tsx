@@ -40,15 +40,19 @@ const BasicInformation = () => {
       <CardContent className="grid gap-4">
         {/* Name */}
         <div className="grid gap-1.5">
-          <Label htmlFor="name">
+          <Label
+            htmlFor="name"
+            className={errors.name ? "text-destructive" : ""}
+          >
             Product Name <span className="text-destructive">*</span>
           </Label>
+
           <Input
             id="name"
             className={
               errors.name
-                ? "border-destructive focus-visible:ring-destructive"
-                : ""
+                ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                : "border-input focus-within:ring-1 focus-within:ring-ring"
             }
             placeholder="e.g. Classic White Sneakers"
             {...register("name")}
@@ -75,13 +79,19 @@ const BasicInformation = () => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger
                   id="categoryId"
-                  className={`w-full ${errors.categoryId ? "border-destructive focus:ring-destructive" : ""}`}
+                  className={`w-full ${
+                    errors.categoryId
+                      ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                      : "border-input focus-within:ring-1 focus-within:ring-ring"
+                  }`}
                 >
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
                   {categories?.length === 0 ? (
-                    <p>No categories yet.</p>
+                    <div className="p-2 text-sm text-muted-foreground text-center">
+                      No categories yet.
+                    </div>
                   ) : (
                     categories?.map((cat) => (
                       <SelectItem key={cat.id} value={cat.id}>

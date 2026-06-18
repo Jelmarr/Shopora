@@ -10,11 +10,6 @@ export const createProductSchema = z
       .min(1, "Product name is required.")
       .max(255, "Product name cannot exceed 255 characters."),
 
-    sku: z
-      .string()
-      .min(1, "SKU is required.")
-      .max(100, "SKU cannot exceed 100 characters."),
-
     categoryId: z.string().min(1, "Category is required."),
 
     description: z
@@ -22,14 +17,16 @@ export const createProductSchema = z
       .min(1, "Description is required.")
       .max(2000, "Description cannot exceed 2000 characters."),
 
-    // Coerce converts input string values from HTML forms into raw numbers automatically
     price: z.coerce.number().gt(0, "Price must be greater than 0."),
 
-    compareAtPrice: z.coerce
-      .number()
-      .gt(0, "Compare at price must be greater than 0.")
-      .optional()
-      .nullable(),
+    compareAtPrice: z.preprocess(
+      (val) => (val === "" ? null : val),
+      z.coerce
+        .number()
+        .gt(0, "Compare at price must be greater than 0.")
+        .nullable()
+        .optional(),
+    ),
 
     costPrice: z.coerce
       .number()
@@ -37,10 +34,19 @@ export const createProductSchema = z
       .optional()
       .nullable(),
 
-    stock: z.coerce
-      .number()
-      .int("Stock must be an integer.")
-      .gte(0, "Stock cannot be negative."),
+    sku: z.preprocess(
+      (val) => (val === "" ? undefined : val),
+      z.string().max(100, "SKU cannot exceed 100 characters.").optional(),
+    ),
+
+    stock: z.preprocess(
+      (val) => (val === "" ? undefined : val),
+      z.coerce
+        .number()
+        .int("Stock must be an integer.")
+        .gte(0, "Stock cannot be negative.")
+        .optional(),
+    ),
 
     lowStockThreshold: z.coerce
       .number()
@@ -50,27 +56,53 @@ export const createProductSchema = z
     isFeatured: z.boolean().default(false),
     hasVariants: z.boolean().default(false),
 
-    // Maps to your backend Status Enum (e.g., Draft, Active, Archived)
     status: z.string().min(1, "Invalid product status."),
 
-    images: z
-      .instanceof(FileList)
-      .refine(
-        (files) => files.length > 0,
-        "At least one product image is required.",
-      )
-      .refine(
-        (files) =>
-          Array.from(files).every((file) => file.size <= MAX_FILE_SIZE),
-        "One or more images exceed the 5MB size limit.",
-      )
-      .refine(
-        (files) =>
-          Array.from(files).every((file) =>
-            ACCEPTED_IMAGE_TYPES.includes(file.type),
-          ),
-        "Images must be a JPG, PNG, or WEBP format.",
-      ),
+    images:
+      typeof window === "undefined"
+        ? z.array(z.any())
+        : z
+            .custom<FileList>(
+              (val) => val instanceof FileList || Array.isArray(val),
+              "Invalid image input",
+            )
+            .transform((val) =>
+              val instanceof FileList ? Array.from(val) : val,
+            )
+            .refine(
+              (files) => files.length > 0,
+              "At least one product image is required.",
+            )
+            .refine(
+              (files) => files.every((file) => file.size <= MAX_FILE_SIZE),
+              "One or more images exceed the 5MB size limit.",
+            )
+            .refine(
+              (files) =>
+                files.every((file) => ACCEPTED_IMAGE_TYPES.includes(file.type)),
+              "Images must be a JPG, PNG, or WEBP format.",
+            ),
+  })
+  .superRefine((data, ctx) => {
+    if (data.hasVariants === false) {
+      // Enforce SKU requirement
+      if (!data.sku || data.sku.trim() === "") {
+        ctx.addIssue({
+          code: "custom",
+          message: "SKU is required.",
+          path: ["sku"],
+        });
+      }
+
+      // Enforce Stock requirement
+      if (data.stock === undefined || data.stock === null) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Stock quantity is required.",
+          path: ["stock"],
+        });
+      }
+    }
   })
   // Cross-property validation (.When check mapping)
   .refine(

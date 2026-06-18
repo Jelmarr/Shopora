@@ -43,7 +43,13 @@ const Pricing = () => {
             >
               Cost Price
             </FieldLabel>
-            <InputGroup>
+            <InputGroup
+              className={`flex items-center border rounded-md ${
+                errors.costPrice
+                  ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                  : "border-input focus-within:ring-1 focus-within:ring-ring"
+              }`}
+            >
               <InputGroupInput
                 id="costPrice"
                 type="number"
@@ -81,13 +87,19 @@ const Pricing = () => {
             >
               Compare-at Price
             </FieldLabel>
-            <InputGroup>
+            <InputGroup
+              className={`flex items-center border rounded-md ${
+                errors.compareAtPrice
+                  ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                  : "border-input focus-within:ring-1 focus-within:ring-ring"
+              }`}
+            >
               <InputGroupInput
                 id="compareAtPrice"
                 type="number"
                 step="0.01"
                 placeholder="0.00"
-                className={`pl-7 ${errors.compareAtPrice ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                className={`pl-7`}
                 {...register("compareAtPrice")}
               />
               <InputGroupAddon align="inline-start">
@@ -121,7 +133,13 @@ const Pricing = () => {
           >
             Price <span className="text-destructive">*</span>
           </FieldLabel>
-          <InputGroup>
+          <InputGroup
+            className={`flex items-center border rounded-md ${
+              errors.price
+                ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                : "border-input focus-within:ring-1 focus-within:ring-ring"
+            }`}
+          >
             <InputGroupInput
               id="price"
               type="number"

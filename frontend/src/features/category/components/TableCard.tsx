@@ -50,7 +50,7 @@ const TableCard = ({ categories }: { categories: Category[] }) => {
 
       <Separator />
 
-      <CardContent className="p-0">
+      <CardContent className="px-6">
         <Table>
           <TableHeader>
             <TableRow>
