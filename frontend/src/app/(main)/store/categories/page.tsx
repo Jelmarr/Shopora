@@ -5,15 +5,13 @@ const page = async ({
 }: {
   searchParams: Promise<{
     page: string;
-    pageSize: string;
   }>;
 }) => {
   const params = await searchParams;
 
-  const page = Number(params.page);
-  const pageSize = Number(params.pageSize);
+  const pageNumber = Number(params.page);
 
-  return <Category />;
+  return <Category page={pageNumber} />;
 };
 
 export default page;

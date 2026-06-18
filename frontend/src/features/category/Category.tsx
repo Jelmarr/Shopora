@@ -6,38 +6,43 @@ import DataCards from "@/src/features/category/components/DataCards";
 import TableCard from "@/src/features/category/components/TableCard";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "@/src/lib/api-client";
+import { TCategory } from "@/src/lib/types/category";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { TPagination } from "@/src/lib/types/pagination";
 
-type CategoryStatus = "Active" | "Inactive";
+type CategoryResponse = TPagination & {
+  categories: TCategory[];
+  activeCategories: number;
+  productsCategorized: number;
+};
 
-export interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  parentCategoryName: null | string;
-  parentCategoryId: null | string;
-  status: CategoryStatus;
-  productCount: number;
-}
+const Category = ({ page }: { page: number }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-const Category = () => {
-  const {
-    data: categories,
-    isLoading,
-    isError,
-    error,
-  } = useQuery<Category[]>({
-    queryKey: ["categories"],
-    queryFn: () => apiFetch<Category[]>("/api/categories"),
+  const { data, isLoading, isError, error } = useQuery<CategoryResponse>({
+    queryKey: ["categories", page],
+    queryFn: () => apiFetch<CategoryResponse>(`/api/categories?page=${page}`),
   });
 
   if (isLoading) return <div>Loading layout categories...</div>;
   if (isError) return <div>Error loading data: {error.message}</div>;
 
-  const activeCategories = categories?.map((cat) => cat.status === "Active");
-  const productCategorized = categories?.reduce(
-    (total, cat) => total + (cat.productCount ?? 0),
-    0,
-  );
+  const {
+    categories,
+    totalPages,
+    totalCount,
+    activeCategories,
+    currentPage,
+    productsCategorized,
+  } = data || {};
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="px-6 py-8">
@@ -57,24 +62,30 @@ const Category = () => {
       {/* ── Stats strip ── */}
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <DataCards
-          value={categories?.length ?? 0}
+          value={totalCount}
           title="Total categories"
           Icon={FolderTree}
         />
         <DataCards
-          value={productCategorized}
+          value={productsCategorized}
           title="Products categorized"
           Icon={Package}
         />
         <DataCards
-          value={activeCategories?.length ?? 0}
+          value={activeCategories}
           title="Active categories"
           Icon={CircleCheck}
         />
       </div>
 
       {/* ── Table card ── */}
-      <TableCard categories={categories ?? []} />
+      <TableCard
+        categories={categories ?? []}
+        currentPage={currentPage ?? 0}
+        totalPages={totalPages ?? 0}
+        totalCount={totalCount ?? 0}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

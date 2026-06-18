@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -26,18 +28,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Pencil, Search, Trash2 } from "lucide-react";
-import { Category } from "../Category";
+import { TCategory } from "@/src/lib/types/category";
+import TablePagination from "@/src/app/components/Pagination";
+import { TPagination } from "@/src/lib/types/pagination";
 
-const TableCard = ({ categories }: { categories: Category[] }) => {
+type TableCardProps = TPagination & {
+  categories: TCategory[];
+};
+
+const TableCard = ({
+  categories,
+  currentPage,
+  totalPages,
+  totalCount,
+  onPageChange,
+}: TableCardProps) => {
   return (
     <Card>
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between gap-4">
           <div>
             <CardTitle className="text-base">All Categories</CardTitle>
-            <CardDescription>
-              {categories.length} categories total
-            </CardDescription>
+            <CardDescription>{totalCount} categories total</CardDescription>
           </div>
 
           {/* Search */}
@@ -113,6 +125,15 @@ const TableCard = ({ categories }: { categories: Category[] }) => {
           </TableBody>
         </Table>
       </CardContent>
+
+      <Separator />
+
+      <TablePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalCount={totalCount}
+        onPageChange={onPageChange}
+      />
     </Card>
   );
 };

@@ -1,0 +1,11 @@
+export type CategoryStatus = "Active" | "Inactive";
+
+export type TCategory = {
+  id: string;
+  name: string;
+  description?: string;
+  parentCategoryName: null | string;
+  parentCategoryId: null | string;
+  status: CategoryStatus;
+  productCount: number;
+};
