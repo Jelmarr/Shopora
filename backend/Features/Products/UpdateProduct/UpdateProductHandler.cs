@@ -33,7 +33,7 @@ public class UpdateProductHandler
 
         if (isReplacingImages)
         {
-            var uploadTasks = request.Images!.Select(img => _cloudinaryService.UploadImageAsync(img));
+            var uploadTasks = request.Images!.Select(img => _cloudinaryService.UploadImageAsync(img, "products"));
             newUploadResults = (await Task.WhenAll(uploadTasks)).ToList();
         }
 
@@ -43,7 +43,7 @@ public class UpdateProductHandler
         try
         {
 
-            var categoryExists = await _db.Categories.AnyAsync(cat => cat.CategoryId == request.CategoryId && cat.StoreId == storeId);
+            var categoryExists = await _db.Categories.AnyAsync(cat => cat.Id == request.CategoryId && cat.StoreId == storeId);
 
             if (!categoryExists)
             {

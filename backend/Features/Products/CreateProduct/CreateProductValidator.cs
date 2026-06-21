@@ -12,9 +12,9 @@ public class CreateProductValidator : AbstractValidator<CreateProductRequest>
             .MaximumLength(255);
 
         RuleFor(x => x.SKU)
-            .NotEmpty()
-            .WithMessage("SKU is required.")
-            .MaximumLength(100);
+             .MaximumLength(100)
+             .WithMessage("SKU cannot exceed 100 characters.")
+             .When(x => !string.IsNullOrEmpty(x.SKU));
 
         RuleFor(x => x.CategoryId)
             .NotEmpty()
@@ -46,6 +46,7 @@ public class CreateProductValidator : AbstractValidator<CreateProductRequest>
 
         RuleFor(x => x.Stock)
             .GreaterThanOrEqualTo(0)
+            .When(x => x.Stock.HasValue)
             .WithMessage("Stock cannot be negative.");
 
         RuleFor(x => x.LowStockThreshold)
@@ -60,18 +61,17 @@ public class CreateProductValidator : AbstractValidator<CreateProductRequest>
             .NotEmpty()
             .WithMessage("At least one product image is required.");
 
-        RuleForEach(x => x.Images)
-            .ChildRules(image =>
-            {
-                image.RuleFor(file => file)
-                    .Must(file => file.Length <= 5 * 1024 * 1024)
-                    .WithMessage((_, file) => $"Image '{file.FileName}' exceeds the 5MB size limit.");
+        RuleForEach(x => x.Images).ChildRules(image =>
+        {
+            image.RuleFor(file => file)
+                .Must(file => file != null && file.Length <= 5 * 1024 * 1024)
+                .WithMessage((_, file) => $"Image '{file?.FileName ?? "Unknown"}' exceeds the 5MB size limit.");
 
-                image.RuleFor(file => file)
-                    .Must(file => file.ContentType == "image/jpeg" ||
-                                  file.ContentType == "image/png" ||
-                                  file.ContentType == "image/webp")
-                    .WithMessage((_, file) => $"Image '{file.FileName}' must be a JPG, PNG, or WEBP format.");
-            });
+            image.RuleFor(file => file)
+                .Must(file => file != null && (file.ContentType == "image/jpeg" ||
+                                                file.ContentType == "image/png" ||
+                                                file.ContentType == "image/webp"))
+                .WithMessage((_, file) => $"Image '{file?.FileName ?? "Unknown"}' must be a JPG, PNG, or WEBP format.");
+        });
     }
 }

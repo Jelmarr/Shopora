@@ -23,6 +23,10 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        // 1. CRITICAL: This MUST be the absolute first line so EF Core creates 
+        // the extension script before it tries to build your tables or indexes!
+        modelBuilder.HasPostgresExtension("pg_trgm");
+
         // This single line automatically scans your entire project for any 
         // configuration files (IEntityTypeConfiguration) and applies them!
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);

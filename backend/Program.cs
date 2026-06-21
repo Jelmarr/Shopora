@@ -4,7 +4,7 @@ using backend.Features.Auth;
 using backend.Features.Products;
 using backend.DependencyInjection;
 using backend.Features.Categories;
-using backend.Features.Products.Services;
+using backend.Features.Stores;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +23,6 @@ app.UseExceptionHandler();
 app.UseRouting();
 app.UseCors(InfrastructureExtensions.AllowSpecificOrigins);
 
-
 app.UseRateLimiter();
 
 app.UseAuthentication();
@@ -37,6 +36,7 @@ app.MapAuthFeatures();
 app.MapUserFeatures();
 app.MapCategoryFeatures();
 app.MapProductFeatures();
+app.MapStoreFeatures();
 
 app.Run();
 

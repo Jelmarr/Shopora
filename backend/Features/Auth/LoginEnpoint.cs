@@ -26,22 +26,22 @@ public static class LoginEndpoint
 
             // Generate access and refresh tokens using your domain utility helper
             var access = tokenGen.GenerateAccess(user);
-            var refresh = tokenGen.GenerateRefresh();
+            // var refresh = tokenGen.GenerateRefresh();
 
             // Update Database user record context tracking with the active token values
-            user.RefreshToken = refresh;
-            user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+            // user.RefreshToken = refresh;
+            // user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
 
             await db.SaveChangesAsync();
 
             // Append HttpOnly cookie securely to response context pipeline
-            context.Response.Cookies.Append("refreshToken", refresh, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7)
-            });
+            // context.Response.Cookies.Append("refreshToken", refresh, new CookieOptions
+            // {
+            //     HttpOnly = true,
+            //     Secure = true,
+            //     SameSite = SameSiteMode.Strict,
+            //     Expires = DateTime.UtcNow.AddDays(7)
+            // });
 
             return Results.Ok(new AuthResponse(access, user.Email, user.Role));
         })

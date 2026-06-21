@@ -28,6 +28,10 @@ public static class InfrastructureExtensions
         services.ConfigureHttpJsonOptions(options =>
         {
             options.SerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+
+            options.SerializerOptions.Converters.Add(
+                new System.Text.Json.Serialization.JsonStringEnumConverter()
+            );
         });
 
         // PostgreSQL Database Registration

@@ -33,11 +33,28 @@ public class CreateCategoryHandler
             throw new ConflictException("Category alaredy exists");
         }
 
+        Guid? mappedParentId = null;
+
+        if (request.ParentCategoryId.HasValue && request.ParentCategoryId.Value != Guid.Empty)
+        {
+
+            mappedParentId = request.ParentCategoryId.Value;
+
+            var parentExists = await _db.Categories.AnyAsync(cat => cat.Id == mappedParentId && cat.StoreId == storeId, ct);
+
+            if (!parentExists)
+            {
+                throw new ConflictException("The selected parent category doesn't exists");
+            }
+        }
+
         var category = new Category
         {
-            CategoryId = Guid.NewGuid(),
+            Id = Guid.NewGuid(),
             StoreId = storeId,
+            Description = request.Description,
             Name = request.Name,
+            ParentCategoryId = mappedParentId,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -46,8 +63,10 @@ public class CreateCategoryHandler
         await _db.SaveChangesAsync(ct);
 
         return new CreateCategoryResponse(
-            category.CategoryId,
-            category.Name
+            category.Id,
+            category.Name,
+            category.Description,
+            category.ParentCategoryId
         );
 
     }

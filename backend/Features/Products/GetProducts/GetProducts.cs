@@ -21,7 +21,7 @@ public static class GetProducts
             var products = await db.Products
                 .AsNoTracking()
                 .Include(product => product.Category)
-                .Where(product => product.StoreId == storeId)
+                .Where(product => product.StoreId == storeId && !product.IsDeleted)
                 .Select(product => new GetProductResponse
                 {
                     Id = product.Id,

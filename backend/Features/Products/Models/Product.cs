@@ -10,7 +10,7 @@ public class Product
     public Guid StoreId { get; set; }
     public Guid CategoryId { get; set; }
     public string Name { get; set; } = string.Empty;
-    public string SKU { get; set; } = string.Empty;
+    public string? SKU { get; set; }
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
     public decimal? CompareAtPrice { get; set; }
@@ -19,6 +19,7 @@ public class Product
     public int LowStockThreshold { get; set; }
     public bool TrackInventory { get; set; }
     public bool IsFeatured { get; set; }
+    public bool HasVariants { get; set; }
     public ProductStatus Status { get; set; }
     public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

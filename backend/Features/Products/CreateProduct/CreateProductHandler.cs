@@ -28,26 +28,18 @@ public class CreateProductHandler
 
         var uploadResults = new List<CloudinaryUploadResult>();
 
-        if (request.Images != null && request.Images.Count > 0)
+        var categoryExists = await _db.Categories.AnyAsync(
+            c => c.Id == request.CategoryId && c.StoreId == storeId,
+            ct
+        );
+
+        if (!categoryExists)
         {
-            var uploadTasks = request.Images.Select(image => _cloudinaryService.UploadImageAsync(image));
-            uploadResults = (await Task.WhenAll(uploadTasks)).ToList();
+            throw new NotFoundException("Category not found.");
         }
 
-        using var transaction = await _db.Database.BeginTransactionAsync(ct);
-
-        try
+        if (!string.IsNullOrEmpty(request.SKU))
         {
-            var categoryExists = await _db.Categories.AnyAsync(
-                c => c.CategoryId == request.CategoryId && c.StoreId == storeId,
-                ct
-            );
-
-            if (!categoryExists)
-            {
-                throw new NotFoundException("Category not found.");
-            }
-
             var skuExists = await _db.Products.AnyAsync(
                 p => p.SKU == request.SKU && p.StoreId == storeId,
                 ct
@@ -57,21 +49,33 @@ public class CreateProductHandler
             {
                 throw new ConflictException("SKU already exists");
             }
+        }
 
+        if (request.Images != null && request.Images.Count > 0)
+        {
+            var uploadTasks = request.Images.Select(image => _cloudinaryService.UploadImageAsync(image, "products"));
+            uploadResults = (await Task.WhenAll(uploadTasks)).ToList();
+        }
+
+        using var transaction = await _db.Database.BeginTransactionAsync(ct);
+
+        try
+        {
             var product = new Product
             {
                 Id = Guid.NewGuid(),
                 CategoryId = request.CategoryId,
                 StoreId = storeId,
                 Name = request.Name,
-                SKU = request.SKU,
+                SKU = string.IsNullOrWhiteSpace(request.SKU) ? null : request.SKU.Trim(),
                 Description = request.Description,
                 Price = request.Price,
                 CompareAtPrice = request.CompareAtPrice,
                 CostPrice = request.CostPrice,
-                Stock = request.Stock,
-                LowStockThreshold = request.LowStockThreshold,
+                Stock = request.Stock ?? 0,
+                LowStockThreshold = request.LowStockThreshold ?? 0,
                 IsFeatured = request.IsFeatured,
+                HasVariants = request.HasVariants,
                 Status = request.Status,
                 CreatedAt = DateTime.UtcNow,
                 Images = new List<ProductImage>()
@@ -95,7 +99,7 @@ public class CreateProductHandler
                 product.Status
             );
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             await transaction.RollbackAsync(ct);
 
@@ -105,7 +109,7 @@ public class CreateProductHandler
                 await Task.WhenAll(deleteTasks);
             }
 
-            throw;
+            throw new Exception($"Handler Failed! Source: {ex.Source}. Message: {ex.Message}. InnerException: {ex.InnerException?.Message}");
         }
     }
 }

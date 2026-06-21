@@ -16,14 +16,20 @@ type CategoryResponse = TPagination & {
   productsCategorized: number;
 };
 
-const Category = ({ page }: { page: number }) => {
+const Category = ({ page, search }: { page: number; search?: string }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const { data, isLoading, isError, error } = useQuery<CategoryResponse>({
-    queryKey: ["categories", page],
-    queryFn: () => apiFetch<CategoryResponse>(`/api/categories?page=${page}`),
+    queryKey: ["categories", page, search],
+    queryFn: () => {
+      const searchArg = search ? `&search=${encodeURIComponent(search)}` : "";
+
+      return apiFetch<CategoryResponse>(
+        `/api/categories?page=${page}${searchArg}`,
+      );
+    },
   });
 
   if (isLoading) return <div>Loading layout categories...</div>;
@@ -41,6 +47,19 @@ const Category = ({ page }: { page: number }) => {
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", newPage.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleSearchChange = (keyword: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (keyword) {
+      params.set("search", keyword);
+    } else {
+      params.delete("search");
+    }
+
+    params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
   };
 

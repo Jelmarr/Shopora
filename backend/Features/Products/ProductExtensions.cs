@@ -1,4 +1,5 @@
 using backend.Features.Products.CreateProduct;
+using backend.Features.Products.DeleteProduct;
 using backend.Features.Products.GetProducts;
 using backend.Features.Products.UpdateProduct;
 
@@ -8,13 +9,14 @@ public static class ProductExtensions
 {
     public static IEndpointRouteBuilder MapProductFeatures(this IEndpointRouteBuilder app)
     {
-        var userGroup = app.MapGroup("");
+        var productGroup = app.MapGroup("");
 
-        userGroup.MapCreateProduct();
-        userGroup.MapUpdateProduct();
-        userGroup.MapGetProducts();
+        productGroup.MapCreateProduct();
+        productGroup.MapUpdateProduct();
+        productGroup.MapGetProducts();
+        productGroup.MapDeleteProduct();
 
-        userGroup.RequireCors("_myAllowSpecificOrigins");
+        productGroup.RequireCors("_myAllowSpecificOrigins");
 
         return app;
     }

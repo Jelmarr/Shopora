@@ -2,6 +2,6 @@ namespace backend.Features.Products.Services;
 
 public interface ICloudinaryService
 {
-    Task<CloudinaryUploadResult> UploadImageAsync(IFormFile file);
+    Task<CloudinaryUploadResult> UploadImageAsync(IFormFile file, string folder);
     Task DeleteImageAsync(string publicId);
 }

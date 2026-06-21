@@ -4,14 +4,16 @@ const page = async ({
   searchParams,
 }: {
   searchParams: Promise<{
-    page: string;
+    page?: string;
+    search?: string;
   }>;
 }) => {
   const params = await searchParams;
 
-  const pageNumber = Number(params.page);
+  const pageNumber = Number(params.page) || 1;
+  const searchString = params.search || "";
 
-  return <Category page={pageNumber} />;
+  return <Category page={pageNumber} search={searchString} />;
 };
 
 export default page;

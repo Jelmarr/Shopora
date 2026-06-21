@@ -25,7 +25,7 @@ public class CloudinaryService : ICloudinaryService
         _cloudinary = new Cloudinary(account);
     }
 
-    public async Task<CloudinaryUploadResult> UploadImageAsync(IFormFile file)
+    public async Task<CloudinaryUploadResult> UploadImageAsync(IFormFile file, string folder)
     {
         await using var stream = file.OpenReadStream();
 
@@ -36,7 +36,7 @@ public class CloudinaryService : ICloudinaryService
                 stream
             ),
 
-            Folder = "products"
+            Folder = folder
         };
 
         var result = await _cloudinary.UploadAsync(uploadParams);

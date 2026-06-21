@@ -23,7 +23,7 @@ public static class CreateCategoy
             var response = await handler.Handle(user, request, ct);
 
             return Results.Created(
-                $"/api/categories/${response.CategoryId}",
+                $"/api/categories/${response.Id}",
                 response);
         })
         .RequireAuthorization()

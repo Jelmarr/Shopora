@@ -1,7 +1,7 @@
 using backend.Data;
-using backend.Features.Stores.Models;
 using backend.Features.Users.Models;
 using FluentValidation;
+using StoreModel = backend.Features.Stores.Models.Store;
 
 namespace backend.Features.Users.CreateUser;
 
@@ -19,12 +19,13 @@ public static class CreateUserEndpoint
 
             var defaultStoreName = $"{request.FirstName} {request.LastName} Store";
 
-            var newStore = new Store
+            var newStore = new StoreModel
             {
                 StoreId = Guid.NewGuid(),
-                Name = $"{defaultStoreName} Store",
+                Name = $"{defaultStoreName}",
                 Slug = defaultStoreName.ToLower().Replace(" ", "-"),
                 LogoUrl = string.Empty,
+                LogoPublicId = string.Empty,
                 CreatedAt = DateTime.UtcNow
             };
 
