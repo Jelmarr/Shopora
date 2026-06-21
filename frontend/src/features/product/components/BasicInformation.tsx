@@ -15,9 +15,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { apiFetch } from "@/src/lib/api-client";
+import { TCategory } from "@/src/lib/types/category";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useFormContext } from "react-hook-form";
-import { Category } from "../../category/Category";
 
 const BasicInformation = () => {
   const {
@@ -26,9 +26,9 @@ const BasicInformation = () => {
     formState: { errors },
   } = useFormContext();
 
-  const { data: categories } = useQuery<Category[]>({
+  const { data: categories } = useQuery<TCategory[]>({
     queryKey: ["categories"],
-    queryFn: () => apiFetch<Category[]>(`/api/categories`),
+    queryFn: () => apiFetch<TCategory[]>(`/api/categories`),
   });
 
   return (

@@ -1,3 +1,14 @@
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Controller, useForm } from "react-hook-form";
+import { apiFetch } from "@/src/lib/api-client";
+import { notify } from "@/src/lib/toast";
+import { handleFormError } from "@/src/lib/form-errors";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { ParentLookup } from "../Category";
 import {
   Dialog,
   DialogContent,
@@ -8,27 +19,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Controller, useForm } from "react-hook-form";
-import { apiFetch } from "@/src/lib/api-client";
-import { notify } from "@/src/lib/toast";
-import { handleFormError } from "@/src/lib/form-errors";
-import { Category } from "../Category";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox";
+import {
+  CreateCategoryInput,
+  createCategorySchema,
+} from "../schemas/AddCategorySchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type AddCategoryType = Omit<Category, "id">;
-
-const AddCategoryModal = ({ categories }: { categories: Category[] }) => {
+const AddCategoryModal = ({
+  parentLookups,
+}: {
+  parentLookups: ParentLookup[];
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -40,10 +48,17 @@ const AddCategoryModal = ({ categories }: { categories: Category[] }) => {
     formState: { errors },
     control,
     handleSubmit,
-  } = useForm<AddCategoryType>();
+  } = useForm<CreateCategoryInput>({
+    resolver: zodResolver(createCategorySchema),
+    defaultValues: {
+      name: "",
+      parentCategoryId: "",
+      description: "",
+    },
+  });
 
   const createCategoryMutation = useMutation({
-    mutationFn: async (data: AddCategoryType) => {
+    mutationFn: async (data: CreateCategoryInput) => {
       const payload = {
         ...data,
         parentCategoryId:
@@ -67,7 +82,7 @@ const AddCategoryModal = ({ categories }: { categories: Category[] }) => {
     },
   });
 
-  const onSubmit = (data: AddCategoryType) => {
+  const onSubmit = (data: CreateCategoryInput) => {
     createCategoryMutation.mutate(data);
   };
 
@@ -79,6 +94,7 @@ const AddCategoryModal = ({ categories }: { categories: Category[] }) => {
           Add Category
         </Button>
       </DialogTrigger>
+
       <DialogContent className="sm:max-w-110">
         <DialogHeader>
           <DialogTitle>Add Category</DialogTitle>
@@ -97,7 +113,17 @@ const AddCategoryModal = ({ categories }: { categories: Category[] }) => {
                 id="category-name"
                 placeholder="e.g. Footwear"
                 {...register("name")}
+                className={
+                  errors.name
+                    ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                    : "border-input focus-within:ring-1 focus-within:ring-ring"
+                }
               />
+              {errors.name && (
+                <p className="text-xs font-medium text-destructive">
+                  {errors.name.message as string}
+                </p>
+              )}
             </div>
 
             {/* Parent Category */}
@@ -107,27 +133,26 @@ const AddCategoryModal = ({ categories }: { categories: Category[] }) => {
                 name="parentCategoryId"
                 control={control}
                 render={({ field }) => (
-                  <Select
+                  <Combobox
                     onValueChange={field.onChange}
                     value={field.value ?? ""}
+                    items={parentLookups}
                   >
-                    <SelectTrigger id="parent-category">
-                      <SelectValue placeholder="None (top-level category)" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.length <= 0 ? (
-                        <p>No parent categories yet.</p>
-                      ) : (
-                        categories
-                          .filter((c) => !c.parentCategoryId)
-                          .map((cat) => (
-                            <SelectItem key={cat.id} value={cat.id}>
-                              {cat.name}
-                            </SelectItem>
-                          ))
-                      )}
-                    </SelectContent>
-                  </Select>
+                    <ComboboxInput placeholder="Select parent category" />
+                    <ComboboxContent
+                      alignOffset={-28}
+                      className="w-60 pointer-events-auto"
+                    >
+                      <ComboboxEmpty>No parent categories found.</ComboboxEmpty>
+                      <ComboboxList>
+                        {(cat) => (
+                          <ComboboxItem key={cat.id} value={cat.name}>
+                            {cat.name}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
                 )}
               />
               <p className="text-[11px] text-muted-foreground">

@@ -9,3 +9,5 @@ export type TCategory = {
   status: CategoryStatus;
   productCount: number;
 };
+
+export type SortByCategory = "name" | "productcount" | "isactive";
