@@ -79,7 +79,7 @@ const TablePagination = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-between gap-3 px-6 py-4 sm:flex-row">
+    <>
       <p className="text-sm text-muted-foreground">
         Showing page {currentPage} of {totalPages} · {totalCount} categories
         total
@@ -140,7 +140,7 @@ const TablePagination = ({
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    </div>
+    </>
   );
 };
 

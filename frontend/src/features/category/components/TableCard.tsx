@@ -28,28 +28,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { TCategory } from "@/src/lib/types/category";
-import TablePagination from "@/src/app/components/Pagination";
-import { TPagination } from "@/src/lib/types/pagination";
 import SearchBar from "@/src/components/SearchBar";
 import { useTableSort } from "@/src/hooks/useTableSort";
 import RenderSortIcon from "@/src/components/RenderSortIcon";
+import { useState } from "react";
+import UpdateCategoryModal from "./UpdateCategoryModal";
+import { ParentLookup } from "../Category";
 
-type TableCardProps = TPagination & {
+type TableCardProps = {
   categories: TCategory[];
-  onPageChange: (page: number) => void;
+  parentLookups: ParentLookup[];
+  totalCount: number;
 };
 
 const TableCard = ({
   categories,
-  currentPage,
-  totalPages,
   totalCount,
-  onPageChange,
+  parentLookups,
 }: TableCardProps) => {
+  const [activeEditCategory, setActiveEditCategory] =
+    useState<TCategory | null>(null);
+
   const { handleSort } = useTableSort();
 
   return (
-    <Card>
+    <>
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between gap-4">
           <div>
@@ -139,7 +142,10 @@ const TableCard = ({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="gap-2">
+                        <DropdownMenuItem
+                          className="gap-2"
+                          onClick={() => setActiveEditCategory(category)}
+                        >
                           <Pencil className="h-3.5 w-3.5" />
                           Edit
                         </DropdownMenuItem>
@@ -156,16 +162,17 @@ const TableCard = ({
           </TableBody>
         </Table>
       </CardContent>
-
-      <Separator />
-
-      <TablePagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalCount={totalCount}
-        onPageChange={onPageChange}
-      />
-    </Card>
+      {activeEditCategory && (
+        <UpdateCategoryModal
+          category={activeEditCategory}
+          isOpen={activeEditCategory !== null}
+          onOpenChange={(open) => {
+            if (!open) setActiveEditCategory(null);
+          }}
+          parentLookups={parentLookups}
+        />
+      )}
+    </>
   );
 };
 

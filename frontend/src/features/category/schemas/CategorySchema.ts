@@ -1,12 +1,12 @@
 import z from "zod";
 
-export const createCategorySchema = z.object({
+export const categorySchema = z.object({
   name: z
     .string()
     .min(1, "Category name is required.")
     .max(255, "Category name cannot exceed 255 characters."),
 
-  parentCategoryId: z.string().optional(),
+  parentCategoryId: z.uuid().nullable().optional(),
 
   description: z
     .string()
@@ -14,4 +14,4 @@ export const createCategorySchema = z.object({
     .optional(),
 });
 
-export type CreateCategoryInput = z.infer<typeof createCategorySchema>;
+export type CategoryInput = z.infer<typeof categorySchema>;

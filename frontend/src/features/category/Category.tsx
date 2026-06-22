@@ -3,13 +3,15 @@
 import { FolderTree, Package, CircleCheck } from "lucide-react";
 import AddCategoryModal from "@/src/features/category/components/AddCategoryModal";
 import DataCards from "@/src/features/category/components/DataCards";
-import TableCard from "@/src/features/category/components/TableCard";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { apiFetch } from "@/src/lib/api-client";
 import { SortByCategory, TCategory } from "@/src/lib/types/category";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { TPagination } from "@/src/lib/types/pagination";
 import CategorySkeleton from "./components/CategorySkeleton";
+import { Card, CardFooter } from "@/components/ui/card";
+import TablePagination from "@/src/app/components/Pagination";
+import TableCard from "./components/TableCard";
 
 export type ParentLookup = { name: string; id: string };
 
@@ -106,13 +108,21 @@ const Category = ({
       </div>
 
       {/* ── Table card ── */}
-      <TableCard
-        categories={categories ?? []}
-        currentPage={currentPage ?? 0}
-        totalPages={totalPages ?? 0}
-        totalCount={totalCount ?? 0}
-        onPageChange={handlePageChange}
-      />
+      <Card>
+        <TableCard
+          categories={categories}
+          parentLookups={parentLookups}
+          totalCount={totalCount}
+        />
+        <CardFooter className="bg-white flex flex-col items-center justify-between gap-3 h-24 sm:flex-row">
+          <TablePagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalCount={totalCount}
+            onPageChange={handlePageChange}
+          />
+        </CardFooter>
+      </Card>
     </div>
   );
 };
