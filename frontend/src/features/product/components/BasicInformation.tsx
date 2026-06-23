@@ -5,19 +5,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { apiFetch } from "@/src/lib/api-client";
 import { TCategory } from "@/src/lib/types/category";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useFormContext } from "react-hook-form";
+
+type LookupCategory = Pick<TCategory, "name" | "id" | "parentCategoryName">;
+
+interface LookupApiResponse {
+  categories: LookupCategory[];
+}
 
 const BasicInformation = () => {
   const {
@@ -26,10 +33,12 @@ const BasicInformation = () => {
     formState: { errors },
   } = useFormContext();
 
-  const { data: categories } = useQuery<TCategory[]>({
-    queryKey: ["categories"],
-    queryFn: () => apiFetch<TCategory[]>(`/api/categories`),
+  const { data } = useQuery<LookupApiResponse>({
+    queryKey: ["categories", "lookup"],
+    queryFn: () => apiFetch<LookupApiResponse>(`/api/categories/lookup`),
   });
+
+  const categoriesList = data?.categories ?? [];
 
   return (
     <Card>
@@ -76,31 +85,31 @@ const BasicInformation = () => {
             control={control}
             name="categoryId"
             render={({ field }) => (
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger
-                  id="categoryId"
-                  className={`w-full ${
-                    errors.categoryId
-                      ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
-                      : "border-input focus-within:ring-1 focus-within:ring-ring"
-                  }`}
+              <Combobox
+                onValueChange={field.onChange}
+                value={
+                  categoriesList.find((cat) => cat.id === field.value)?.name ??
+                  field.value ??
+                  ""
+                }
+                items={categoriesList}
+                modal={false}
+              >
+                <ComboboxInput placeholder="Select categories" />
+                <ComboboxContent
+                  alignOffset={-28}
+                  className="w-60 pointer-events-auto"
                 >
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories?.length === 0 ? (
-                    <div className="p-2 text-sm text-muted-foreground text-center">
-                      No categories yet.
-                    </div>
-                  ) : (
-                    categories?.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id}>
+                  <ComboboxEmpty>No categories found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(cat) => (
+                      <ComboboxItem key={cat.id} value={cat.id}>
                         {cat.name}
-                      </SelectItem>
-                    ))
-                  )}
-                </SelectContent>
-              </Select>
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
             )}
           />
           {errors.categoryId && (
