@@ -45,12 +45,6 @@ const UpdateCategoryModal = ({
         body: JSON.stringify(payload),
       });
     },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
-      onOpenChange(false);
-      notify.success("Category updated successfully!");
-    },
   });
 
   const handleFormSubmit = async (
@@ -61,6 +55,7 @@ const UpdateCategoryModal = ({
       await updateMutation.mutateAsync(data);
 
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      onOpenChange(false);
       notify.success("Category successfully updated!");
     } catch (err) {
       handleFormError(err, formSetError);
