@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import { Plus } from "lucide-react";
 import { apiFetch } from "@/src/lib/api-client";
 import { notify } from "@/src/lib/toast";
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/src/components/ui/dialog";
 
 import { CategoryInput } from "../schemas/CategorySchema";
 import CategoryForm from "./CategoryForm";

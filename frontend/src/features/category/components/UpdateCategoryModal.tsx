@@ -4,7 +4,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/src/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiFetch } from "@/src/lib/api-client";
 import { notify } from "@/src/lib/toast";

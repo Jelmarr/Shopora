@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/src/components/ui/input";
 import { Search } from "lucide-react";
 
 export default function SearchBar() {

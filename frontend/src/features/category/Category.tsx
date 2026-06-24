@@ -9,7 +9,7 @@ import { SortByCategory, TCategory } from "@/src/lib/types/category";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { TPagination } from "@/src/lib/types/pagination";
 import CategorySkeleton from "./components/CategorySkeleton";
-import { Card, CardFooter } from "@/components/ui/card";
+import { Card, CardFooter } from "@/src/components/ui/card";
 import TablePagination from "@/src/app/components/Pagination";
 import TableCard from "./components/TableCard";
 

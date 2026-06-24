@@ -5,16 +5,16 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "@/components/ui/combobox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/src/components/ui/combobox";
+import { Input } from "@/src/components/ui/input";
+import { Label } from "@/src/components/ui/label";
 import { Controller, useForm, UseFormSetError } from "react-hook-form";
 import { CategoryInput, categorySchema } from "../schemas/CategorySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ParentLookup } from "../Category";
-import { DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import Spinner from "@/src/components/ui/Spinner";
+import { DialogFooter, DialogTrigger } from "@/src/components/ui/dialog";
+import { Button } from "@/src/components/ui/button";
+import Spinner from "@/src/components/Spinner";
 
 interface CategoryFormProps {
   parentLookups: ParentLookup[];

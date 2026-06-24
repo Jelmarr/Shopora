@@ -3,8 +3,8 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+} from "@/src/components/ui/card";
+import { Skeleton } from "@/src/components/ui/skeleton";
 import CardSkeleton from "@/src/app/components/CardSkeleton";
 
 export default function CategorySkeleton() {
