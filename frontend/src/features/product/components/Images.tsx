@@ -1,15 +1,15 @@
 import { useRef, useMemo, useEffect } from "react";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 import { ImagePlus, X } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import Image from "next/image";
+import { Badge } from "@/src/components/ui/badge";
 
 const Images = () => {
   const {

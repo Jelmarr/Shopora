@@ -4,17 +4,17 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+} from "@/src/components/ui/select";
+import { Label } from "@/src/components/ui/label";
 import { Layers, Star } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import { Switch } from "@/src/components/ui/switch";
 import {
   Field,
   FieldContent,
@@ -22,7 +22,7 @@ import {
   FieldGroup,
   FieldLabel,
   FieldTitle,
-} from "@/components/ui/field";
+} from "@/src/components/ui/field";
 import { Controller, useFormContext } from "react-hook-form";
 
 type ProductStatus = "Draft" | "Active" | "Archived";

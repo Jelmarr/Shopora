@@ -5,11 +5,11 @@ import { useForm, useWatch } from "react-hook-form";
 import Link from "next/link";
 import { apiFetch } from "@/src/lib/api-client";
 import { handleFormError } from "@/src/lib/form-errors";
-import Input from "@/src/components/ui/Input";
-import PasswordStrength from "@/src/components/ui/PasswordStrength";
-import SubmitButton from "@/src/components/ui/SubmitButton";
-import Card from "@/src/components/ui/Card";
 import { useEffect } from "react";
+import Input from "./ui/Input";
+import PasswordStrength from "./ui/PasswordStrength";
+import SubmitButton from "./ui/SubmitButton";
+import Card from "./ui/Card";
 
 interface CreateUserForm {
   firstName: string;

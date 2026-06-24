@@ -26,6 +26,7 @@ const AddProduct = () => {
       status: "Draft",
       hasVariants: false,
       isFeatured: false,
+      categoryId: "",
     },
   });
 

@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using backend.Core.Exceptions;
+using backend.Core.Exceptions.ValidatonException;
 using backend.Core.Extensions;
+using backend.Core.Extensions.StringExtension;
 using backend.Data;
 using backend.Features.Products.Models;
 using backend.Features.Products.Services;
@@ -47,7 +49,7 @@ public class UpdateProductHandler
 
             if (!categoryExists)
             {
-                throw new NotFoundException("Category not found.");
+                throw new ValidationException("categoryId", "A category with this name already exists in your store");
             }
 
             var product = await _db.Products
@@ -60,17 +62,28 @@ public class UpdateProductHandler
                 throw new NotFoundException("Product does not exists.");
             }
 
-            var skuExists = await _db.Products.AnyAsync(
-                p => p.SKU == request.SKU && p.StoreId == storeId && p.Id != product.Id,
+            var productNameExists = await _db.Products
+                .Where(p => !p.IsDeleted)
+                .AnyAsync(p => p.StoreId == storeId &&
+                p.Id != product.Id &&
+                EF.Functions.ILike(p.Name, request.Name.Trim()),
                 ct);
+
+            if (productNameExists)
+            {
+                throw new ValidationException("name", "A product with this name already exists in your store.");
+            }
+
+            var skuExists = await _db.Products
+                .AnyAsync(p => p.StoreId == storeId && p.Id != product.Id && EF.Functions.ILike(p.SKU!, request.SKU.Trim()), ct);
 
             if (skuExists)
             {
-                throw new ConflictException("SKU already exists");
+                throw new ValidationException("sku", "SKU already exists");
             }
 
             product.CategoryId = request.CategoryId;
-            product.Name = request.Name;
+            product.Name = request.Name.ToCapitalized();
             product.SKU = request.SKU;
             product.Description = request.Description;
             product.Price = request.Price;

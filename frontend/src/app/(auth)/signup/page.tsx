@@ -3,9 +3,11 @@ import { Suspense } from "react";
 
 const page = () => {
   return (
-    <Suspense fallback={<div className="animate-pulse">Loading form...</div>}>
-      <Signup />
-    </Suspense>
+    <main className="flex justify-center mx-auto mt-20 mb-0">
+      <Suspense fallback={<div className="animate-pulse">Loading form...</div>}>
+        <Signup />
+      </Suspense>
+    </main>
   );
 };
 

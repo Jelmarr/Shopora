@@ -7,7 +7,7 @@ import { useState } from "react";
 import SocialLinks from "./SocialLinks";
 import { useRouter } from "next/navigation";
 import { AuthService } from "../services/auth.services";
-import SubmitButton from "@/src/components/ui/SubmitButton";
+import SubmitButton from "./ui/SubmitButton";
 
 const EmailLookup = () => {
   const [email, setEmail] = useState("");

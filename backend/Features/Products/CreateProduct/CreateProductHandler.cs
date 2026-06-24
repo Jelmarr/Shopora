@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using backend.Core.Exceptions;
+using backend.Core.Exceptions.ValidatonException;
 using backend.Core.Extensions;
+using backend.Core.Extensions.StringExtension;
 using backend.Data;
 using backend.Features.Products.Models;
 using backend.Features.Products.Services;
@@ -35,19 +37,28 @@ public class CreateProductHandler
 
         if (!categoryExists)
         {
-            throw new NotFoundException("Category not found.");
+            throw new ValidationException("categoryId", "A category name doesn't exists in your store.");
         }
+
+        var productNameExists = await _db.Products
+            .Where(p => !p.IsDeleted)
+            .AnyAsync(p => p.StoreId == storeId && EF.Functions.ILike(p.Name, request.Name.Trim()), ct);
+
+        if (productNameExists)
+        {
+            throw new ValidationException("name", "A product with this name already exists in your store.");
+        }
+
 
         if (!string.IsNullOrEmpty(request.SKU))
         {
-            var skuExists = await _db.Products.AnyAsync(
-                p => p.SKU == request.SKU && p.StoreId == storeId,
-                ct
-            );
+            var skuExists = await _db.Products
+                .Where(p => !p.IsDeleted)
+                .AnyAsync(p => p.StoreId == storeId && EF.Functions.ILike(p.SKU!, request.SKU.Trim()), ct);
 
             if (skuExists)
             {
-                throw new ConflictException("SKU already exists");
+                throw new ValidationException("sku", "SKU already exists");
             }
         }
 
@@ -66,7 +77,7 @@ public class CreateProductHandler
                 Id = Guid.NewGuid(),
                 CategoryId = request.CategoryId,
                 StoreId = storeId,
-                Name = request.Name,
+                Name = request.Name.ToCapitalized(),
                 SKU = string.IsNullOrWhiteSpace(request.SKU) ? null : request.SKU.Trim(),
                 Description = request.Description,
                 Price = request.Price,

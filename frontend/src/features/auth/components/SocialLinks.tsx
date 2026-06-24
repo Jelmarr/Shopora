@@ -1,4 +1,4 @@
-import Spinner from "@/src/components/ui/Spinner";
+import Spinner from "@/src/components/Spinner";
 import { getErrorMessage } from "@/src/lib/error-handler";
 import { signIn } from "next-auth/react";
 import { useState } from "react";

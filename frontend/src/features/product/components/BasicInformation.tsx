@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 import {
   Combobox,
   ComboboxContent,
@@ -12,9 +12,9 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "@/components/ui/combobox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/src/components/ui/combobox";
+import { Input } from "@/src/components/ui/input";
+import { Label } from "@/src/components/ui/label";
 import { apiFetch } from "@/src/lib/api-client";
 import { TCategory } from "@/src/lib/types/category";
 import { useQuery } from "@tanstack/react-query";

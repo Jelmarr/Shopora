@@ -7,10 +7,10 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AuthService } from "../services/auth.services";
-import Card from "@/src/components/ui/Card";
-import Input from "@/src/components/ui/Input";
-import SubmitButton from "@/src/components/ui/SubmitButton";
 import { signIn } from "next-auth/react";
+import Input from "./ui/Input";
+import SubmitButton from "./ui/SubmitButton";
+import Card from "./ui/Card";
 const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

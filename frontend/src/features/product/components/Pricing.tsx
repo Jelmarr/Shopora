@@ -4,13 +4,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+} from "@/src/components/ui/card";
+import { Field, FieldDescription, FieldLabel } from "@/src/components/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components/ui/input-group";
+} from "@/src/components/ui/input-group";
 import { PhilippinePeso } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 

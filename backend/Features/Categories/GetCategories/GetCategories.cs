@@ -17,38 +17,66 @@ public static class GetCategories
             CancellationToken ct,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 5,
-            [FromQuery] string? search = null
+            [FromQuery] string? search = null,
+            [FromQuery] string? sortBy = null,
+            [FromQuery] string? sortOrder = null,
+            [FromQuery] bool all = false
         ) =>
         {
 
             var storeId = user.GetStoreId();
 
-            var baseQuery = db.Categories.Where(cat => cat.StoreId == storeId);
+            var globalStoreQuery = db.Categories.Where(cat => cat.StoreId == storeId);
+            var tableQuery = db.Categories.Where(cat => cat.StoreId == storeId);
 
             if (!string.IsNullOrEmpty(search))
             {
 
                 var searchKeyword = search.Trim();
 
-                baseQuery = baseQuery.Where(cat => EF.Functions.ILike(cat.Name, $"%{searchKeyword}%"));
+                tableQuery = tableQuery.Where(cat => EF.Functions.ILike(cat.Name, $"%{searchKeyword}%"));
             }
 
-            var totalCount = await baseQuery.CountAsync(ct);
+            bool isDescending = sortOrder?.ToLower() == "desc";
 
-            var activeCategories = await baseQuery
+            tableQuery = sortBy?.ToLower() switch
+            {
+                "name" => isDescending
+                    ? tableQuery.OrderByDescending(p => p.Name)
+                    : tableQuery.OrderBy(p => p.Name),
+
+                "productcount" => isDescending
+                    ? tableQuery.OrderByDescending(p => p.Products.Count())
+                    : tableQuery.OrderBy(p => p.Products.Count()),
+
+                "isactive" => isDescending
+                    ? tableQuery.OrderByDescending(p => p.Status == CategoryStatus.Active)
+                    : tableQuery.OrderBy(p => p.Status == CategoryStatus.Inactive),
+
+                _ => tableQuery.OrderByDescending(p => p.CreatedAt)
+            };
+
+            var totalCount = await globalStoreQuery.CountAsync(ct);
+
+            var activeCategories = await globalStoreQuery
                 .CountAsync(cat => cat.Status == CategoryStatus.Active, ct);
 
-            var productsCategorized = await baseQuery
+            var productsCategorized = await globalStoreQuery
                 .SelectMany(cat => cat.Products)
                 .CountAsync(ct);
 
-            var categories = await baseQuery
+            var parentLookups = await globalStoreQuery
+                .Where(cat => cat.ParentCategoryId == null)
+                .Select(cat => new { cat.Id, cat.Name })
+                .AsNoTracking()
+                .ToListAsync();
+
+            var categories = await tableQuery
                 .AsNoTracking()
                 .Select(cat => new GetCategoriesResponse
                 {
                     Id = cat.Id,
                     Name = cat.Name,
-                    Description = cat.Description ?? string.Empty,
                     Status = cat.Status,
                     ParentCategoryId = cat.ParentCategoryId,
                     ParentCategoryName = cat.ParentCategory != null ? cat.ParentCategory.Name : null,
@@ -65,6 +93,7 @@ public static class GetCategories
                 totalCount,
                 activeCategories,
                 productsCategorized,
+                parentLookups,
                 totalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             });
 

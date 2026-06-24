@@ -1,43 +1,19 @@
-import { forwardRef, InputHTMLAttributes } from "react";
+import * as React from "react"
 
-type InputProps = InputHTMLAttributes<HTMLInputElement> & {
-  label: string;
-  error?: string;
-};
+import { cn } from "@/lib/utils"
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, type = "text", error, ...rest }, ref) => {
-    const id = label.toLowerCase().replace(/\s+/g, "-");
+function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  return (
+    <input
+      type={type}
+      data-slot="input"
+      className={cn(
+        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-    return (
-      <>
-        <div className="bg-white rounded-lg w-full group">
-          <div className="relative bg-inherit">
-            <input
-              ref={ref}
-              type={type}
-              id={id}
-              {...rest}
-              className={`peer h-10 w-full bg-transparent rounded-lg text-black placeholder-transparent ring-1 px-2 ${
-                error ? "ring-red-400" : "ring-gray-400"
-              }`}
-              placeholder={label}
-            />
-
-            <label
-              htmlFor={id}
-              className="absolute cursor-text select-none pointer-events-none left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sm transition-all"
-            >
-              {label}
-            </label>
-          </div>
-          {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-        </div>
-      </>
-    );
-  },
-);
-
-Input.displayName = "Input";
-
-export default Input;
+export { Input }

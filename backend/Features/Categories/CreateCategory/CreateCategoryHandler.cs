@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using backend.Core.Exceptions;
+using backend.Core.Exceptions.ValidatonException;
 using backend.Core.Extensions;
+using backend.Core.Extensions.StringExtension;
 using backend.Data;
 using backend.Features.Categories.Models;
 using Microsoft.EntityFrameworkCore;
@@ -24,13 +26,15 @@ public class CreateCategoryHandler
     {
 
         var storeId = user.GetStoreId();
-        var userId = user.GetUserId();
 
-        var existingCategory = await _db.Categories.AnyAsync(cat => cat.Name == request.Name && cat.StoreId == storeId, ct);
+        var existingCategory = await _db.Categories
+            .Where(cat => !cat.IsDeleted)
+            .AnyAsync(cat =>
+                EF.Functions.ILike(cat.Name, request.Name.Trim()) && cat.StoreId == storeId, ct);
 
         if (existingCategory)
         {
-            throw new ConflictException("Category alaredy exists");
+            throw new ValidationException("name", "Category name already exists in your store.");
         }
 
         Guid? mappedParentId = null;
@@ -44,7 +48,7 @@ public class CreateCategoryHandler
 
             if (!parentExists)
             {
-                throw new ConflictException("The selected parent category doesn't exists");
+                throw new ValidationException("parentCategoryId", "The selected parent category doesn't exists");
             }
         }
 
@@ -53,7 +57,7 @@ public class CreateCategoryHandler
             Id = Guid.NewGuid(),
             StoreId = storeId,
             Description = request.Description,
-            Name = request.Name,
+            Name = request.Name.ToCapitalized(),
             ParentCategoryId = mappedParentId,
             CreatedAt = DateTime.UtcNow
         };
