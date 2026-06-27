@@ -17,6 +17,7 @@ import { apiFetch } from "@/src/lib/api-client";
 import { handleFormError } from "@/src/lib/form-errors";
 import { notify } from "@/src/lib/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Variants from "./components/variants/Variants";
 
 const AddProduct = () => {
   const methods = useForm<CreateProductFormInput>({
@@ -36,6 +37,7 @@ const AddProduct = () => {
     try {
       const formData = new FormData();
 
+      // Append your standard root product fields
       formData.append("name", data.name);
       formData.append("categoryId", data.categoryId);
       formData.append("description", data.description);
@@ -48,18 +50,6 @@ const AddProduct = () => {
       if (data.stock !== undefined && data.stock !== null) {
         formData.append("stock", data.stock.toString());
       }
-      if (
-        data.lowStockThreshold !== undefined &&
-        data.lowStockThreshold !== null
-      ) {
-        formData.append("lowStockThreshold", data.lowStockThreshold.toString());
-      }
-      if (data.compareAtPrice !== undefined && data.compareAtPrice !== null) {
-        formData.append("compareAtPrice", data.compareAtPrice.toString());
-      }
-      if (data.costPrice !== undefined && data.costPrice !== null) {
-        formData.append("costPrice", data.costPrice.toString());
-      }
 
       if (data.images && data.images.length > 0) {
         Array.from(data.images).forEach((file) => {
@@ -67,6 +57,41 @@ const AddProduct = () => {
         });
       }
 
+      // 1. Map Options & Values directly to match ProductOption -> ProductOptionValue
+      const productOptionsPayload = data.variantOptions.map((opt) => ({
+        Name: opt.name,
+        Values: opt.values.map((val) => ({
+          Value: val.value,
+        })),
+      }));
+
+      // 2. Map Variants to match ProductVariant layout
+      const productVariantsPayload = data.variants.map((v) => {
+        // Deconstruct your frontend combination array (e.g. [['Color', 'Red'], ['Size', 'Medium']])
+        const appliedOptions = Object.entries(v.combination).map(
+          ([optionName, optionValue]) => ({
+            OptionName: optionName,
+            ValueText: optionValue,
+          }),
+        );
+
+        return {
+          SKU: v.sku || null,
+          PriceOverride: v.price ?? null,
+          Stock: v.available ?? 0,
+          // Send down the text metadata so the backend can link them to the join table keys
+          VariantOptionValues: appliedOptions,
+        };
+      });
+
+      // Append the clean, C#-ready structured JSON strings
+      formData.append("productOptions", JSON.stringify(productOptionsPayload));
+      formData.append(
+        "productVariants",
+        JSON.stringify(productVariantsPayload),
+      );
+
+      // Submit payload to C# API
       await apiFetch(`/api/product/`, {
         method: "POST",
         body: formData,
@@ -89,11 +114,8 @@ const AddProduct = () => {
           ════════════════════════ */}
             <div className="flex flex-col gap-6">
               <BasicInformation />
-
               <StatusAndVisibility />
-
               <Pricing />
-
               <Inventory />
             </div>
 
@@ -101,11 +123,9 @@ const AddProduct = () => {
               RIGHT COLUMN
           ════════════════════════ */}
             <div className="flex flex-col gap-6">
-              {/* Images — ICollection<ProductImage> */}
-              <Images />
-
-              {/* Description */}
               <Description />
+              <Images />
+              <Variants />
             </div>
           </div>
 

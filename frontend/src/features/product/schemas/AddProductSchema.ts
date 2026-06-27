@@ -56,6 +56,34 @@ export const createProductSchema = z
     isFeatured: z.boolean().default(false),
     isTrackInventory: z.boolean().default(false),
 
+    variantOptions: z
+      .array(
+        z.object({
+          name: z.string().trim().min(1, "Option name is required"),
+          values: z.array(
+            z.object({
+              value: z.string().trim().min(1, "Value cannot be empty"),
+            }),
+          ),
+        }),
+      )
+      .default([{ name: "", values: [] }]),
+
+    variants: z
+      .array(
+        z.object({
+          combination: z.record(z.string(), z.string()), // e.g. {"Color": "Red", "Size": "Medium"}
+          sku: z.string().optional().default(""),
+          price: z.number().min(0, "Price must be positive").default(0),
+          available: z
+            .number()
+            .int()
+            .min(0, "Stock must be positive")
+            .default(0),
+        }),
+      )
+      .default([]),
+
     status: z.string().min(1, "Invalid product status."),
 
     images:

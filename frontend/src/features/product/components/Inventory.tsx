@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
@@ -69,6 +68,28 @@ const Inventory = () => {
         </div>
         {isTrackInventory && (
           <div className="grid grid-cols-2 gap-4">
+            {/* Stock */}
+            <div className="grid gap-1.5 mb-9.5">
+              <Label htmlFor="stock">Stock Quantity</Label>
+              <Input
+                id="stock"
+                type="number"
+                placeholder="0"
+                step="0.01"
+                className={
+                  errors.stock
+                    ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                    : "border-input focus-within:ring-1 focus-within:ring-ring"
+                }
+                {...register("stock")}
+              />
+              {errors.stock && (
+                <p className="text-xs font-medium text-destructive">
+                  {errors.stock.message as string}
+                </p>
+              )}
+            </div>
+
             {/* Low Stock Threshold */}
             <div className="grid gap-1.5">
               <Label
@@ -95,28 +116,6 @@ const Inventory = () => {
               ) : (
                 <p className="text-[11px] text-muted-foreground">
                   Triggers a low-stock alert when stock drops to this level.
-                </p>
-              )}
-            </div>
-
-            {/* Stock */}
-            <div className="grid gap-1.5 mb-9.5">
-              <Label htmlFor="stock">Stock Quantity</Label>
-              <Input
-                id="stock"
-                type="number"
-                placeholder="0"
-                step="0.01"
-                className={
-                  errors.stock
-                    ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
-                    : "border-input focus-within:ring-1 focus-within:ring-ring"
-                }
-                {...register("stock")}
-              />
-              {errors.stock && (
-                <p className="text-xs font-medium text-destructive">
-                  {errors.stock.message as string}
                 </p>
               )}
             </div>
