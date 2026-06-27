@@ -54,7 +54,7 @@ export const createProductSchema = z
       .gte(0, "Low stock threshold cannot be negative."),
 
     isFeatured: z.boolean().default(false),
-    hasVariants: z.boolean().default(false),
+    isTrackInventory: z.boolean().default(false),
 
     status: z.string().min(1, "Invalid product status."),
 
@@ -82,27 +82,6 @@ export const createProductSchema = z
                 files.every((file) => ACCEPTED_IMAGE_TYPES.includes(file.type)),
               "Images must be a JPG, PNG, or WEBP format.",
             ),
-  })
-  .superRefine((data, ctx) => {
-    if (data.hasVariants === false) {
-      // Enforce SKU requirement
-      if (!data.sku || data.sku.trim() === "") {
-        ctx.addIssue({
-          code: "custom",
-          message: "SKU is required.",
-          path: ["sku"],
-        });
-      }
-
-      // Enforce Stock requirement
-      if (data.stock === undefined || data.stock === null) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Stock quantity is required.",
-          path: ["stock"],
-        });
-      }
-    }
   })
   // Cross-property validation (.When check mapping)
   .refine(

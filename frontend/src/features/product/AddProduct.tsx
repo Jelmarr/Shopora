@@ -26,6 +26,7 @@ const AddProduct = () => {
       status: "Draft",
       isFeatured: false,
       categoryId: "",
+      isTrackInventory: false,
     },
   });
 
@@ -41,7 +42,7 @@ const AddProduct = () => {
       formData.append("status", data.status);
       formData.append("price", data.price.toString());
       formData.append("isFeatured", data.isFeatured.toString());
-      formData.append("hasVariants", data.hasVariants.toString());
+      formData.append("isTrackInventory", data.isTrackInventory.toString());
 
       if (data.sku) formData.append("sku", data.sku);
       if (data.stock !== undefined && data.stock !== null) {

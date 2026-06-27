@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/src/components/ui/select";
 import { Label } from "@/src/components/ui/label";
-import { Layers, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { Switch } from "@/src/components/ui/switch";
 import {
   Field,
