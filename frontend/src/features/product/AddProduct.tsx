@@ -24,7 +24,6 @@ const AddProduct = () => {
     mode: "onBlur",
     defaultValues: {
       status: "Draft",
-      hasVariants: false,
       isFeatured: false,
       categoryId: "",
     },

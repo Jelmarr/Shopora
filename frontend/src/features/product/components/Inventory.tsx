@@ -18,8 +18,6 @@ const Inventory = () => {
     formState: { errors },
   } = useFormContext();
 
-  const hasVariants = watch("hasVariants");
-
   return (
     <Card>
       <CardHeader className="pb-4">
@@ -29,61 +27,59 @@ const Inventory = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-5">
-        {!hasVariants && (
-          <div className="grid grid-cols-2 gap-4">
-            {/* SKU */}
-            <div className="grid gap-1.5">
-              <Label
-                htmlFor="sku"
-                className={errors.sku ? "text-destructive" : ""}
-              >
-                SKU <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                id="sku"
-                placeholder="e.g. SHP-0042-WHT"
-                className={
-                  errors.sku
-                    ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
-                    : "border-input focus-within:ring-1 focus-within:ring-ring"
-                }
-                {...register("sku")}
-              />
-              {errors.sku && (
-                <p className="text-xs font-medium text-destructive">
-                  {errors.sku.message as string}
-                </p>
-              )}
-            </div>
-
-            {/* Stock */}
-            <div className="grid gap-1.5">
-              <Label
-                htmlFor="stock"
-                className={errors.stock ? "text-destructive" : ""}
-              >
-                Stock Quantity <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                id="stock"
-                type="number"
-                placeholder="0"
-                step="0.01"
-                className={
-                  errors.stock
-                    ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
-                    : "border-input focus-within:ring-1 focus-within:ring-ring"
-                }
-                {...register("stock")}
-              />
-              {errors.stock && (
-                <p className="text-xs font-medium text-destructive">
-                  {errors.stock.message as string}
-                </p>
-              )}
-            </div>
+        <div className="grid grid-cols-2 gap-4">
+          {/* SKU */}
+          <div className="grid gap-1.5">
+            <Label
+              htmlFor="sku"
+              className={errors.sku ? "text-destructive" : ""}
+            >
+              SKU <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="sku"
+              placeholder="e.g. SHP-0042-WHT"
+              className={
+                errors.sku
+                  ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                  : "border-input focus-within:ring-1 focus-within:ring-ring"
+              }
+              {...register("sku")}
+            />
+            {errors.sku && (
+              <p className="text-xs font-medium text-destructive">
+                {errors.sku.message as string}
+              </p>
+            )}
           </div>
-        )}
+
+          {/* Stock */}
+          <div className="grid gap-1.5">
+            <Label
+              htmlFor="stock"
+              className={errors.stock ? "text-destructive" : ""}
+            >
+              Stock Quantity <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="stock"
+              type="number"
+              placeholder="0"
+              step="0.01"
+              className={
+                errors.stock
+                  ? "border-destructive! ring-1! ring-destructive! has-focus:ring-destructive!"
+                  : "border-input focus-within:ring-1 focus-within:ring-ring"
+              }
+              {...register("stock")}
+            />
+            {errors.stock && (
+              <p className="text-xs font-medium text-destructive">
+                {errors.stock.message as string}
+              </p>
+            )}
+          </div>
+        </div>
 
         {/* Low Stock Threshold */}
         <div className="grid gap-1.5">

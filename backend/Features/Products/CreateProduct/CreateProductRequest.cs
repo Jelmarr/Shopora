@@ -14,7 +14,6 @@ public record CreateProductRequest
     public int? Stock { get; init; }
     public int? LowStockThreshold { get; init; }
     public bool IsFeatured { get; init; }
-    public bool HasVariants { get; init; }
     public ProductStatus Status { get; init; }
 
     public IFormFileCollection Images { get; init; } = new FormFileCollection();

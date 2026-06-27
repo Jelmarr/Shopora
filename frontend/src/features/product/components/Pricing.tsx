@@ -17,20 +17,15 @@ import { useFormContext } from "react-hook-form";
 const Pricing = () => {
   const {
     register,
-    watch,
     formState: { errors },
   } = useFormContext();
-
-  const hasVariants = watch("hasVariants");
 
   return (
     <Card>
       <CardHeader className="pb-4">
         <CardTitle className="text-base">Pricing</CardTitle>
         <CardDescription>
-          {hasVariants
-            ? "Default pricing used unless a variant overrides it."
-            : "Set the selling price, an optional compare-at price, and your cost."}
+          Set the selling price, an optional compare-at price, and your cost.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">

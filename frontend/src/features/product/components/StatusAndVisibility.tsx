@@ -90,42 +90,6 @@ const StatusAndVisibility = () => {
           )}
         </div>
 
-        {/* 2. Has Variants Switch */}
-        <FieldGroup className="w-full">
-          <Controller
-            control={control}
-            name="hasVariants"
-            render={({ field }) => (
-              <FieldLabel htmlFor="has-variants">
-                <Field orientation="horizontal">
-                  <FieldContent className="ml-2">
-                    <div className="flex items-center gap-4">
-                      <Layers className="h-4 w-4 text-muted-foreground" />
-                      <div>
-                        <FieldTitle>This product has variants</FieldTitle>
-                        <FieldDescription className="text-[12px]">
-                          Enable for products with multiple options like size or
-                          color.
-                        </FieldDescription>
-                      </div>
-                    </div>
-                  </FieldContent>
-                  <Switch
-                    id="has-variants"
-                    checked={!!field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </Field>
-              </FieldLabel>
-            )}
-          />
-          {errors.hasVariants && (
-            <p className="text-xs font-medium text-destructive mt-1">
-              {errors.hasVariants.message as string}
-            </p>
-          )}
-        </FieldGroup>
-
         {/* 3. Is Featured Switch */}
         <FieldGroup className="w-full">
           <Controller

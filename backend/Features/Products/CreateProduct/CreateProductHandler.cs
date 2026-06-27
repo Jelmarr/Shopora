@@ -86,7 +86,6 @@ public class CreateProductHandler
                 Stock = request.Stock ?? 0,
                 LowStockThreshold = request.LowStockThreshold ?? 0,
                 IsFeatured = request.IsFeatured,
-                HasVariants = request.HasVariants,
                 Status = request.Status,
                 CreatedAt = DateTime.UtcNow,
                 Images = new List<ProductImage>()

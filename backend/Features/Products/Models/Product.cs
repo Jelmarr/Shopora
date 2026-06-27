@@ -19,9 +19,12 @@ public class Product
     public int LowStockThreshold { get; set; }
     public bool TrackInventory { get; set; }
     public bool IsFeatured { get; set; }
-    public bool HasVariants { get; set; }
     public ProductStatus Status { get; set; }
+
     public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
+    public ICollection<ProductOption> Options { get; set; } = new List<ProductOption>();
+    public ICollection<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; }
     public bool IsDeleted { get; set; }

@@ -2,7 +2,7 @@ using backend.Features.Products.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace backend.Features.Products.Configurations;
+namespace backend.Features.Products.ProductConfigurations;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
@@ -64,3 +64,4 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasQueryFilter(p => !p.IsDeleted);
     }
 }
+
