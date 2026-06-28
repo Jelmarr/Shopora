@@ -18,6 +18,11 @@ public class AppDbContext : DbContext
     public DbSet<Store> Stores { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductImage> ProductsImages { get; set; }
+    public DbSet<ProductOption> ProductOptions { get; set; }
+    public DbSet<ProductOptionValue> ProductOptionValues { get; set; }
+    public DbSet<ProductVariant> ProductVariants { get; set; }
+    public DbSet<ProductVariantOption> ProductVariantOptions { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -19,6 +19,7 @@ public class Product
     public int LowStockThreshold { get; set; }
     public bool TrackInventory { get; set; }
     public bool IsFeatured { get; set; }
+    public bool IsTrackInventory { get; set; }
     public ProductStatus Status { get; set; }
 
     public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();

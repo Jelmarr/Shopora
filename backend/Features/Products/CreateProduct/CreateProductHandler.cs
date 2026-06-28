@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.Json;
 using backend.Core.Exceptions;
 using backend.Core.Exceptions.ValidatonException;
 using backend.Core.Extensions;
@@ -27,7 +28,6 @@ public class CreateProductHandler
         CancellationToken ct)
     {
         var storeId = user.GetStoreId();
-
         var uploadResults = new List<CloudinaryUploadResult>();
 
         var categoryExists = await _db.Categories.AnyAsync(
@@ -37,7 +37,7 @@ public class CreateProductHandler
 
         if (!categoryExists)
         {
-            throw new ValidationException("categoryId", "A category name doesn't exists in your store.");
+            throw new ValidationException("categoryId", "A category name doesn't exist in your store.");
         }
 
         var productNameExists = await _db.Products
@@ -48,7 +48,6 @@ public class CreateProductHandler
         {
             throw new ValidationException("name", "A product with this name already exists in your store.");
         }
-
 
         if (!string.IsNullOrEmpty(request.SKU))
         {
@@ -86,6 +85,7 @@ public class CreateProductHandler
                 Stock = request.Stock ?? 0,
                 LowStockThreshold = request.LowStockThreshold ?? 0,
                 IsFeatured = request.IsFeatured,
+                IsTrackInventory = request.IsTrackInventory,
                 Status = request.Status,
                 CreatedAt = DateTime.UtcNow,
                 Images = new List<ProductImage>()
@@ -98,8 +98,77 @@ public class CreateProductHandler
 
             _db.Products.Add(product);
 
-            await _db.SaveChangesAsync(ct);
+            // Handle Relational Option Trees and Dynamic Matrix Permutations
+            var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
+            var incomingOptions = string.IsNullOrEmpty(request.ProductOptions)
+                ? []
+                : JsonSerializer.Deserialize<List<OptionJsonDto>>(request.ProductOptions, jsonOptions) ?? [];
+
+            var incomingVariants = string.IsNullOrEmpty(request.ProductVariants)
+                ? []
+                : JsonSerializer.Deserialize<List<VariantJsonDto>>(request.ProductVariants, jsonOptions) ?? [];
+
+            // Temporary map to quickly link Variant Join Tables to generated Option Values
+            var valueLookup = new Dictionary<string, ProductOptionValue>();
+
+            foreach (var optDto in incomingOptions)
+            {
+                var option = new ProductOption
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = product.Id,
+                    Name = optDto.Name.Trim()
+                };
+                _db.ProductOptions.Add(option);
+
+                foreach (var valDto in optDto.Values)
+                {
+                    var optValue = new ProductOptionValue
+                    {
+                        Id = Guid.NewGuid(),
+                        ProductOptionId = option.Id,
+                        Value = valDto.Value.Trim()
+                    };
+                    _db.ProductOptionValues.Add(optValue);
+
+                    // Form a composite tracking key (e.g., "color:red" or "size:medium")
+                    string trackingKey = $"{optDto.Name.ToLower().Trim()}:{valDto.Value.ToLower().Trim()}";
+                    valueLookup[trackingKey] = optValue;
+                }
+            }
+
+            //  Add Variants & Link through the ProductVariantOption Join Table
+            foreach (var varDto in incomingVariants)
+            {
+                var variant = new ProductVariant
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = product.Id,
+                    StoreId = storeId,
+                    SKU = string.IsNullOrWhiteSpace(varDto.SKU) ? null : varDto.SKU.Trim(),
+                    PriceOverride = varDto.PriceOverride,
+                    Stock = varDto.Stock ?? 0
+                };
+                _db.ProductVariants.Add(variant);
+
+                foreach (var link in varDto.VariantOptionValues)
+                {
+                    string targetKey = $"{link.OptionName.ToLower().Trim()}:{link.ValueText.ToLower().Trim()}";
+
+                    if (valueLookup.TryGetValue(targetKey, out var matchedValueEntity))
+                    {
+                        var joinRelation = new ProductVariantOption
+                        {
+                            ProductVariantId = variant.Id,
+                            ProductOptionValueId = matchedValueEntity.Id
+                        };
+                        _db.ProductVariantOptions.Add(joinRelation);
+                    }
+                }
+            }
+
+            await _db.SaveChangesAsync(ct);
             await transaction.CommitAsync(ct);
 
             return new CreateProductResponse(
