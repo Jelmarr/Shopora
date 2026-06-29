@@ -10,6 +10,7 @@ export type TProduct = {
   sku?: string;
   stock?: number;
   image: string;
+  createdAt: string;
 };
 
 export type ProductStatus = "Active" | "Archived" | "Draft";

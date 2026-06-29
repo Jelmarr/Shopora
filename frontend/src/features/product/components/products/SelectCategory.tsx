@@ -8,37 +8,24 @@ import {
   ComboboxList,
   ComboboxTrigger,
 } from "@/src/components/ui/combobox";
+import { useUpdateParam } from "@/src/hooks/useUpdateParam";
 import { apiFetch } from "@/src/lib/api-client";
 import { LookupCategory } from "@/src/lib/types/category";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 const SelectCategory = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>("");
-
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const { data: categories = [] } = useQuery<LookupCategory[]>({
     queryKey: ["categories", "lookup"],
     queryFn: () => apiFetch<LookupCategory[]>("/api/categories/lookup"),
   });
 
-  const uniqueCategories = [{ id: "", name: "Select Category" }, ...categories];
+  const uniqueCategories = [{ id: "", name: "Select category" }, ...categories];
 
-  const categoryParams = (category: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (category) {
-      params.set("category", category);
-    } else {
-      params.delete("category");
-    }
-
-    router.push(`${pathname}?${params.toString()}`);
-  };
+  const { updateParam } = useUpdateParam();
 
   const handleChange = (categoryId: string | null) => {
     const safeId = categoryId ?? "";
@@ -52,7 +39,7 @@ const SelectCategory = () => {
         ? ""
         : (selectedCategoryObj?.name.toLowerCase() ?? "");
 
-    categoryParams(categoryName);
+    updateParam("category", categoryName);
     setSelectedCategory(safeId);
   };
 
@@ -66,14 +53,16 @@ const SelectCategory = () => {
         render={
           <Button
             variant="outline"
-            className="w-64 justify-between font-normal"
+            className="w-48 font-normal justify-between"
+            data-icon="inline-start"
           >
             {uniqueCategories.find((cat) => cat.id === selectedCategory)
-              ?.name ?? "Select Category"}
+              ?.name ?? "Select category"}
+            <ChevronDown color="gray" />
           </Button>
         }
       />
-      <ComboboxContent>
+      <ComboboxContent className="w-auto">
         <ComboboxInput showTrigger={false} placeholder="Search" />
         <ComboboxEmpty>No items found.</ComboboxEmpty>
         <ComboboxList>

@@ -15,6 +15,7 @@ type TablePagination = {
   totalPages: number;
   totalCount: number;
   onPageChange: (page: number) => void;
+  itemLabel: string;
 };
 
 /**
@@ -70,6 +71,7 @@ const TablePagination = ({
   totalPages,
   totalCount,
   onPageChange,
+  itemLabel,
 }: TablePagination) => {
   const pageRange = getPageRange(currentPage, totalPages);
 
@@ -81,7 +83,7 @@ const TablePagination = ({
   return (
     <>
       <p className="text-sm text-muted-foreground">
-        Showing page {currentPage} of {totalPages} · {totalCount} categories
+        Showing page {currentPage} of {totalPages} · {totalCount} {itemLabel} in
         total
       </p>
 

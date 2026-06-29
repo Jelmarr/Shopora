@@ -1,11 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/src/components/ui/card";
+import CardSkeleton from "@/src/components/skeletons/CardSkeleton";
+import TableSkeleton from "@/src/components/skeletons/TableSkeleton";
+
 import { Skeleton } from "@/src/components/ui/skeleton";
-import CardSkeleton from "@/src/app/components/CardSkeleton";
 
 export default function CategorySkeleton() {
   return (
@@ -26,28 +22,7 @@ export default function CategorySkeleton() {
         <CardSkeleton />
       </div>
 
-      {/* Table Structure Skeleton */}
-      <Card>
-        <CardHeader className="flex justify-between items-center border-b">
-          <div className="space-y-2">
-            <Skeleton className="h-7 w-34" />
-            <Skeleton className="h-4 w-36" />
-          </div>
-          <Skeleton className="h-9 w-64 rounded-md" />
-        </CardHeader>
-        <CardContent className="space-y-4 pt-4">
-          <Skeleton className="h-8 w-full" />
-          <Skeleton className="h-8 w-full" />
-          <Skeleton className="h-8 w-full" />
-          <Skeleton className="h-8 w-full" />
-          <Skeleton className="h-8 w-full" />
-          <Skeleton className="h-8 w-full" />
-        </CardContent>
-        <CardFooter className="bg-white p-9 flex justify-between">
-          <Skeleton className="h-6 w-64" />
-          <Skeleton className="h-6 w-64" />
-        </CardFooter>
-      </Card>
+      <TableSkeleton />
     </div>
   );
 }

@@ -6,12 +6,12 @@ import DataCards from "@/src/features/category/components/DataCards";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { apiFetch } from "@/src/lib/api-client";
 import { SortByCategory, TCategory } from "@/src/lib/types/category";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { TPagination } from "@/src/lib/types/pagination";
 import CategorySkeleton from "./components/CategorySkeleton";
 import { Card, CardFooter } from "@/src/components/ui/card";
-import TablePagination from "@/src/app/components/Pagination";
 import TableCard from "./components/TableCard";
+import { useUpdateParam } from "@/src/hooks/useUpdateParam";
+import TablePagination from "@/src/components/Pagination";
 
 export type ParentLookup = { name: string; id: string };
 
@@ -33,9 +33,7 @@ const Category = ({
   sortBy?: SortByCategory | "";
   sortOrder?: "desc" | "asc" | "";
 }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { handlePageChange } = useUpdateParam();
 
   const { data, isError, error, isLoading } = useQuery<CategoryResponse>({
     queryKey: ["categories", page, search, sortBy, sortOrder],
@@ -66,12 +64,6 @@ const Category = ({
     productsCategorized,
     parentLookups,
   } = data || {};
-
-  const handlePageChange = (newPage: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", newPage.toString());
-    router.push(`${pathname}?${params.toString()}`);
-  };
 
   return (
     <div className="px-6 py-8">
@@ -116,6 +108,7 @@ const Category = ({
         />
         <CardFooter className="bg-white flex flex-col items-center justify-between gap-3 h-24 sm:flex-row">
           <TablePagination
+            itemLabel="categories"
             currentPage={currentPage}
             totalPages={totalPages}
             totalCount={totalCount}

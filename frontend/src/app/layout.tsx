@@ -1,8 +1,8 @@
 import "@/src/global.css";
 import { Toaster } from "sileo";
-import { AppProviders } from "./components/providers/AppProviders";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { AppProviders } from "./providers/AppProviders";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 

@@ -13,24 +13,39 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { Archive, FilePen, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 import { TProduct } from "@/src/lib/types/product";
+import RenderSortIcon from "@/src/components/RenderSortIcon";
+import { useTableSort } from "@/src/hooks/useTableSort";
+import { formatDate } from "@/src/lib/utils/date";
+import { Separator } from "@/src/components/ui/separator";
 
 const ProductsTable = ({ products }: { products: TProduct[] }) => {
+  const { handleSort } = useTableSort();
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>
+          <TableHead onClick={() => handleSort("name")}>
             <div className="flex items-center gap-1 cursor-pointer select-none">
-              Product
+              Product {RenderSortIcon("name")}
             </div>
           </TableHead>
           <TableHead>Status</TableHead>
-          <TableHead>Inventory</TableHead>
+          <TableHead onClick={() => handleSort("stock")}>
+            <div className="flex items-center gap-1 cursor-pointer select-none">
+              Inventory {RenderSortIcon("stock")}
+            </div>
+          </TableHead>
+
           <TableHead>Category</TableHead>
-          <TableHead>Price</TableHead>
+          <TableHead onClick={() => handleSort("createdAt")}>
+            <div className="flex items-center gap-1 cursor-pointer select-none">
+              Created At {RenderSortIcon("createdAt")}
+            </div>
+          </TableHead>
           <TableHead className="w-12 text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -79,7 +94,7 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
                   {product.categoryName}
                 </TableCell>
                 <TableCell className="text-muted-foreground">
-                  ₱{product.price}
+                  {formatDate.short(product.createdAt)}
                 </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
@@ -88,11 +103,23 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent
+                      align="end"
+                      className="gap-2 flex flex-col"
+                    >
+                      <DropdownMenuItem className="gap-2">
+                        <Archive className="h-3.5 w-3.5" />
+                        Archive
+                      </DropdownMenuItem>
                       <DropdownMenuItem className="gap-2">
                         <Pencil className="h-3.5 w-3.5" />
                         Edit
                       </DropdownMenuItem>
+                      <DropdownMenuItem className="gap-2">
+                        <FilePen className="h-3.5 w-3.5" />
+                        Set as Draft
+                      </DropdownMenuItem>
+                      <Separator />
                       <DropdownMenuItem className="gap-2 text-destructive focus:text-destructive">
                         <Trash2 className="h-3.5 w-3.5" />
                         Delete

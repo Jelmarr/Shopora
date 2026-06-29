@@ -1,8 +1,7 @@
 import { ArrowDown, ArrowUp, ArrowUpNarrowWide } from "lucide-react";
 import { useTableSort } from "../hooks/useTableSort";
-import { SortByCategory } from "../lib/types/category";
 
-const RenderSortIcon = (columnName: SortByCategory) => {
+const RenderSortIcon = (columnName: string) => {
   const { sortBy, sortOrder } = useTableSort();
 
   if (sortBy !== columnName) {

@@ -105,7 +105,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="px-6 py-8">
+    <main className="px-6 py-8">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[0.5fr_0.5fr]">
@@ -133,7 +133,7 @@ const AddProduct = () => {
           <BottomBar />
         </form>
       </FormProvider>
-    </div>
+    </main>
   );
 };
 
