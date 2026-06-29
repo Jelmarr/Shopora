@@ -11,3 +11,8 @@ export type TCategory = {
 };
 
 export type SortByCategory = "name" | "productcount" | "isactive";
+
+export type LookupCategory = Pick<
+  TCategory,
+  "name" | "id" | "parentCategoryName"
+>;

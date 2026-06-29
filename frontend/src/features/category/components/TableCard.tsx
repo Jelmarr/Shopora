@@ -101,7 +101,7 @@ const TableCard = ({
             <CardTitle className="text-base">All Categories</CardTitle>
             <CardDescription>{totalCount} categories total</CardDescription>
           </div>
-          <SearchBar />
+          <SearchBar placeholder="Search categories..." />
         </div>
       </CardHeader>
 

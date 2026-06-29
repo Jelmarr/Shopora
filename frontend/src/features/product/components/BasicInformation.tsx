@@ -16,15 +16,9 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { apiFetch } from "@/src/lib/api-client";
-import { TCategory } from "@/src/lib/types/category";
+import { LookupCategory } from "@/src/lib/types/category";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useFormContext } from "react-hook-form";
-
-type LookupCategory = Pick<TCategory, "name" | "id" | "parentCategoryName">;
-
-interface LookupApiResponse {
-  categories: LookupCategory[];
-}
 
 const BasicInformation = () => {
   const {
@@ -33,12 +27,10 @@ const BasicInformation = () => {
     formState: { errors },
   } = useFormContext();
 
-  const { data } = useQuery<LookupApiResponse>({
+  const { data: categoriesList = [] } = useQuery<LookupCategory[]>({
     queryKey: ["categories", "lookup"],
-    queryFn: () => apiFetch<LookupApiResponse>(`/api/categories/lookup`),
+    queryFn: () => apiFetch<LookupCategory[]>(`/api/categories/lookup`),
   });
-
-  const categoriesList = data?.categories ?? [];
 
   return (
     <Card>
