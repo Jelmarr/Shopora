@@ -29,7 +29,7 @@ public class DeleteProductHandler
 
         if (product is null)
         {
-            throw new NotFoundException("Product doesn't exists");
+            throw new NotFoundException("Product doesn't exist");
         }
 
         using var transaction = await _db.Database.BeginTransactionAsync(ct);

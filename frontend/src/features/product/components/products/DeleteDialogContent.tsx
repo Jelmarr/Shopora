@@ -65,9 +65,9 @@ export function DeleteDialogContent({
         </AlertDialogMedia>
         <AlertDialogTitle>Delete product?</AlertDialogTitle>
         <AlertDialogDescription>
-          This will safely soft-delete <strong>{productToDelete?.name}</strong>{" "}
-          from your active store organizational registry trees. This decision
-          can be updated again inside management menus later.
+          This will delete <strong>{productToDelete?.name}</strong> from your
+          active store organizational registry trees. This decision cannot be
+          undone.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

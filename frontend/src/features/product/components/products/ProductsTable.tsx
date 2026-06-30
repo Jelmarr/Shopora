@@ -13,7 +13,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
-import { Archive, FilePen, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import {
+  Archive,
+  ExternalLink,
+  FilePen,
+  MoreHorizontal,
+  Trash2,
+} from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 import { TProduct } from "@/src/lib/types/product";
 import RenderSortIcon from "@/src/components/RenderSortIcon";
@@ -120,12 +126,12 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
                           Archive
                         </DropdownMenuItem>
                         <DropdownMenuItem className="gap-2">
-                          <Pencil className="h-3.5 w-3.5" />
-                          Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="gap-2">
                           <FilePen className="h-3.5 w-3.5" />
                           Set as Draft
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="gap-2">
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          View
                         </DropdownMenuItem>
                         <Separator />
                         <DropdownMenuItem

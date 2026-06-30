@@ -1,6 +1,7 @@
 using backend.Features.Products.CreateProduct;
 using backend.Features.Products.DeleteProduct;
 using backend.Features.Products.GetProducts;
+using backend.Features.Products.StatusUpdateProduct;
 using backend.Features.Products.UpdateProduct;
 
 namespace backend.Features.Products;
@@ -15,6 +16,7 @@ public static class ProductExtensions
         productGroup.MapUpdateProduct();
         productGroup.MapGetProducts();
         productGroup.MapDeleteProduct();
+        productGroup.MapStatusUpdateProduct();
 
         productGroup.RequireCors("_myAllowSpecificOrigins");
 
