@@ -6,7 +6,7 @@ public static class DeleteProduct
 {
     public static void MapDeleteProduct(this IEndpointRouteBuilder app)
     {
-        app.MapDelete("/api/product/{id:guid}", async (
+        app.MapDelete("/api/products/{id:guid}", async (
             Guid Id,
             ClaimsPrincipal user,
             DeleteProductHandler handler,

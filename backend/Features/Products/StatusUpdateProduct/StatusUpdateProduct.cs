@@ -6,7 +6,7 @@ public static class StatusUpdateProduct
 {
     public static void MapStatusUpdateProduct(this IEndpointRouteBuilder app)
     {
-        app.MapPatch("/api/product/{id:guid}/status", async (
+        app.MapPatch("/api/products/{id:guid}/status", async (
             Guid id,
             ClaimsPrincipal user,
             StatusUpdateProductHandler handler,

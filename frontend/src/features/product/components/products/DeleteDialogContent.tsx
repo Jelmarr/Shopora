@@ -12,24 +12,24 @@ import {
 } from "@/src/components/ui/alert-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiFetch } from "@/src/lib/api-client";
-import { TProduct } from "@/src/lib/types/product";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch } from "react";
 import { notify } from "@/src/lib/toast";
+import { TProductToDelete } from "./ProductsTable";
 
 export function DeleteDialogContent({
   products,
   setProductToDelete,
   productToDelete,
 }: {
-  products: TProduct[];
-  setProductToDelete: Dispatch<SetStateAction<TProduct | null>>;
-  productToDelete: TProduct | null;
+  products: TProductToDelete[];
+  setProductToDelete: Dispatch<TProductToDelete | null>;
+  productToDelete: TProductToDelete | null;
 }) {
   const queryClient = useQueryClient();
 
   const deleteProductMutation = useMutation({
     mutationFn: async (id: string) => {
-      await apiFetch(`/api/product/${id}`, {
+      await apiFetch(`/api/products/${id}`, {
         method: "DELETE",
       });
     },
@@ -83,6 +83,7 @@ export function DeleteDialogContent({
             e.preventDefault();
             handleDeleteProduct();
           }}
+          disabled={deleteProductMutation.isPending}
         >
           {deleteProductMutation.isPending ? "Deleting..." : "Delete"}
         </AlertDialogAction>

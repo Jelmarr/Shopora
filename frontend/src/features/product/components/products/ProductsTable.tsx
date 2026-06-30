@@ -13,15 +13,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
-import {
-  Archive,
-  ExternalLink,
-  FilePen,
-  MoreHorizontal,
-  Trash2,
-} from "lucide-react";
+import { ExternalLink, MoreHorizontal, Trash2 } from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
-import { TProduct } from "@/src/lib/types/product";
+import { ProductStatus, TProduct } from "@/src/lib/types/product";
 import RenderSortIcon from "@/src/components/RenderSortIcon";
 import { useTableSort } from "@/src/hooks/useTableSort";
 import { formatDate } from "@/src/lib/utils/date";
@@ -29,9 +23,18 @@ import { Separator } from "@/src/components/ui/separator";
 import { useState } from "react";
 import { AlertDialog } from "@/src/components/ui/alert-dialog";
 import { DeleteDialogContent } from "./DeleteDialogContent";
+import StatusUpdateDialogContent from "./StatusUpdateDialogContent";
+import { STATUS_OPTIONS } from "@/src/lib/constants/product-status";
+
+export type TProductToDelete = Pick<TProduct, "id" | "name">;
+export type TProductStatusUpdate = Pick<TProduct, "id" | "status" | "name">;
 
 const ProductsTable = ({ products }: { products: TProduct[] }) => {
-  const [productToDelete, setProductToDelete] = useState<TProduct | null>(null);
+  const [productToDelete, setProductToDelete] =
+    useState<TProductToDelete | null>(null);
+  const [productStatusToUpdate, setProductStatusToUpdate] =
+    useState<TProductStatusUpdate | null>(null);
+  const [status, setStatus] = useState<ProductStatus | null>(null);
 
   const { handleSort } = useTableSort();
 
@@ -121,14 +124,21 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
                         align="end"
                         className="gap-2 flex flex-col"
                       >
-                        <DropdownMenuItem className="gap-2">
-                          <Archive className="h-3.5 w-3.5" />
-                          Archive
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="gap-2">
-                          <FilePen className="h-3.5 w-3.5" />
-                          Set as Draft
-                        </DropdownMenuItem>
+                        {STATUS_OPTIONS.filter(
+                          (option) => option.status !== product.status,
+                        ).map((option) => (
+                          <DropdownMenuItem
+                            key={option.status}
+                            className="gap-2"
+                            onClick={() => {
+                              setProductStatusToUpdate(product);
+                              setStatus(option.status);
+                            }}
+                          >
+                            <option.icon className="h-3.5 w-3.5" />
+                            {option.label}
+                          </DropdownMenuItem>
+                        ))}
                         <DropdownMenuItem className="gap-2">
                           <ExternalLink className="h-3.5 w-3.5" />
                           View
@@ -161,6 +171,20 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
           products={products}
           setProductToDelete={setProductToDelete}
           productToDelete={productToDelete}
+        />
+      </AlertDialog>
+
+      <AlertDialog
+        open={productStatusToUpdate !== null}
+        onOpenChange={(open) => {
+          if (!open) setProductStatusToUpdate(null);
+        }}
+      >
+        <StatusUpdateDialogContent
+          status={status}
+          productStatusToUpdate={productStatusToUpdate}
+          setProductStatusToUpdate={setProductStatusToUpdate}
+          products={products}
         />
       </AlertDialog>
     </>
