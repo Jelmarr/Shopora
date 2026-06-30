@@ -46,6 +46,7 @@ import { ParentLookup } from "../Category";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiFetch } from "@/src/lib/api-client";
 import { notify } from "@/src/lib/toast";
+import Spinner from "@/src/components/Spinner";
 
 type TableCardProps = {
   categories: TCategory[];
@@ -268,7 +269,11 @@ const TableCard = ({
               }}
               disabled={deleteMutation.isPending}
             >
-              {deleteMutation.isPending ? "Removing..." : "Delete"}
+              {deleteMutation.isPending ? (
+                <Spinner label="Removing..." />
+              ) : (
+                "Delete"
+              )}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

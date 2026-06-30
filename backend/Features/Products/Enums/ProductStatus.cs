@@ -5,5 +5,4 @@ public enum ProductStatus
     Active,
     Draft,
     Archived,
-    OutOfStock
 }

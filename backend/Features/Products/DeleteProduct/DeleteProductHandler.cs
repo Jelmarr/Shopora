@@ -44,7 +44,6 @@ public class DeleteProductHandler
 
             product.IsDeleted = true;
             product.DeletedAt = DateTime.UtcNow;
-            product.Status = Enums.ProductStatus.Archived;
 
             if (product.Images.Any())
             {

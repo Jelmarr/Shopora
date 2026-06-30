@@ -27,9 +27,10 @@ public static class GetCategoriesLookup
                     Name = cat.Name,
                     ParentCategoryName = cat.ParentCategory != null ? cat.ParentCategory.Name : null
                 })
+                .OrderBy(cat => cat.Name)
                 .ToListAsync(ct);
 
-            return Results.Ok(new { categories = lookups });
+            return Results.Ok(lookups);
         })
         .WithTags("Category")
         .RequireAuthorization();

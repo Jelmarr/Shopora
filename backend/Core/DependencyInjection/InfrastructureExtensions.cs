@@ -1,3 +1,4 @@
+using System.Text.Json;
 using backend.Core.Configurations;
 using backend.Data;
 using backend.Features.Products.Services;
@@ -27,12 +28,17 @@ public static class InfrastructureExtensions
         // Global JSON Setup
         services.ConfigureHttpJsonOptions(options =>
         {
-            options.SerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 
             options.SerializerOptions.Converters.Add(
                 new System.Text.Json.Serialization.JsonStringEnumConverter()
             );
         });
+        services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
 
         // PostgreSQL Database Registration
         var connectionString = configuration.GetConnectionString("DefaultConnection");

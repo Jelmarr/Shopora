@@ -6,19 +6,20 @@ public record GetProductsResponse
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;
+    public Guid CategoryId { get; init; }
     public string CategoryName { get; init; } = string.Empty;
-    public decimal Price { get; init; }
     public int Stock { get; init; }
     public bool IsFeatured { get; init; }
     public bool IsTrackInventory { get; set; }
     public ProductStatus Status { get; init; }
     public List<string> Images { get; init; } = new();
+    public DateTime CreatedAt { get; set; }
 }
 
 public record GetProductsFilter(
     string? Search = null,
-    Guid? CategoryId = null,
-    ProductStatus? Status = null,
+    string? Category = null,
+    string? Status = null,
     string? SortBy = null,
     string? SortOrder = null
 );
@@ -32,5 +33,5 @@ public record PageProductsRespose(
     List<GetProductsResponse> Products,
     int TotalCount,
     int CurrentPage,
-    int TotalPage
+    int TotalPages
 );

@@ -15,9 +15,9 @@ public static class GetProducts
         ) =>
         {
 
-            var products = await handler.Handle(user, filters, pagination, ct);
+            var result = await handler.Handle(user, filters, pagination, ct);
 
-            return Results.Ok(new { products });
+            return Results.Ok(result);
 
         })
         .RequireAuthorization()

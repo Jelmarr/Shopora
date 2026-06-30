@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using backend.Core.Extensions;
 using backend.Data;
+using backend.Features.Products.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Features.Products.GetProducts;
@@ -36,21 +37,22 @@ public class GetProductsHandler
             query = query.Where(p => EF.Functions.ILike(p.Name, $"%{normalizedSearch}%"));
         }
 
-        if (filters.CategoryId.HasValue)
+        if (!string.IsNullOrEmpty(filters.Category))
         {
-            query = query.Where(p => p.CategoryId == filters.CategoryId.Value);
+            query = query.Where(p => p.Category.Name.ToLower() == filters.Category.ToLower());
         }
 
-        if (filters.Status.HasValue)
+        if (!string.IsNullOrEmpty(filters.Status) &&
+            Enum.TryParse<ProductStatus>(filters.Status, ignoreCase: true, out var status))
         {
-            query = query.Where(p => p.Status == filters.Status.Value);
+            query = query.Where(p => p.Status == status);
         }
 
         bool isDescending = filters.SortOrder?.ToLower() == "desc";
 
         query = filters.SortBy?.ToLower() switch
         {
-            "createdAt" => isDescending
+            "createdat" => isDescending
                 ? query.OrderByDescending(p => p.CreatedAt)
                 : query.OrderBy(p => p.CreatedAt),
 
@@ -71,14 +73,15 @@ public class GetProductsHandler
             .Select(product => new GetProductsResponse
             {
                 Id = product.Id,
+                CategoryId = product.CategoryId,
                 CategoryName = product.Category != null ? product.Category.Name : "Uncategorized",
                 Name = product.Name,
-                Price = product.Price,
                 Stock = product.Stock,
                 IsFeatured = product.IsFeatured,
                 IsTrackInventory = product.IsTrackInventory,
                 Status = product.Status,
-                Images = product.Images.Select(img => img.ImageUrl).ToList()
+                Images = product.Images.Select(img => img.ImageUrl).ToList(),
+                CreatedAt = product.CreatedAt
             })
             .Skip((pagination.Page - 1) * pagination.PageSize)
             .Take(pagination.PageSize)
@@ -88,7 +91,7 @@ public class GetProductsHandler
             Products: products,
             TotalCount: totalCount,
             CurrentPage: pagination.Page,
-            TotalPage: (int)Math.Ceiling(totalCount / (double)pagination.PageSize)
+            TotalPages: (int)Math.Ceiling(totalCount / (double)pagination.PageSize)
         );
 
     }
