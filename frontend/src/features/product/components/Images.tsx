@@ -21,37 +21,44 @@ const Images = () => {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // 1. Watch the actual form array value directly
   const watchedImages: File[] | undefined = watch("images");
+  const existingImages: string[] = watch("existingImages") ?? [];
 
-  // 2. DERIVE previews during render instead of running an effect.
-  // useMemo ensures we only recalculate these when the selected files actually change.
-  const previews = useMemo(() => {
+  // Derive blob previews for new files only
+  const newPreviews = useMemo(() => {
     if (!watchedImages || watchedImages.length === 0) return [];
-
-    return Array.from(watchedImages).map((file) => URL.createObjectURL(file));
+    return watchedImages.map((file) => URL.createObjectURL(file));
   }, [watchedImages]);
 
-  // 3. Clean up the memory leak blob URLs when the previews change or unmount
   useEffect(() => {
     return () => {
-      previews.forEach((url) => URL.revokeObjectURL(url));
+      newPreviews.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [previews]);
+  }, [newPreviews]);
 
-  const handleTriggerUpload = () => {
-    fileInputRef.current?.click();
-  };
+  // Merge existing URLs first, then new file previews
+  const allPreviews: { url: string; type: "existing" | "new" }[] = [
+    ...existingImages.map((url) => ({ url, type: "existing" as const })),
+    ...newPreviews.map((url) => ({ url, type: "new" as const })),
+  ];
 
-  const handleRemoveImage = (indexToRemove: number, e: React.MouseEvent) => {
+  const handleTriggerUpload = () => fileInputRef.current?.click();
+
+  const handleRemoveImage = (index: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!watchedImages) return;
+    const item = allPreviews[index];
 
-    const updatedFiles = Array.from(watchedImages).filter(
-      (_, i) => i !== indexToRemove,
-    );
-
-    setValue("images", updatedFiles, { shouldValidate: true });
+    if (item.type === "existing") {
+      const updated = existingImages.filter((_, i) => i !== index);
+      setValue("existingImages", updated, { shouldValidate: true });
+    } else {
+      // offset index by existing images count to get the file index
+      const fileIndex = index - existingImages.length;
+      const updatedFiles = Array.from(watchedImages ?? []).filter(
+        (_, i) => i !== fileIndex,
+      );
+      setValue("images", updatedFiles, { shouldValidate: true });
+    }
   };
 
   return (
@@ -95,10 +102,10 @@ const Images = () => {
               : "border-muted-foreground/25 hover:border-muted-foreground/50"
           }`}
         >
-          {previews.length > 0 ? (
+          {allPreviews.length > 0 ? (
             <>
               <Image
-                src={previews[0]}
+                src={allPreviews[0].url}
                 alt="Product Cover"
                 fill
                 className="h-full w-full rounded-lg object-cover"
@@ -133,10 +140,10 @@ const Images = () => {
         </div>
 
         {/* Additional image slots */}
-        <div className="flex w-full gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
+        <div className="flex w-full gap-2 overflow-x-auto pb-2">
           {[...Array(7)].map((_, i) => {
             const currentAssetIndex = i + 1;
-            const hasExtraImage = previews[currentAssetIndex];
+            const preview = allPreviews[currentAssetIndex];
 
             return (
               <div
@@ -144,10 +151,10 @@ const Images = () => {
                 onClick={handleTriggerUpload}
                 className="relative flex aspect-square w-24 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed border-muted-foreground/20 bg-muted/30 transition-colors hover:border-muted-foreground/40 hover:bg-muted/50"
               >
-                {hasExtraImage ? (
+                {preview ? (
                   <>
                     <Image
-                      src={previews[currentAssetIndex]}
+                      src={preview.url}
                       alt={`Product preview ${currentAssetIndex}`}
                       fill
                       className="rounded-md object-cover"
@@ -167,6 +174,7 @@ const Images = () => {
             );
           })}
         </div>
+
         {errors.images ? (
           <p className="text-center text-xs font-medium text-destructive mt-1">
             {errors.images.message as string}

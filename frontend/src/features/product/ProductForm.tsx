@@ -19,6 +19,7 @@ import { notify } from "@/src/lib/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Variants from "./components/variants/Variants";
 import { TProduct } from "@/src/lib/types/product";
+import { useQueryClient } from "@tanstack/react-query";
 
 type ProductFormProps =
   | { mode: "create" }
@@ -41,6 +42,7 @@ function mapProductToFormValues(
       name: opt.name,
       values: opt.values.map((val) => ({ value: val })),
     })),
+    existingImages: product.images,
   };
 }
 
@@ -61,6 +63,8 @@ const ProductForm = (props: ProductFormProps) => {
       ? mapProductToFormValues(props.product)
       : defaultFormValues,
   });
+
+  const queryClient = useQueryClient();
 
   const onSubmit = async (formValues: CreateProductFormInput) => {
     const data = formValues as CreateProductInput;
@@ -87,6 +91,10 @@ const ProductForm = (props: ProductFormProps) => {
           formData.append("images", file);
         });
       }
+
+      data.existingImages.forEach((url) =>
+        formData.append("existingImages", url),
+      );
 
       // 1. Map Options & Values directly to match ProductOption -> ProductOptionValue
       const productOptionsPayload = data.variantOptions.map((opt) => ({
@@ -128,10 +136,13 @@ const ProductForm = (props: ProductFormProps) => {
           method: "PUT",
           body: formData,
         });
-
-        notify.success("Product updated successfuly!");
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+        queryClient.invalidateQueries({
+          queryKey: ["product", props.product.id],
+        });
+        notify.success("Product updated successfully!");
       } else {
-        await apiFetch(`/api/product/`, {
+        await apiFetch(`/api/products`, {
           method: "POST",
           body: formData,
         });
@@ -153,23 +164,23 @@ const ProductForm = (props: ProductFormProps) => {
           ════════════════════════ */}
             <div className="flex flex-col gap-6">
               <BasicInformation />
-              <StatusAndVisibility />
               <Pricing />
               <Inventory />
+              <Variants />
             </div>
 
             {/* ════════════════════════
               RIGHT COLUMN
           ════════════════════════ */}
             <div className="flex flex-col gap-6">
+              <StatusAndVisibility />
               <Description />
               <Images />
-              <Variants />
             </div>
           </div>
 
           {/* ── Bottom Bar ── */}
-          <BottomBar />
+          <BottomBar mode={props.mode} />
         </form>
       </FormProvider>
     </main>

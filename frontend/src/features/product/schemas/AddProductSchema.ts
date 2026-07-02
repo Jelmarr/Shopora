@@ -110,6 +110,8 @@ export const createProductSchema = z
                 files.every((file) => ACCEPTED_IMAGE_TYPES.includes(file.type)),
               "Images must be a JPG, PNG, or WEBP format.",
             ),
+
+    existingImages: z.array(z.string()).default([]),
   })
   // Cross-property validation (.When check mapping)
   .refine(

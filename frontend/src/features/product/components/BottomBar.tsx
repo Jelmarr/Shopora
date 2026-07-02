@@ -3,28 +3,50 @@ import { Button } from "@/src/components/ui/button";
 import { Save } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 
-const BottomBar = () => {
+const BottomBar = ({ mode }: { mode: "edit" | "create" }) => {
   const {
     formState: { isSubmitting },
   } = useFormContext();
 
   return (
-    <div className="mt-6 flex items-center justify-between rounded-lg border bg-background px-6 py-4">
-      <Button
-        variant="ghost"
-        size="sm"
-        className="text-destructive hover:bg-destructive/10 hover:text-destructive"
-      >
-        Discard
-      </Button>
-      <div className="flex gap-2">
-        <Button variant="outline" size="sm">
-          Save as Draft
+    <div
+      className={`mt-6 flex items-center ${mode === "create" ? "justify-between" : "justify-end"} rounded-lg border bg-background px-6 py-4`}
+    >
+      {mode === "create" && (
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+        >
+          Discard
         </Button>
+      )}
 
-        <Button size="sm" className="gap-1.5" type="submit">
+      <div className="flex gap-2">
+        {mode === "create" && (
+          <Button variant="outline" size="sm">
+            Save as Draft
+          </Button>
+        )}
+
+        <Button
+          size="sm"
+          className="gap-1.5"
+          type="submit"
+          disabled={isSubmitting}
+        >
           <Save className="h-4 w-4" />
-          {isSubmitting ? <Spinner label="Publishing..." /> : "Publish Product"}
+          {isSubmitting ? (
+            mode === "create" ? (
+              <Spinner label="Publishing..." />
+            ) : (
+              <Spinner label="Saving..." />
+            )
+          ) : mode === "create" ? (
+            "Publish Product"
+          ) : (
+            "Save Changes"
+          )}
         </Button>
       </div>
     </div>

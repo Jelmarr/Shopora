@@ -10,7 +10,7 @@ export type TProduct = {
   price: number;
   sku?: string;
   stock?: number;
-  image: string;
+  images: string[];
   variantOptions: VariantOption[];
   variants: TProductVariant[];
   createdAt: string;
