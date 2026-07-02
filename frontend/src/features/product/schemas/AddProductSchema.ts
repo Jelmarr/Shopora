@@ -98,10 +98,6 @@ export const createProductSchema = z
               val instanceof FileList ? Array.from(val) : val,
             )
             .refine(
-              (files) => files.length > 0,
-              "At least one product image is required.",
-            )
-            .refine(
               (files) => files.every((file) => file.size <= MAX_FILE_SIZE),
               "One or more images exceed the 5MB size limit.",
             )
@@ -125,6 +121,17 @@ export const createProductSchema = z
     {
       message: "Compare at price must be greater than the selling price.",
       path: ["compareAtPrice"],
+    },
+  )
+  .refine(
+    (data) => {
+      const hasExisting = data.existingImages && data.existingImages.length > 0;
+      const hasNew = Array.isArray(data.images) && data.images.length > 0;
+      return hasExisting || hasNew;
+    },
+    {
+      message: "At least one product image is required.",
+      path: ["images"],
     },
   );
 
