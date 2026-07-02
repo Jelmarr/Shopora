@@ -11,27 +11,21 @@ import {
   SelectValue,
 } from "@/src/components/ui/select";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { VariantForm, VariantOption } from "@/src/lib/types/product";
 
-type FormOption = {
-  name: string;
-  values: { value: string }[];
-};
-
-type VariantFormRow = {
-  combination: Record<string, string>;
-  sku: string;
-  price: number;
-  available: number;
-};
-
-function buildCombinations(options: FormOption[]): Record<string, string>[] {
+function buildCombinations(options: VariantOption[]): Record<string, string>[] {
   const usable = options.filter(
     (opt) => opt.name.trim() && opt.values.length > 0,
   );
   if (usable.length === 0) return [];
 
   return usable.reduce<Record<string, string>[]>((acc, option) => {
-    const values = option.values.map((v) => v.value).filter(Boolean);
+    const values = option.values
+      .map((v: string | { value: string }) =>
+        typeof v === "string" ? v : v.value,
+      )
+      .filter(Boolean);
+
     if (values.length === 0) return acc;
 
     if (acc.length === 0) {
@@ -49,16 +43,16 @@ function combinationKey(combo: Record<string, string>) {
     .join("|");
 }
 
-const EMPTY_OPTIONS: FormOption[] = [];
+const EMPTY_OPTIONS: VariantOption[] = [];
 
 const VariantTable = () => {
   const { control, register, watch, setValue } = useFormContext();
 
   const watchedOptions = useWatch({ control, name: "variantOptions" });
-  const variantOptions: FormOption[] = watchedOptions ?? EMPTY_OPTIONS;
+  const variantOptions: VariantOption[] = watchedOptions ?? EMPTY_OPTIONS;
 
   const watchedVariants = useWatch({ control, name: "variants" }) as
-    | VariantFormRow[]
+    | VariantForm[]
     | undefined;
 
   const totalInventory = useMemo(() => {
@@ -105,13 +99,13 @@ const VariantTable = () => {
     const combinations = buildCombinations(optionNames);
 
     const existingByKey = new Map(
-      (fields as unknown as (VariantFormRow & { id: string })[]).map((f) => [
+      (fields as unknown as (VariantForm & { id: string })[]).map((f) => [
         combinationKey(f.combination),
         f,
       ]),
     );
 
-    const nextRows: VariantFormRow[] = combinations.map((combo) => {
+    const nextRows: VariantForm[] = combinations.map((combo) => {
       const existing = existingByKey.get(combinationKey(combo));
 
       return existing
@@ -135,7 +129,7 @@ const VariantTable = () => {
       nextRows.every(
         (row, i) =>
           combinationKey(row.combination) ===
-          combinationKey((fields[i] as unknown as VariantFormRow).combination),
+          combinationKey((fields[i] as unknown as VariantForm).combination),
       );
 
     if (!sameContent) {
@@ -159,12 +153,12 @@ const VariantTable = () => {
     }
   }, [defaultStockQuantity, fields.length, setValue, watch]);
 
-  const variants = fields as unknown as (VariantFormRow & { id: string })[];
+  const variants = fields as unknown as (VariantForm & { id: string })[];
 
   const groups = useMemo(() => {
     const map = new Map<
       string,
-      (VariantFormRow & { id: string; absoluteIndex: number })[]
+      (VariantForm & { id: string; absoluteIndex: number })[]
     >();
     variants.forEach((variant, absoluteIndex) => {
       const key = variant.combination[groupBy] ?? "—";
@@ -183,7 +177,7 @@ const VariantTable = () => {
     });
   };
 
-  const groupAggregate = (rows: VariantFormRow[]) => {
+  const groupAggregate = (rows: VariantForm[]) => {
     const totalAvailable = rows.reduce((sum, r) => sum + r.available, 0);
     const allSamePrice = rows.every((r) => r.price === rows[0].price);
     const allSameSku = rows.every((r) => r.sku === rows[0].sku);

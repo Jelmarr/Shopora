@@ -18,17 +18,48 @@ import { handleFormError } from "@/src/lib/form-errors";
 import { notify } from "@/src/lib/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Variants from "./components/variants/Variants";
+import { TProduct } from "@/src/lib/types/product";
 
-const AddProduct = () => {
+type ProductFormProps =
+  | { mode: "create" }
+  | { mode: "edit"; product: TProduct };
+
+function mapProductToFormValues(
+  product: TProduct,
+): Partial<CreateProductFormInput> {
+  return {
+    name: product.name,
+    categoryId: product.categoryId,
+    description: product.description,
+    status: product.status,
+    price: product.price,
+    isFeatured: product.isFeatured,
+    isTrackInventory: product.isTrackInventory,
+    sku: product.sku ?? "",
+    stock: product.stock ?? 0,
+    variantOptions: product.variantOptions.map((opt) => ({
+      name: opt.name,
+      values: opt.values.map((val) => ({ value: val })),
+    })),
+  };
+}
+
+const defaultFormValues: Partial<CreateProductFormInput> = {
+  status: "Draft",
+  isFeatured: false,
+  categoryId: "",
+  isTrackInventory: false,
+};
+
+const ProductForm = (props: ProductFormProps) => {
+  const isEdit = props.mode === "edit";
+
   const methods = useForm<CreateProductFormInput>({
     resolver: zodResolver(createProductSchema),
     mode: "onBlur",
-    defaultValues: {
-      status: "Draft",
-      isFeatured: false,
-      categoryId: "",
-      isTrackInventory: false,
-    },
+    defaultValues: isEdit
+      ? mapProductToFormValues(props.product)
+      : defaultFormValues,
   });
 
   const onSubmit = async (formValues: CreateProductFormInput) => {
@@ -92,13 +123,21 @@ const AddProduct = () => {
       );
 
       // Submit payload to C# API
-      await apiFetch(`/api/product/`, {
-        method: "POST",
-        body: formData,
-      });
+      if (isEdit) {
+        await apiFetch(`/api/products/${props.product.id}`, {
+          method: "PUT",
+          body: formData,
+        });
 
-      methods.reset();
-      notify.success("Product created successfully!");
+        notify.success("Product updated successfuly!");
+      } else {
+        await apiFetch(`/api/product/`, {
+          method: "POST",
+          body: formData,
+        });
+        methods.reset();
+        notify.success("Product created successfully!");
+      }
     } catch (err) {
       handleFormError(err, methods.setError);
     }
@@ -137,4 +176,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default ProductForm;

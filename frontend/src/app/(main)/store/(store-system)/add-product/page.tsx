@@ -1,7 +1,7 @@
-import AddProduct from "@/src/features/product/AddProduct";
+import ProductForm from "@/src/features/product/ProductForm";
 
 const page = () => {
-  return <AddProduct />;
+  return <ProductForm mode="create" />;
 };
 
 export default page;

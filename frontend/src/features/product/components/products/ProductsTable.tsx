@@ -25,6 +25,7 @@ import { AlertDialog } from "@/src/components/ui/alert-dialog";
 import { DeleteDialogContent } from "./DeleteDialogContent";
 import StatusUpdateDialogContent from "./StatusUpdateDialogContent";
 import { STATUS_OPTIONS } from "@/src/lib/constants/product-status";
+import Link from "next/link";
 
 export type TProductToDelete = Pick<TProduct, "id" | "name">;
 export type TProductStatusUpdate = Pick<TProduct, "id" | "status" | "name">;
@@ -139,9 +140,11 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
                             {option.label}
                           </DropdownMenuItem>
                         ))}
-                        <DropdownMenuItem className="gap-2">
-                          <ExternalLink className="h-3.5 w-3.5" />
-                          View
+                        <DropdownMenuItem asChild className="gap-2">
+                          <Link href={`/store/products/${product.id}`}>
+                            <ExternalLink className="h-3.5 w-3.5" />
+                            View
+                          </Link>
                         </DropdownMenuItem>
                         <Separator />
                         <DropdownMenuItem
