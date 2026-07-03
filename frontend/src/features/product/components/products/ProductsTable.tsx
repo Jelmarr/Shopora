@@ -26,6 +26,7 @@ import { DeleteDialogContent } from "./DeleteDialogContent";
 import StatusUpdateDialogContent from "./StatusUpdateDialogContent";
 import { STATUS_OPTIONS } from "@/src/lib/constants/product-status";
 import Link from "next/link";
+import Image from "next/image";
 
 export type TProductToDelete = Pick<TProduct, "id" | "name">;
 export type TProductStatusUpdate = Pick<TProduct, "id" | "status" | "name">;
@@ -84,9 +85,16 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
             products.map((product) => {
               return (
                 <TableRow key={product.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      {product.name}
+                  <TableCell className="font-medium max-w-50">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Image
+                        src={product.primaryImageUrl}
+                        width={40}
+                        height={40}
+                        alt="product-image"
+                        className="rounded-sm"
+                      />
+                      <span className="truncate">{product.name}</span>
                     </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground">

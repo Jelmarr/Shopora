@@ -11,6 +11,7 @@ export type TProduct = {
   sku?: string;
   stock?: number;
   images: string[];
+  primaryImageUrl: string;
   variantOptions: VariantOption[];
   variants: TProductVariant[];
   createdAt: string;

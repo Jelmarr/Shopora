@@ -19,6 +19,8 @@ const Images = () => {
     formState: { errors },
   } = useFormContext();
 
+  console.log(errors);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const watchedImages: File[] | undefined = watch("images");

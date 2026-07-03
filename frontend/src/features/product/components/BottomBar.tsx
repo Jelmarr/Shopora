@@ -14,6 +14,7 @@ const BottomBar = ({ mode }: { mode: "edit" | "create" }) => {
     >
       {mode === "create" && (
         <Button
+          type="button"
           variant="ghost"
           size="sm"
           className="text-destructive hover:bg-destructive/10 hover:text-destructive"
@@ -24,7 +25,7 @@ const BottomBar = ({ mode }: { mode: "edit" | "create" }) => {
 
       <div className="flex gap-2">
         {mode === "create" && (
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" type="button">
             Save as Draft
           </Button>
         )}

@@ -51,7 +51,8 @@ export const createProductSchema = z
     lowStockThreshold: z.coerce
       .number()
       .int("Threshold must be an integer.")
-      .gte(0, "Low stock threshold cannot be negative."),
+      .gte(0, "Low stock threshold cannot be negative.")
+      .optional(),
 
     isFeatured: z.boolean().default(false),
     isTrackInventory: z.boolean().default(false),
