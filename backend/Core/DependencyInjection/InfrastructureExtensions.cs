@@ -1,7 +1,7 @@
 using System.Text.Json;
 using backend.Core.Configurations;
 using backend.Data;
-using backend.Features.Products.Services;
+using backend.Features.Admin.Products.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 

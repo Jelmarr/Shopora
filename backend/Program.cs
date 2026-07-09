@@ -1,10 +1,11 @@
 using backend.Features.Users;
 using backend.Core.DependencyInjection;
 using backend.Features.Auth;
-using backend.Features.Products;
 using backend.DependencyInjection;
-using backend.Features.Categories;
-using backend.Features.Stores;
+using backend.Features.Admin.Products;
+using backend.Features.Stores.Extensions;
+using backend.Features.StoreFront.Extensions;
+using backend.Features.Admin.Categories.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,9 +34,14 @@ app.UseDevelopmentDocumentation();
 
 // Vertical Slice Domain Mappings
 app.MapAuthFeatures();
+
+// Admin
 app.MapUserFeatures();
 app.MapCategoryFeatures();
 app.MapProductFeatures();
+app.MapStoresFeatures();
+
+// Store
 app.MapStoreFeatures();
 
 app.Run();

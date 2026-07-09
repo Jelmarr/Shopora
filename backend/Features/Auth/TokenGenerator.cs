@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using backend.Features.Users.Models;
+using backend.Features.Admin.Users.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Features.Auth;

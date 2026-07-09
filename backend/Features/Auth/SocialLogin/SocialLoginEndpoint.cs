@@ -1,5 +1,5 @@
 using backend.Data;
-using backend.Features.Users.Models;
+using backend.Features.Admin.Users.Models;
 using Microsoft.EntityFrameworkCore;
 using backend.Features.Auth.Models;
 

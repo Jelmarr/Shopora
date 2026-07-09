@@ -1,7 +1,7 @@
-using backend.Features.Categories.Models;
-using backend.Features.Products.Models;
-using backend.Features.Stores.Models;
-using backend.Features.Users.Models;
+using backend.Features.Admin.Categories.Models;
+using backend.Features.Admin.Products.Models;
+using backend.Features.Admin.Stores.Models;
+using backend.Features.Admin.Users.Models;
 using Microsoft.EntityFrameworkCore;
 
 
