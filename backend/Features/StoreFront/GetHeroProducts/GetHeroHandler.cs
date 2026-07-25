@@ -34,7 +34,7 @@ public class GetHeroProductsHandler
             })
             .OrderByDescending(p => p.CreatedAt)
             .Take(5)
-            .ToListAsync();
+            .ToListAsync(ct);
 
         if (latestProducts.Count == 0)
         {

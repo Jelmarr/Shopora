@@ -1,3 +1,4 @@
+using backend.Features.StoreFront.GetCategories;
 using backend.Features.StoreFront.GetHeroProducts;
 using backend.Features.StoreFront.GetProducts;
 using backend.Features.StoreFront.GetStoreBySlug;
@@ -13,6 +14,7 @@ public static class StoreExtensions
         storeGroup.MapGetStoreBySlug();
         storeGroup.MapGetProducts();
         storeGroup.MapGetHeroProducts();
+        storeGroup.MapGetCategories();
 
         storeGroup.RequireCors("_myAllowSpecificOrigins");
 
