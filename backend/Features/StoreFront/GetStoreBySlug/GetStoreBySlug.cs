@@ -17,7 +17,7 @@ public static class GetStoreBySlug
             var storeSlug = await db.Stores
                 .AsNoTracking()
                 .Where(store => store.Slug == slug)
-                .Select(store => new GetStoreBySlugResponse(store.StoreId, store.Slug))
+                .Select(store => new GetStoreBySlugResponse(store.StoreId, store.Slug, store.Name))
                 .FirstOrDefaultAsync(ct);
 
             if (storeSlug is null)

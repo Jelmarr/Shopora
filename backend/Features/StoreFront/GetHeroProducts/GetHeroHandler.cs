@@ -30,6 +30,9 @@ public class GetHeroProductsHandler
                     .Where(img => img.IsPrimary)
                     .Select(img => img.ImageUrl)
                     .FirstOrDefault(),
+                Price = product.Price,
+                ComparePrice = product.CompareAtPrice,
+                Stock = product.Stock,
                 CreatedAt = product.CreatedAt
             })
             .OrderByDescending(p => p.CreatedAt)
