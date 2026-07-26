@@ -3,6 +3,7 @@ import FeaturedProducts from "@/src/features/store/components/FeaturedProducts";
 import Hero from "@/src/features/store/components/Hero";
 import NavHeader from "@/src/features/store/components/NavHeader";
 import PromoBanner from "@/src/features/store/components/PromoBanner";
+import Testimonials from "@/src/features/store/components/Testimonials";
 import WhatsNew from "@/src/features/store/components/WhatsNew";
 import { storeApiFetch } from "@/src/lib/store-api";
 import { TCategory } from "@/src/lib/types/category";
@@ -48,6 +49,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
       </div>
       <PromoBanner />
       <FeaturedProducts featuredProducts={featuredProducts} />
+      <Testimonials />
     </main>
   );
 };
