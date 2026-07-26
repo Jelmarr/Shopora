@@ -1,4 +1,5 @@
 import CategorySlider from "@/src/features/store/components/CategorySlider";
+import FeaturedProducts from "@/src/features/store/components/FeaturedProducts";
 import Hero from "@/src/features/store/components/Hero";
 import NavHeader from "@/src/features/store/components/NavHeader";
 import PromoBanner from "@/src/features/store/components/PromoBanner";
@@ -14,12 +15,16 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
 
   const store = await storeApiFetch<StoreSlugResponse>(`/api/store/${slug}`);
-  const latestProducts = await storeApiFetch<LatestProductResponse[]>(
-    `/api/store/latestProducts/${store.id}`,
-  );
-  const categories = await storeApiFetch<TCategory[]>(
-    `/api/store/categories/${store.id}`,
-  );
+
+  const [latestProducts, categories, featuredProducts] = await Promise.all([
+    storeApiFetch<LatestProductResponse[]>(
+      `/api/store/latestProducts/${store.id}`,
+    ),
+    storeApiFetch<TCategory[]>(`/api/store/categories/${store.id}`),
+    storeApiFetch<LatestProductResponse[]>(
+      `/api/store/featuredProducts/${store.id}`,
+    ),
+  ]);
 
   return (
     <main>
@@ -42,6 +47,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         <WhatsNew newProducts={latestProducts} />
       </div>
       <PromoBanner />
+      <FeaturedProducts featuredProducts={featuredProducts} />
     </main>
   );
 };

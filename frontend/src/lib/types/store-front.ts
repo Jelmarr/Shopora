@@ -22,6 +22,10 @@ export interface WhatsNewProps {
   newProducts: Omit<LatestProductResponse, "description">[];
 }
 
+export interface FeaturedProductsProps {
+  featuredProducts: Omit<LatestProductResponse, "description">[];
+}
+
 export interface HeroSliderProps {
   products: Omit<LatestProductResponse, "price" | "comparePrice" | "stock">[];
   autoPlayMs?: number;
