@@ -18,6 +18,8 @@ import { Tag } from "lucide-react";
 import { useUpdateParam } from "@/src/hooks/useUpdateParam";
 import TablePagination from "@/src/components/Pagination";
 import TableSkeleton from "@/src/components/skeletons/TableSkeleton";
+import { Button } from "@/src/components/ui/button";
+import Link from "next/link";
 
 type ProductResponse = TPagination & {
   products: TProduct[];
@@ -69,10 +71,15 @@ const Products = ({
 
   return (
     <div className="px-6 py-8">
-      <header className="mb-4">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
-          <Tag size={15} /> Products
-        </h3>
+      <header className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <Tag size={15} /> Products
+          </h3>
+        </div>
+        <Link href="/store/add-product">
+          <Button>Add product</Button>
+        </Link>
       </header>
       <main>
         {isLoading ? (

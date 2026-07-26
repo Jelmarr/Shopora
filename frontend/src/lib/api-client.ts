@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export class ApiError extends Error {
   constructor(
@@ -37,12 +37,6 @@ export async function apiFetch<T>(
   if (cachedAccessToken) {
     headers.set("Authorization", `Bearer ${cachedAccessToken}`);
   }
-
-  console.log("--- API FETCH OUTBOUND CHECK ---");
-  console.log("Endpoint:", endpoint);
-  console.log("Memory Token Available:", !!cachedAccessToken);
-  console.log("Sent Headers:", Object.fromEntries(headers.entries()));
-  console.log("--------------------------------");
 
   // 2. Execute the initial request
   const response = await fetch(`${API_URL}${endpoint}`, {

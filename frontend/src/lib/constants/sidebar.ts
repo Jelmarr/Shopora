@@ -13,14 +13,14 @@ export const sidebarNavigation: SidebarGroup[] = [
   {
     groupName: "Overview",
     items: [
-      { label: "Dashboard", href: "/store/dashboard", icon: LayoutDashboard },
+      { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
       {
         label: "Analytics",
         icon: BarChart3,
         subMenu: [
-          { label: "Sales Performance", href: "/store/analytics/sales" },
-          { label: "Inventory Reports", href: "/store/analytics/inventory" },
-          { label: "Financial Summaries", href: "/store/analytics/finance" },
+          { label: "Sales Performance", href: "/admin/analytics/sales" },
+          { label: "Inventory Reports", href: "/admin/analytics/inventory" },
+          { label: "Financial Summaries", href: "/admin/analytics/finance" },
         ],
       },
     ],
@@ -32,19 +32,17 @@ export const sidebarNavigation: SidebarGroup[] = [
         label: "Stock & Catalog",
         icon: Package,
         subMenu: [
-          { label: "Products", href: "/store/products" },
-          { label: "Add Product", href: "/store/add-product" },
-          { label: "Categories", href: "/store/categories" },
-          { label: "Inventory & Lots", href: "/store/inventory" },
-          { label: "Suppliers", href: "/store/suppliers" },
+          { label: "Products", href: "/admin/products" },
+          { label: "Add Product", href: "/admin/add-product" },
+          { label: "Categories", href: "/admin/categories" },
         ],
       },
       {
         label: "Sales Flow",
         icon: ShoppingCart,
         subMenu: [
-          { label: "Orders", href: "/store/orders" },
-          { label: "Transactions", href: "/store/transactions" },
+          { label: "Orders", href: "/admin/orders" },
+          { label: "Transactions", href: "/admin/transactions" },
         ],
       },
     ],
@@ -52,14 +50,14 @@ export const sidebarNavigation: SidebarGroup[] = [
   {
     groupName: "System Controls",
     items: [
-      { label: "Customers", href: "/store/customers", icon: Users },
-      { label: "Notifications", href: "/store/notifications", icon: Bell },
+      { label: "Customers", href: "/admin/customers", icon: Users },
+      { label: "Notifications", href: "/admin/notifications", icon: Bell },
       {
         label: "Settings",
         icon: Settings,
         subMenu: [
-          { label: "Staff & Users", href: "/store/settings/users" },
-          { label: "Global Configurations", href: "/store/settings/general" },
+          { label: "Staff & Users", href: "/admin/settings/users" },
+          { label: "Global Configurations", href: "/admin/settings/general" },
         ],
       },
     ],

@@ -11,13 +11,13 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/login") ||
     pathname.startsWith("/signup");
 
-  const isStoreRoute = pathname.startsWith("/store");
+  const isAdminRoute = pathname.startsWith("/admin");
 
   if (token && isAuthPage) {
-    return NextResponse.redirect(new URL("/store/dashboard", req.url));
+    return NextResponse.redirect(new URL("/admin/dashboard", req.url));
   }
 
-  if (!token && isStoreRoute) {
+  if (!token && isAdminRoute) {
     return NextResponse.redirect(new URL("/lookup", req.url));
   }
 
@@ -25,5 +25,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/store/:path", "/lookup", "/login", "/signup"],
+  matcher: ["/admin/:path", "/lookup", "/login", "/signup", "/store/:path"],
 };

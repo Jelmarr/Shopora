@@ -45,6 +45,7 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead />
             <TableHead onClick={() => handleSort("name")}>
               <div className="flex items-center gap-1 cursor-pointer select-none">
                 Product {RenderSortIcon("name")}
@@ -85,15 +86,17 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
             products.map((product) => {
               return (
                 <TableRow key={product.id}>
+                  <TableCell>
+                    <Image
+                      src={product.primaryImageUrl}
+                      width={40}
+                      height={40}
+                      alt="product-image"
+                      className="rounded-sm"
+                    />
+                  </TableCell>
                   <TableCell className="font-medium max-w-50">
                     <div className="flex items-center gap-2 min-w-0">
-                      <Image
-                        src={product.primaryImageUrl}
-                        width={40}
-                        height={40}
-                        alt="product-image"
-                        className="rounded-sm"
-                      />
                       <span className="truncate">{product.name}</span>
                     </div>
                   </TableCell>

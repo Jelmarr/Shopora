@@ -8,6 +8,7 @@ export type TProduct = {
   isTrackInventory: boolean;
   isFeatured: boolean;
   price: number;
+  comparePrice?: number;
   sku?: string;
   stock?: number;
   images: string[];
