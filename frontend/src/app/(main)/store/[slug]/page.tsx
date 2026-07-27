@@ -29,7 +29,6 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <main>
-      <NavHeader logo={store.name} />
       <Hero
         products={latestProducts.map((p) => ({
           id: p.id,

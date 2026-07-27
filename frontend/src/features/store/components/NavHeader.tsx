@@ -1,10 +1,10 @@
 import { Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 
-const NavHeader = ({ logo }: { logo: string }) => {
+const NavHeader = ({ storeName }: { storeName: string }) => {
   return (
     <header className="flex justify-between p-4 max-w-360 mx-auto my-0 sticky top-0 bg-white z-50 rounded-b-lg">
-      <div>{logo}</div>
+      <div>{storeName}</div>
       <nav className="flex gap-6">
         <Link href="home">Home</Link>
         <Link href="catalog">Shop</Link>
