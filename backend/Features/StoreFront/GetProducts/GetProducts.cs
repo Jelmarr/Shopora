@@ -7,11 +7,12 @@ public static class GetProducts
         app.MapGet("/api/store/products/{storeId}", async (
             Guid storeId,
             GetProductHandler handler,
+            [AsParameters] GetProductsFilter filters,
             CancellationToken ct
         ) =>
         {
 
-            var result = await handler.Handle(storeId, ct);
+            var result = await handler.Handle(storeId, filters, ct);
 
             return Results.Ok(result);
         })

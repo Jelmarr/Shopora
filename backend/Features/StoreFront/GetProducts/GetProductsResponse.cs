@@ -9,5 +9,12 @@ public record GetProductResponse
     public int Stock { get; init; }
     public bool IsFeatured { get; init; }
     public List<string> Images { get; init; } = new List<string>();
-
 }
+
+public record GetProductsFilter
+(
+    string? Search = null,
+    string? SortBy = null,
+    string? Category = null,
+    string? Price = null
+);

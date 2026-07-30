@@ -1,4 +1,5 @@
 import Image from "next/image";
+import StoreButton from "../StoreButton";
 
 const PromoBanner = () => {
   return (
@@ -19,7 +20,7 @@ const PromoBanner = () => {
         }}
       />
 
-      <div className="relative z-10 flex h-70 flex-col items-start justify-center gap-3 p-10">
+      <div className="relative z-10 flex h-70 flex-col items-start justify-center gap-3 py-10 mx max-w-360 mx-auto">
         <span className="text-xs text-white/60">Featured</span>
 
         <h2 className="text-white text-3xl md:text-4xl font-semibold m-0">
@@ -30,12 +31,7 @@ const PromoBanner = () => {
           A backdrop that lets any product take center stage.
         </p>
 
-        <a
-          href="/products"
-          className="mt-2 inline-block border border-white/40 text-white bg-transparent px-4 py-2 rounded-md text-sm hover:bg-white/10 transition"
-        >
-          Shop the collection
-        </a>
+        <StoreButton buttonText="Shop the collection" />
       </div>
     </section>
   );

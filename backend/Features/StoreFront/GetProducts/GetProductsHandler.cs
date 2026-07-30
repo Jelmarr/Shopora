@@ -15,14 +15,48 @@ public class GetProductHandler
         _db = db;
     }
 
-    public async Task<List<GetProductResponse>> Handle(Guid storeId, CancellationToken ct)
+    public async Task<List<GetProductResponse>> Handle(
+        Guid storeId,
+        GetProductsFilter filters,
+        CancellationToken ct)
     {
 
-        var products = await _db.Products
+        var query = _db.Products
             .AsNoTracking()
-            .Include(product => product.Category)
-            .Include(product => product.Images)
-            .Where(product => product.StoreId == storeId && product.Status == ProductStatus.Active)
+            .Where(product => product.StoreId == storeId && product.Status == ProductStatus.Active);
+
+        if (!string.IsNullOrEmpty(filters.Search))
+        {
+            var normalizedSearch = filters.Search.Trim();
+
+            query = query.Where(p => EF.Functions.ILike(p.Name, $"%{normalizedSearch}%"));
+        }
+
+        if (!string.IsNullOrEmpty(filters.Search))
+        {
+            query = query.Where(p => p.Category.Name.ToLower() == filters.Category.ToLower());
+        }
+
+        query = filters.SortBy?.ToLower() switch
+        {
+            "featured" => query.Where(p => p.IsFeatured),
+
+            "a-z" => query.OrderBy(p => p.Name),
+
+            "z-a" => query.OrderByDescending(p => p.Name),
+
+            "low-to-high" => query.OrderBy(p => p.Price),
+
+            "high-to-low" => query.OrderByDescending(p => p.Price),
+
+            "old-to-new" => query.OrderBy(p => p.CreatedAt),
+
+            "new-to-old" => query.OrderByDescending(p => p.CreatedAt),
+
+            _ => query.OrderByDescending(p => p.CreatedAt)
+        };
+
+        var products = await query
             .Select(product => new GetProductResponse
             {
                 Id = product.Id,
@@ -37,7 +71,7 @@ public class GetProductHandler
             })
             .ToListAsync(ct);
 
-        if (products is null)
+        if (products.Count == 0)
         {
             throw new ConflictException("There's no product in this store");
         }

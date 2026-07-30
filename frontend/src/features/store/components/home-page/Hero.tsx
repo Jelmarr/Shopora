@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Button } from "@/src/components/ui/button";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { HeroSliderProps } from "@/src/lib/types/store-front";
+import StoreButton from "../StoreButton";
 
 const Hero = ({ products, autoPlayMs = 5000 }: HeroSliderProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -63,9 +63,7 @@ const Hero = ({ products, autoPlayMs = 5000 }: HeroSliderProps) => {
               {product.description}
             </p>
 
-            <Button asChild size="lg" className="mt-2">
-              <a href={"/products"}>Shop now</a>
-            </Button>
+            <StoreButton buttonText="Shop now" />
           </div>
         </div>
       ))}

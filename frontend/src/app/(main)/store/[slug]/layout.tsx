@@ -17,7 +17,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <NavHeader storeName={store.name} />
+        <NavHeader storeName={store.name} slug={slug} />
         {children}
         <Footer storeName={store.name} />
       </body>
