@@ -63,7 +63,7 @@ const Hero = ({ products, autoPlayMs = 5000 }: HeroSliderProps) => {
               {product.description}
             </p>
 
-            <StoreButton buttonText="Shop now" />
+            <StoreButton buttonText="Shop now" whiteBorder />
           </div>
         </div>
       ))}

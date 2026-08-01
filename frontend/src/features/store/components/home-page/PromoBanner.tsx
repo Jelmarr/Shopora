@@ -31,7 +31,7 @@ const PromoBanner = () => {
           A backdrop that lets any product take center stage.
         </p>
 
-        <StoreButton buttonText="Shop the collection" />
+        <StoreButton buttonText="Shop the collection" whiteBorder />
       </div>
     </section>
   );
