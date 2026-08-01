@@ -8,7 +8,7 @@ export interface SortOption {
   label: string;
 }
 
-const SORT_OPTIONS: SortOption[] = [
+export const SORT_OPTIONS: SortOption[] = [
   { id: "featured", label: "Featured" },
   { id: "most-relevant", label: "Most relevant" },
   { id: "best-selling", label: "Best selling" },

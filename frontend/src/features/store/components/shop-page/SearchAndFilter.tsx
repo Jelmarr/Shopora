@@ -5,9 +5,11 @@ import StoreButton from "../StoreButton";
 import StoreSearch from "../StoreSearch";
 import FiltersSlideOver from "./FiltersSlideOver";
 import { useState } from "react";
+import SortDropdown from "./SortDropdown";
 
 const SearchAndFilter = () => {
   const [isOpenFiltersSlider, setIsOpenFitlersSlider] = useState(false);
+  const [isOpenSort, setIsOpenSort] = useState(false);
 
   return (
     <>
@@ -20,7 +22,18 @@ const SearchAndFilter = () => {
         />
 
         <StoreSearch placeholder="Search product..." />
-        <StoreButton buttonText="Featured" Icon={Dot} whiteBorder={false} />
+        <div className="relative">
+          <StoreButton
+            buttonText="Featured"
+            Icon={Dot}
+            whiteBorder={false}
+            onClick={() => setIsOpenSort(true)}
+          />
+          <SortDropdown
+            isOpen={isOpenSort}
+            onClose={() => setIsOpenSort(false)}
+          />
+        </div>
       </section>
       <FiltersSlideOver
         isOpen={isOpenFiltersSlider}

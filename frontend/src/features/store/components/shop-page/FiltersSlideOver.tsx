@@ -1,8 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
 import StoreCheckBox from "../StoreCheckBox";
 import SortDropdown from "../SortDropdown";
 import PriceSlider from "../PriceSlider";
+import CloseButton from "../CloseButton";
 
 export interface Category {
   id: string;
@@ -63,14 +63,7 @@ const FiltersSlideOver = ({
           >
             <div className="flex items-center justify-between pb-8 py-6 px-12 border-b">
               <h2 className="text-3xl font-bold ">Filters</h2>
-              <button
-                onClick={onClose}
-                className={`relative z-10 shrink-0 p-3 text-base font-medium text-neutral-800 bg-white rounded-full cursor-pointer flex items-center gap-3 border
-    overflow-hidden transition-all duration-300 hover:text-neutral-100 before:content-[''] before:absolute before:top-0 
-    before:left-0 before:h-full before:w-0 before:rounded-2xl before:bg-neutral-800 before:-z-10 before:shadow-lg before:transition-all before:duration-300 hover:before:w-full`}
-              >
-                <X size={18} />
-              </button>
+              <CloseButton onClose={onClose} />
             </div>
 
             {/* Sort By */}
