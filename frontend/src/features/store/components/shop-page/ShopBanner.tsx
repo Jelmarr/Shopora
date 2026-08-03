@@ -13,7 +13,7 @@ const ShopBanner = ({ slug }: { slug: string }) => {
         sizes="100vw"
       />
 
-      <div className="relative z-10 flex min-h-120  flex-col items-start justify-end gap-3 py-10 mx max-w-360 mx-auto">
+      <div className="relative z-10 flex min-h-120  flex-col items-start justify-end gap-3 py-10 mx max-w-360 mx-auto px-8 2xl:px-0">
         <div className="flex items-center gap-4">
           <Link
             href={`/store/${slug}`}
@@ -24,7 +24,9 @@ const ShopBanner = ({ slug }: { slug: string }) => {
           <span className="text-white/80">/</span>
           <p className="text-lg font-semibold text-white">All products</p>
         </div>
-        <h1 className="text-9xl font-bold text-white">All products</h1>
+        <h1 className="text-[clamp(3rem,10vw,8rem)] font-bold text-white tracking-tight">
+          All products
+        </h1>
       </div>
     </section>
   );

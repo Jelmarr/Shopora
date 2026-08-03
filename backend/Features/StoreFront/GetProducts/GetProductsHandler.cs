@@ -34,7 +34,7 @@ public class GetProductHandler
 
         if (!string.IsNullOrEmpty(filters.Search))
         {
-            query = query.Where(p => p.Category.Name.ToLower() == filters.Category.ToLower());
+            query = query.Where(p => p.Category.Name.ToLower() == filters.Category!.ToLower());
         }
 
         query = filters.SortBy?.ToLower() switch
@@ -65,6 +65,8 @@ public class GetProductHandler
                 CategoryName = product.Category.Name,
                 Stock = product.Stock,
                 IsFeatured = product.IsFeatured,
+                Price = product.Price,
+                ComparePrice = product.CompareAtPrice,
                 Images = product.Images
                     .Select(image => image.ImageUrl)
                     .ToList()

@@ -22,7 +22,7 @@ const SearchAndFilter = () => {
         />
 
         <StoreSearch placeholder="Search product..." />
-        <div className="relative">
+        <div className="relative hidden md:flex">
           <StoreButton
             buttonText="Featured"
             Icon={Dot}
