@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+import { useUpdateParam } from "@/src/hooks/useUpdateParam";
 
 export interface SortOption {
   id: string;
@@ -10,14 +11,12 @@ export interface SortOption {
 
 export const SORT_OPTIONS: SortOption[] = [
   { id: "featured", label: "Featured" },
-  { id: "most-relevant", label: "Most relevant" },
-  { id: "best-selling", label: "Best selling" },
-  { id: "alphabetically-az", label: "Alphabetically, A-Z" },
-  { id: "alphabetically-za", label: "Alphabetically, Z-A" },
-  { id: "price-low-high", label: "Price, low to high" },
-  { id: "price-high-low", label: "Price, high to low" },
-  { id: "date-old-new", label: "Date, old to new" },
-  { id: "date-new-old", label: "Date, new to old" },
+  { id: "a-z", label: "Alphabetically, A-Z" },
+  { id: "z-a", label: "Alphabetically, Z-A" },
+  { id: "low-high", label: "Price, low to high" },
+  { id: "high-low", label: "Price, high to low" },
+  { id: "old-new", label: "Date, old to new" },
+  { id: "new-old", label: "Date, new to old" },
 ];
 
 interface SortDropdownProps {
@@ -45,7 +44,10 @@ const SortDropdown = ({ onSelect }: SortDropdownProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const { updateParam } = useUpdateParam();
+
   const handleSelect = (option: SortOption) => {
+    updateParam("sortBy", option.id);
     setSelectedOption(option);
     setIsOpen(false);
     if (onSelect) onSelect(option);

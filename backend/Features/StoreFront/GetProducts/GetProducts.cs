@@ -4,15 +4,15 @@ public static class GetProducts
 {
     public static void MapGetProducts(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/store/products/{storeId}", async (
+        app.MapGet("/api/store/products/{storeId:guid}", async (
             Guid storeId,
             GetProductHandler handler,
-            [AsParameters] GetProductsFilter filters,
+            [AsParameters] GetProductsQuery query,
             CancellationToken ct
         ) =>
         {
 
-            var result = await handler.Handle(storeId, filters, ct);
+            var result = await handler.Handle(storeId, query, ct);
 
             return Results.Ok(result);
         })

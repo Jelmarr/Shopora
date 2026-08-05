@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Slider } from "@/src/components/ui/slider";
 import { Label } from "@/src/components/ui/label";
 
@@ -8,9 +9,49 @@ const MIN_PRICE = 0;
 const MAX_PRICE = 18000;
 
 const PriceSlider = () => {
-  const [range, setRange] = useState<[number, number]>([MIN_PRICE, MAX_PRICE]);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  // Handle manual input changes
+  const urlMin = Number(searchParams.get("minPrice")) || MIN_PRICE;
+  const urlMax = Number(searchParams.get("maxPrice")) || MAX_PRICE;
+
+  const [range, setRange] = useState<[number, number]>([urlMin, urlMax]);
+  const [prevUrl, setPrevUrl] = useState({ urlMin, urlMax });
+
+  // Sync state during render when URL params change (prevents cascading renders)
+  if (prevUrl.urlMin !== urlMin || prevUrl.urlMax !== urlMax) {
+    setPrevUrl({ urlMin, urlMax });
+    setRange([urlMin, urlMax]);
+  }
+
+  // Debounce updating URL when local slider range changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      const [currentMin, currentMax] = range;
+
+      if (currentMin > MIN_PRICE) {
+        params.set("minPrice", currentMin.toString());
+      } else {
+        params.delete("minPrice");
+      }
+
+      if (currentMax < MAX_PRICE) {
+        params.set("maxPrice", currentMax.toString());
+      } else {
+        params.delete("maxPrice");
+      }
+
+      if (params.toString() !== searchParams.toString()) {
+        params.set("page", "1");
+        router.push(`${pathname}?${params.toString()}`);
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [range, pathname, router, searchParams]);
+
   const handleMinInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newMin = Math.max(MIN_PRICE, Number(e.target.value) || 0);
     setRange([Math.min(newMin, range[1]), range[1]]);
@@ -23,7 +64,6 @@ const PriceSlider = () => {
 
   return (
     <div className="w-full space-y-4 font-sans select-none">
-      {/* Header with Title & Collapse Chevron */}
       <div className="flex items-center justify-between cursor-pointer">
         <Label className="text-base font-semibold text-neutral-900 cursor-pointer">
           Price
@@ -31,7 +71,6 @@ const PriceSlider = () => {
       </div>
 
       <div className="space-y-6 pt-1">
-        {/* Slider */}
         <Slider
           value={range}
           onValueChange={(val) => setRange(val as [number, number])}
@@ -41,9 +80,7 @@ const PriceSlider = () => {
           className="cursor-pointer"
         />
 
-        {/* Min & Max Price Input Boxes */}
         <div className="flex items-center gap-3">
-          {/* Min Price Box */}
           <div className="relative flex-1 flex items-center bg-neutral-100/80 rounded-full px-4 py-2.5">
             <span className="text-sm text-neutral-400 font-medium">₱</span>
             <input
@@ -54,10 +91,8 @@ const PriceSlider = () => {
             />
           </div>
 
-          {/* Separator */}
           <span className="text-sm text-neutral-600 font-normal">to</span>
 
-          {/* Max Price Box */}
           <div className="relative flex-1 flex items-center bg-neutral-100/80 rounded-full px-4 py-2.5">
             <span className="text-sm text-neutral-400 font-medium">₱</span>
             <input

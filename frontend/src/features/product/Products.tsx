@@ -21,7 +21,7 @@ import TableSkeleton from "@/src/components/skeletons/TableSkeleton";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 
-type ProductResponse = TPagination & {
+export type ProductResponse = TPagination & {
   products: TProduct[];
 };
 

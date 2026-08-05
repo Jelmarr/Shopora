@@ -3,42 +3,68 @@ import StoreCheckBox from "../StoreCheckBox";
 import SortDropdown from "../SortDropdown";
 import PriceSlider from "../PriceSlider";
 import CloseButton from "../CloseButton";
+import { useQuery } from "@tanstack/react-query";
+import { storeApiFetch } from "@/src/lib/store-api";
+import { StoreSlugResponse } from "@/src/lib/types/store-front";
+import Spinner from "@/src/components/Spinner";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export interface Category {
   id: string;
   name: string;
 }
 
-export const CATEGORIES: Category[] = [
-  { id: "prescription-medicines", name: "Prescription Medicines" },
-  { id: "over-the-counter", name: "Over-the-Counter (OTC)" },
-  { id: "vitamins-supplements", name: "Vitamins & Supplements" },
-  { id: "first-aid-wound-care", name: "First Aid & Wound Care" },
-  { id: "personal-care", name: "Personal Care" },
-  { id: "skin-care", name: "Skin Care" },
-  { id: "hair-care", name: "Hair Care" },
-  { id: "baby-child-care", name: "Baby & Child Care" },
-  { id: "medical-supplies", name: "Medical Supplies & Devices" },
-  { id: "diagnostic-monitors", name: "Diagnostic Monitors" },
-  { id: "oral-care", name: "Oral Care" },
-  { id: "eye-ear-care", name: "Eye & Ear Care" },
-  { id: "pain-relief", name: "Pain & Fever Relief" },
-  { id: "digestive-health", name: "Digestive & Gut Health" },
-  { id: "cold-flu-allergy", name: "Cold, Flu & Allergy" },
-  { id: "sexual-wellness", name: "Sexual Wellness" },
-  { id: "feminine-hygiene", name: "Feminine Hygiene" },
-  { id: "elderly-mobility-care", name: "Elderly & Mobility Care" },
-  { id: "sports-nutrition", name: "Sports Nutrition" },
-  { id: "sanitizers-disinfectants", name: "Sanitizers & Disinfectants" },
-];
-
 const FiltersSlideOver = ({
+  store,
   isOpen,
   onClose,
 }: {
+  store: StoreSlugResponse;
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentCategoriesParam = searchParams.get("categories") || "";
+  const selectedCategories = currentCategoriesParam
+    ? currentCategoriesParam.split(",")
+    : [];
+
+  const {
+    data: categories = [],
+    isLoading,
+    isError,
+  } = useQuery<Category[]>({
+    queryKey: ["categories", store.id],
+    queryFn: () => storeApiFetch(`/api/store/categories/${store.id}`),
+    enabled: isOpen && !!store.id,
+  });
+
+  const handleToggleCategory = (categoryName: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    let updatedCategories = [...selectedCategories];
+
+    if (updatedCategories.includes(categoryName)) {
+      updatedCategories = updatedCategories.filter(
+        (cat) => cat !== categoryName,
+      );
+    } else {
+      updatedCategories.push(categoryName);
+    }
+
+    if (updatedCategories.length > 0) {
+      params.set("categories", updatedCategories.join(","));
+    } else {
+      params.delete("categories");
+    }
+
+    params.set("page", "1");
+
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -74,11 +100,24 @@ const FiltersSlideOver = ({
               <div>
                 <h3 className="text-lg font-medium mb-4">Categories</h3>
                 <div className="max-h-60 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-neutral-300">
-                  {CATEGORIES.map((cat) => (
-                    <div key={cat.id}>
-                      <StoreCheckBox optionLabel={cat.name} />
-                    </div>
-                  ))}
+                  {isLoading && <Spinner label="Loading..." />}
+
+                  {isError && (
+                    <p className="text-sm text-red-500">
+                      Failed to load categories
+                    </p>
+                  )}
+
+                  {!isLoading &&
+                    !isError &&
+                    categories.map((cat) => (
+                      <div
+                        key={cat.id}
+                        onClick={() => handleToggleCategory(cat.name)}
+                      >
+                        <StoreCheckBox optionLabel={cat.name} />
+                      </div>
+                    ))}
                 </div>
                 <div className="border-b mt-6" />
               </div>

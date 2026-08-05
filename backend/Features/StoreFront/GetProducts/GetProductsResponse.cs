@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace backend.Features.StoreFront.GetProducts;
 
 public record GetProductResponse
@@ -13,10 +15,22 @@ public record GetProductResponse
     public List<string> Images { get; init; } = new List<string>();
 }
 
-public record GetProductsFilter
+public record GetProductsQuery
 (
     string? Search = null,
     string? SortBy = null,
-    string? Category = null,
-    string? Price = null
+    [FromQuery(Name = "categories")] string[]? Categories = null,
+    decimal? MinPrice = null,
+    decimal? MaxPrice = null,
+
+    int Page = 1,
+    int PageSize = 16
+);
+
+public record PageProductsResponse
+(
+     List<GetProductResponse> Products,
+     int TotalCount,
+     int CurrentPage,
+     int TotalPages
 );

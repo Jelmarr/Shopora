@@ -15,48 +15,60 @@ public class GetProductHandler
         _db = db;
     }
 
-    public async Task<List<GetProductResponse>> Handle(
+    public async Task<PageProductsResponse> Handle(
         Guid storeId,
-        GetProductsFilter filters,
+        GetProductsQuery query,
         CancellationToken ct)
     {
 
-        var query = _db.Products
+        var dbQuery = _db.Products
             .AsNoTracking()
             .Where(product => product.StoreId == storeId && product.Status == ProductStatus.Active);
 
-        if (!string.IsNullOrEmpty(filters.Search))
+        if (!string.IsNullOrEmpty(query.Search))
         {
-            var normalizedSearch = filters.Search.Trim();
+            var normalizedSearch = query.Search.Trim();
 
-            query = query.Where(p => EF.Functions.ILike(p.Name, $"%{normalizedSearch}%"));
+            dbQuery = dbQuery.Where(p => EF.Functions.ILike(p.Name, $"%{normalizedSearch}%"));
         }
 
-        if (!string.IsNullOrEmpty(filters.Search))
+        if (query.Categories != null && query.Categories.Any())
         {
-            query = query.Where(p => p.Category.Name.ToLower() == filters.Category!.ToLower());
+            dbQuery = dbQuery.Where(p => query.Categories.Contains(p.Category.Name.Trim()));
         }
 
-        query = filters.SortBy?.ToLower() switch
+        if (query.MinPrice.HasValue)
         {
-            "featured" => query.Where(p => p.IsFeatured),
+            dbQuery = dbQuery.Where(p => p.Price >= query.MinPrice.Value);
+        }
 
-            "a-z" => query.OrderBy(p => p.Name),
+        if (query.MaxPrice.HasValue)
+        {
+            dbQuery = dbQuery.Where(p => p.Price <= query.MaxPrice.Value);
+        }
 
-            "z-a" => query.OrderByDescending(p => p.Name),
+        dbQuery = query.SortBy?.ToLower() switch
+        {
+            "featured" => dbQuery.Where(p => p.IsFeatured),
 
-            "low-to-high" => query.OrderBy(p => p.Price),
+            "a-z" => dbQuery.OrderBy(p => p.Name),
 
-            "high-to-low" => query.OrderByDescending(p => p.Price),
+            "z-a" => dbQuery.OrderByDescending(p => p.Name),
 
-            "old-to-new" => query.OrderBy(p => p.CreatedAt),
+            "low-high" => dbQuery.OrderBy(p => p.Price),
 
-            "new-to-old" => query.OrderByDescending(p => p.CreatedAt),
+            "high-low" => dbQuery.OrderByDescending(p => p.Price),
 
-            _ => query.OrderByDescending(p => p.CreatedAt)
+            "old-new" => dbQuery.OrderBy(p => p.CreatedAt),
+
+            "new-old" => dbQuery.OrderByDescending(p => p.CreatedAt),
+
+            _ => dbQuery.OrderByDescending(p => p.CreatedAt)
         };
 
-        var products = await query
+        var totalCount = await dbQuery.CountAsync(ct);
+
+        var products = await dbQuery
             .Select(product => new GetProductResponse
             {
                 Id = product.Id,
@@ -71,6 +83,8 @@ public class GetProductHandler
                     .Select(image => image.ImageUrl)
                     .ToList()
             })
+            .Take(query.PageSize)
+            .Skip((query.Page - 1) * query.PageSize)
             .ToListAsync(ct);
 
         if (products.Count == 0)
@@ -78,7 +92,12 @@ public class GetProductHandler
             throw new ConflictException("There's no product in this store");
         }
 
-        return products;
+        return new PageProductsResponse(
+            Products: products ?? new List<GetProductResponse>(),
+            TotalCount: totalCount,
+            CurrentPage: query.Page,
+            TotalPages: (int)Math.Ceiling(totalCount / (double)query.PageSize)
+        );
 
     }
 

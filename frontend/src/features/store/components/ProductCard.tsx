@@ -3,7 +3,6 @@
 import { formatPrice } from "@/src/lib/utils/price-formatter";
 import Image from "next/image";
 import { ProductCardProps } from "./shop-page/ProductGrid";
-import { useState } from "react";
 import StoreButton from "./StoreButton";
 import { Eye } from "lucide-react";
 
@@ -47,12 +46,24 @@ const ProductCard = ({
         </span>
         <div className="flex justify-between items-center">
           <p className="text-lg font-medium line-clamp-1">{name}</p>
-          <p>{formatPrice(price)}</p>
+          {comparePrice ? (
+            <div>
+              <p className="text-rose-600">{formatPrice(price)}</p>
+              <p className="text-sm text-right text-gray-500 line-through">
+                {formatPrice(comparePrice)}
+              </p>
+            </div>
+          ) : (
+            <p>{formatPrice(price)}</p>
+          )}
         </div>
 
         <div className="flex gap-2 mt-4">
           {images.map((image, index) => (
-            <button key={index + 1} className="cursor-pointer">
+            <button
+              key={index + 1}
+              className="cursor-pointer border rounded-md"
+            >
               <Image
                 src={image}
                 alt="product-card-image"

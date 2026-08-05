@@ -1,32 +1,59 @@
-import TablePagination from "@/src/components/Pagination";
-import ProductGrid from "@/src/features/store/components/shop-page/ProductGrid";
-import SearchAndFilter from "@/src/features/store/components/shop-page/SearchAndFilter";
-import ShopBanner from "@/src/features/store/components/shop-page/ShopBanner";
+import Shop from "@/src/features/store/components/shop-page/Shop";
 import { storeApiFetch } from "@/src/lib/store-api";
 import { StoreSlugResponse } from "@/src/lib/types/store-front";
 
-const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+export type TSortBy =
+  | "featured"
+  | "best-selling"
+  | "a-z"
+  | "z-a"
+  | "low-high"
+  | "high-low"
+  | "old-new"
+  | "new-old";
+
+export type TSearchAndFilter = {
+  sortBy: TSortBy;
+  categories: string;
+  minPrice: string;
+  maxPrice: string;
+  search: string;
+  page: string;
+  store: StoreSlugResponse;
+};
+
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+  searchParams: Promise<Omit<TSearchAndFilter, "store" | "slug">>;
+}
+
+const page = async ({ params, searchParams }: PageProps) => {
   const { slug } = await params;
+
+  const {
+    search = "",
+    categories = "",
+    sortBy = "featured",
+    minPrice = "",
+    maxPrice = "",
+    page = 1,
+  } = await searchParams;
 
   const store = await storeApiFetch<StoreSlugResponse>(`/api/store/${slug}`);
 
   return (
-    <main>
-      <ShopBanner slug={slug} />
-      <div className="py-10 mx max-w-360 mx-auto px-8 2xl:px-0">
-        <SearchAndFilter />
-
-        <ProductGrid storeId={store.id} />
-        <div className="flex items-center justify-between mt-12">
-          <TablePagination
-            currentPage={1}
-            totalCount={50}
-            itemLabel="products"
-            totalPages={5}
-          />
-        </div>
-      </div>
-    </main>
+    <Shop
+      store={store}
+      slug={slug}
+      search={search}
+      categories={categories}
+      minPrice={minPrice}
+      maxPrice={maxPrice}
+      sortBy={sortBy}
+      page={Number(page)}
+    />
   );
 };
 

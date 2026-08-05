@@ -1,4 +1,3 @@
-import { storeApiFetch } from "@/src/lib/store-api";
 import ProductCard from "../ProductCard";
 
 export interface ProductCardProps {
@@ -10,11 +9,7 @@ export interface ProductCardProps {
   images: string[];
 }
 
-const ProductGrid = async ({ storeId }: { storeId: string }) => {
-  const products = await storeApiFetch<ProductCardProps[]>(
-    `/api/store/products/${storeId}`,
-  );
-
+const ProductGrid = ({ products }: { products: ProductCardProps[] }) => {
   return (
     <section className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {products.map((product) => (

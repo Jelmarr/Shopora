@@ -6,8 +6,9 @@ import StoreSearch from "../StoreSearch";
 import FiltersSlideOver from "./FiltersSlideOver";
 import { useState } from "react";
 import SortDropdown from "./SortDropdown";
+import { StoreSlugResponse } from "@/src/lib/types/store-front";
 
-const SearchAndFilter = () => {
+const SearchAndFilter = ({ store }: { store: StoreSlugResponse }) => {
   const [isOpenFiltersSlider, setIsOpenFitlersSlider] = useState(false);
   const [isOpenSort, setIsOpenSort] = useState(false);
 
@@ -36,6 +37,7 @@ const SearchAndFilter = () => {
         </div>
       </section>
       <FiltersSlideOver
+        store={store}
         isOpen={isOpenFiltersSlider}
         onClose={() => setIsOpenFitlersSlider(false)}
       />
