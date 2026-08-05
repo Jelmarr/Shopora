@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import { SORT_OPTIONS, SortOption } from "../SortDropdown";
 import CloseButton from "../CloseButton";
 import { useUpdateParam } from "@/src/hooks/useUpdateParam";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Dot } from "lucide-react";
 
 const listVariants = {
   hidden: {},
@@ -26,18 +29,18 @@ const itemVariants = {
 const SortDropdown = ({
   isOpen,
   onClose,
-  onSelect,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  onSelect?: (id: string) => void;
 }) => {
   const { updateParam } = useUpdateParam();
+  const searchParams = useSearchParams();
 
   if (!isOpen) return null;
 
+  const currentSort = searchParams.get("sortBy") || "featured";
+
   const handleSort = (sort: SortOption) => {
-    onSelect?.(sort.id);
     onClose();
 
     updateParam("sortBy", sort.id);
@@ -61,16 +64,23 @@ const SortDropdown = ({
           initial="hidden"
           animate="visible"
         >
-          {SORT_OPTIONS.map((sort) => (
-            <motion.button
-              key={sort.id}
-              className="text-lg hover:underline cursor-pointer text-left"
-              variants={itemVariants}
-              onClick={() => handleSort(sort)}
-            >
-              {sort.label}
-            </motion.button>
-          ))}
+          {SORT_OPTIONS.map((sort) => {
+            const isSelected = currentSort == sort.id;
+
+            return (
+              <motion.button
+                key={sort.id}
+                className={`text-lg cursor-pointer text-left flex items-center justify-between ${
+                  isSelected ? "text-stone-500! font-medium" : "hover:underline"
+                } `}
+                variants={itemVariants}
+                onClick={() => handleSort(sort)}
+              >
+                {isSelected && <Dot />}
+                {sort.label}
+              </motion.button>
+            );
+          })}
         </motion.div>
       </div>
     </>
