@@ -49,7 +49,7 @@ public class GetProductHandler
 
         dbQuery = query.SortBy?.ToLower() switch
         {
-            "featured" => dbQuery.Where(p => p.IsFeatured),
+            "featured" => dbQuery.OrderByDescending(p => p.IsFeatured).ThenByDescending(p => p.CreatedAt),
 
             "a-z" => dbQuery.OrderBy(p => p.Name),
 
@@ -69,6 +69,8 @@ public class GetProductHandler
         var totalCount = await dbQuery.CountAsync(ct);
 
         var products = await dbQuery
+            .Skip((query.Page - 1) * query.PageSize)
+            .Take(query.PageSize)
             .Select(product => new GetProductResponse
             {
                 Id = product.Id,
@@ -83,20 +85,15 @@ public class GetProductHandler
                     .Select(image => image.ImageUrl)
                     .ToList()
             })
-            .Take(query.PageSize)
-            .Skip((query.Page - 1) * query.PageSize)
             .ToListAsync(ct);
 
-        if (products.Count == 0)
-        {
-            throw new ConflictException("There's no product in this store");
-        }
+        var totalPages = totalCount == 0 ? 1 : (int)Math.Ceiling(totalCount / (double)query.PageSize);
 
         return new PageProductsResponse(
-            Products: products ?? new List<GetProductResponse>(),
+            Products: products,
             TotalCount: totalCount,
             CurrentPage: query.Page,
-            TotalPages: (int)Math.Ceiling(totalCount / (double)query.PageSize)
+            TotalPages: totalPages
         );
 
     }

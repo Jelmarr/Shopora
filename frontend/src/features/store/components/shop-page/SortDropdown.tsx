@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SORT_OPTIONS } from "../SortDropdown";
+import { SORT_OPTIONS, SortOption } from "../SortDropdown";
 import CloseButton from "../CloseButton";
+import { useUpdateParam } from "@/src/hooks/useUpdateParam";
 
 const listVariants = {
   hidden: {},
@@ -31,7 +32,16 @@ const SortDropdown = ({
   onClose: () => void;
   onSelect?: (id: string) => void;
 }) => {
+  const { updateParam } = useUpdateParam();
+
   if (!isOpen) return null;
+
+  const handleSort = (sort: SortOption) => {
+    onSelect?.(sort.id);
+    onClose();
+
+    updateParam("sortBy", sort.id);
+  };
 
   return (
     <>
@@ -56,10 +66,7 @@ const SortDropdown = ({
               key={sort.id}
               className="text-lg hover:underline cursor-pointer text-left"
               variants={itemVariants}
-              onClick={() => {
-                onSelect?.(sort.id);
-                onClose();
-              }}
+              onClick={() => handleSort(sort)}
             >
               {sort.label}
             </motion.button>

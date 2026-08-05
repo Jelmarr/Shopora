@@ -1,6 +1,5 @@
 "use client";
 
-import { TSortBy } from "@/src/app/(main)/store/[slug]/shop/page";
 import TablePagination from "@/src/components/Pagination";
 import ProductGrid, {
   ProductCardProps,
@@ -12,33 +11,37 @@ import { storeApiFetch } from "@/src/lib/store-api";
 import { TPagination } from "@/src/lib/types/pagination";
 import { StoreSlugResponse } from "@/src/lib/types/store-front";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 
 interface ShopProps {
   store: StoreSlugResponse;
   slug: string;
-  search: string;
-  categories: string;
-  minPrice: string;
-  maxPrice: string;
-  sortBy: TSortBy;
-  page: number;
 }
+
+export type TSortBy =
+  | "featured"
+  | "best-selling"
+  | "a-z"
+  | "z-a"
+  | "low-high"
+  | "high-low"
+  | "old-new"
+  | "new-old";
 
 type ShopResponse = TPagination & {
   products: ProductCardProps[];
 };
 
-const Shop = ({
-  page,
-  store,
-  slug,
-  search,
-  categories,
-  minPrice,
-  maxPrice,
-  sortBy,
-}: ShopProps) => {
+const Shop = ({ store, slug }: ShopProps) => {
   const { handlePageChange } = useUpdateParam();
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get("search") || "";
+  const categories = searchParams.get("categories") || "";
+  const minPrice = searchParams.get("minPrice") || "";
+  const maxPrice = searchParams.get("maxPrice") || "";
+  const sortBy = (searchParams.get("sortBy") as TSortBy) || "featured";
+  const page = Number(searchParams.get("page")) || 1;
 
   const { data, isLoading, isFetching, isError } = useQuery<ShopResponse>({
     queryKey: [
@@ -51,7 +54,7 @@ const Shop = ({
       sortBy,
       page,
     ],
-    queryFn: async () => {
+    queryFn: async ({ signal }) => {
       const params = new URLSearchParams();
 
       if (search) params.append("search", search);
@@ -68,13 +71,13 @@ const Shop = ({
           .forEach((cat) => params.append("categories", cat));
       }
 
-      const response = await storeApiFetch<ShopResponse>(
+      return storeApiFetch<ShopResponse>(
         `/api/store/products/${store.id}?${params.toString()}`,
+        { signal },
       );
-
-      return response;
     },
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 60 * 5,
   });
 
   const products = isError ? [] : (data?.products ?? []);
