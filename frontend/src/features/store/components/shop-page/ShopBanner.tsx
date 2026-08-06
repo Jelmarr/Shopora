@@ -1,8 +1,12 @@
 import { Home } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
-const ShopBanner = ({ slug }: { slug: string }) => {
+const ShopBanner = () => {
+  const params = useParams<{ slug: string }>();
+  const slug = params.slug;
+
   return (
     <section className="relative min-h-120 rounded-t-xl overflow-hidden bg-[#0a0a0a]">
       <Image

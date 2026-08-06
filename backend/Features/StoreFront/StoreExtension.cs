@@ -3,6 +3,7 @@ using backend.Features.StoreFront.GetFeaturedProducts;
 using backend.Features.StoreFront.GetHeroProducts;
 using backend.Features.StoreFront.GetProductById;
 using backend.Features.StoreFront.GetProducts;
+using backend.Features.StoreFront.GetRelatedProducts;
 using backend.Features.StoreFront.GetStoreBySlug;
 
 namespace backend.Features.StoreFront.Extensions;
@@ -19,6 +20,7 @@ public static class StoreExtensions
         storeGroup.MapGetCategories();
         storeGroup.MapGetFeaturedProducts();
         storeGroup.MapGetProductById();
+        storeGroup.MapGetRelatedProducts();
 
         storeGroup.RequireCors("_myAllowSpecificOrigins");
 

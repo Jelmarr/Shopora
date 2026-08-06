@@ -15,7 +15,6 @@ import { useSearchParams } from "next/navigation";
 
 interface ShopProps {
   store: StoreSlugResponse;
-  slug: string;
 }
 
 export type TSortBy =
@@ -32,7 +31,7 @@ type ShopResponse = TPagination & {
   products: ProductCardProps[];
 };
 
-const Shop = ({ store, slug }: ShopProps) => {
+const Shop = ({ store }: ShopProps) => {
   const { handlePageChange } = useUpdateParam();
   const searchParams = useSearchParams();
 
@@ -87,7 +86,7 @@ const Shop = ({ store, slug }: ShopProps) => {
 
   return (
     <main>
-      <ShopBanner slug={slug} />
+      <ShopBanner />
       <div className="py-10 mx max-w-360 mx-auto px-8 2xl:px-0">
         <SearchAndFilter store={store} />
         <div

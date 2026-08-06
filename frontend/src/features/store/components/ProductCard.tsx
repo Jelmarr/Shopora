@@ -5,14 +5,20 @@ import Image from "next/image";
 import { ProductCardProps } from "./shop-page/ProductGrid";
 import StoreButton from "./StoreButton";
 import { Eye } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const ProductCard = ({
+  id,
   name,
   categoryName,
   price,
   comparePrice,
   images,
-}: Omit<ProductCardProps, "id">) => {
+}: ProductCardProps) => {
+  const params = useParams<{ slug: string }>();
+  const slug = params.slug;
+
   return (
     <div className="w-full rounded-lg bg-stone-100">
       <div className="relative w-full overflow-hidden aspect-square rounded-t-lg group">
@@ -23,13 +29,14 @@ const ProductCard = ({
           className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
         <div className="absolute inset-3 flex items-start justify-end opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10">
-          <button
+          <Link
+            href={`/store/${slug}/shop/${id}`}
             className={`relative z-10 shrink-0 p-3 text-base font-medium text-neutral-800 bg-white rounded-full cursor-pointer flex items-center gap-3 border
             overflow-hidden transition-all duration-300 hover:text-neutral-100 before:content-[''] before:absolute before:top-0 
             before:left-0 before:h-full before:w-0 before:rounded-2xl before:bg-neutral-800 before:-z-10 before:shadow-lg before:transition-all before:duration-300 hover:before:w-full`}
           >
             <Eye size={18} />
-          </button>
+          </Link>
         </div>
         <div className="absolute inset-x-0 bottom-4 flex justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10">
           <StoreButton

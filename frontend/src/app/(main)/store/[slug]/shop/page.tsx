@@ -13,7 +13,7 @@ const page = async ({ params }: PageProps) => {
 
   const store = await storeApiFetch<StoreSlugResponse>(`/api/store/${slug}`);
 
-  return <Shop store={store} slug={slug} />;
+  return <Shop store={store} />;
 };
 
 export default page;

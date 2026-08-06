@@ -6,7 +6,7 @@ public record GetProductByIdResponse
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;
-    public Guid CategoryId { get; init; }
+    public string? CategoryName { get; init; }
     public ProductStatus Status { get; init; }
     public bool IsFeatured { get; init; }
     public decimal? CostPrice { get; init; }

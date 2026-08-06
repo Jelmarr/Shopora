@@ -35,7 +35,7 @@ public class GetProductByIdHandler
             {
                 Id = p.Id,
                 Name = p.Name,
-                CategoryId = p.CategoryId,
+                CategoryName = p.Category.Name,
                 Status = p.Status,
                 IsFeatured = p.IsFeatured,
                 CostPrice = p.CostPrice ?? 0,

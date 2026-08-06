@@ -15,6 +15,7 @@ const ProductGrid = ({ products }: { products: ProductCardProps[] }) => {
       {products.map((product) => (
         <ProductCard
           key={product.id}
+          id={product.id}
           name={product.name}
           categoryName={product.categoryName}
           price={product.price}
