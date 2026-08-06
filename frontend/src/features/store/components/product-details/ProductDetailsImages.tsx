@@ -13,8 +13,8 @@ const ProductDetailsImages = ({ images }: ProductDetailsImagesProps) => {
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="flex gap-4 items-start">
-      <div className="flex flex-col gap-3 overflow-y-auto max-h-175 pr-1 scrollbar-thin scrollbar-thumb-stone-300 scrollbar-track-transparent">
+    <div className="flex flex-col-reverse md:flex-row gap-4 items-start w-full max-w-4xl">
+      <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto w-full md:w-auto max-h-none md:max-h-175 pb-2 md:pb-0 md:pr-1 shrink-0 scrollbar-thin scrollbar-thumb-stone-300 scrollbar-track-transparent">
         {images.map((image, index) => {
           const isSelected = selectedIndex === index;
 
@@ -33,22 +33,22 @@ const ProductDetailsImages = ({ images }: ProductDetailsImagesProps) => {
                 alt={`product-thumbnail-${index + 1}`}
                 width={120}
                 height={120}
-                className="object-cover rounded-sm aspect-square"
+                className="object-cover rounded-sm aspect-square w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24"
               />
             </button>
           );
         })}
       </div>
 
-      {/* Main Image View */}
-      <div className="relative shrink-0 overflow-hidden border rounded-lg bg-stone-100">
+      {/* Main Image View Container */}
+      <div className="relative w-full aspect-square overflow-hidden border rounded-lg bg-stone-100">
         <Image
           src={images[selectedIndex] || images[0]}
           alt="product-main-image"
-          width={700}
-          height={700}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 700px"
           priority
-          className="object-cover rounded-lg aspect-square"
+          className="object-cover rounded-lg"
         />
       </div>
     </div>

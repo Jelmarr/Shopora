@@ -35,7 +35,7 @@ const RelatedProducts = ({
   return (
     <section className="mt-20 border-t border-stone-200 pt-12">
       <h2 className="text-2xl font-bold text-neutral-900 mb-8">
-        {isSameCategory ? "Related Products" : "More From This Store"}
+        {isSameCategory ? "Related products" : "You may also like"}
       </h2>
 
       {isLoading ? (
