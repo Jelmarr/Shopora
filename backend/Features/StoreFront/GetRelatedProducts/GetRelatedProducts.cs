@@ -9,14 +9,14 @@ public static class GetRelatedProducts
     {
         app.MapGet("/api/store/products/related/{storeId:guid}", async (
             Guid storeId,
-            [FromQuery] Guid currentProductId,
+            [FromQuery] Guid productId,
             [FromQuery] Guid categoryId,
             GetRelatedProductsHandler handler,
             CancellationToken ct
         ) =>
         {
 
-            var result = await handler.Handle(storeId, currentProductId, categoryId, ct);
+            var result = await handler.Handle(storeId, productId, categoryId, ct);
 
             return Results.Ok(result);
 

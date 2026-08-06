@@ -67,7 +67,8 @@ const ProductCard = ({
 
         <div className="flex gap-2 mt-4">
           {images.map((image, index) => (
-            <button
+            <Link
+              href={`/store/${slug}/shop/${id}`}
               key={index + 1}
               className="cursor-pointer border rounded-md"
             >
@@ -78,7 +79,7 @@ const ProductCard = ({
                 height={30}
                 className="rounded-sm"
               />
-            </button>
+            </Link>
           ))}
         </div>
       </div>
