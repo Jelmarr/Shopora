@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { storeApiFetch } from "@/src/lib/store-api";
-import { TProduct } from "@/src/lib/types/product";
+import { TProduct, TProductVariant } from "@/src/lib/types/product";
 import { useQuery } from "@tanstack/react-query";
 import ProductDetailsImages from "./ProductDetailsImages";
 import { formatPrice } from "@/src/lib/utils/price-formatter";
@@ -29,6 +29,40 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
       storeApiFetch<TProduct>(`/api/store/products/${productId}/${storeId}`),
     enabled: Boolean(productId && storeId),
   });
+
+  const isOptionAvailable = (
+    optionName: string,
+    optionValue: string,
+  ): boolean => {
+    if (!product?.variants || product.variants.length === 0) return true;
+
+    // Filter variants matching current selections EXCEPT for the option group being evaluated
+    const matchingVariants = product.variants.filter((variant) => {
+      return variant.combination.every((comb) => {
+        if (comb.name === optionName) return comb.value === optionValue;
+        if (selectedVariants[comb.name]) {
+          return comb.value === selectedVariants[comb.name];
+        }
+        return true;
+      });
+    });
+
+    // Check if any matching variant has available stock
+    return matchingVariants.some((v) => v.available > 0);
+  };
+
+  // Find the exact matching variant based on all current selections
+  const selectedVariantCombination: TProductVariant | undefined =
+    product?.variants?.find((variant) =>
+      variant.combination.every(
+        (comb) => selectedVariants[comb.name] === comb.value,
+      ),
+    );
+
+  // Use variant price/stock if selected, otherwise fallback to product defaults
+  const activePrice = selectedVariantCombination?.price ?? product?.price ?? 0;
+  const activeStock =
+    selectedVariantCombination?.available ?? product?.stock ?? 0;
 
   const handleSelectOption = (variantName: string, value: string) => {
     setSelectedVariants((prev) => ({
@@ -90,11 +124,10 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
                 </p>
               </div>
               <p className="text-xl text-neutral-900 shrink-0">
-                {formatPrice(product.price)}
+                {formatPrice(activePrice)}
               </p>
             </div>
 
-            {/* Variant Selectors */}
             {variantOptions.length > 0 && (
               <div className="flex flex-col gap-6 mt-8">
                 {variantOptions.map((variant) => (
@@ -106,17 +139,25 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
                       {variant.values.map((val) => {
                         const isSelected =
                           selectedVariants[variant.name] === val;
+                        const isAvailable = isOptionAvailable(
+                          variant.name,
+                          val,
+                        );
+
                         return (
                           <button
                             key={val}
                             type="button"
+                            disabled={!isAvailable}
                             onClick={() =>
                               handleSelectOption(variant.name, val)
                             }
-                            className={`border rounded-md min-w-17.5 sm:min-w-22.5 px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-200 ${
-                              isSelected
-                                ? "border-neutral-900 bg-neutral-900 text-white shadow-sm"
-                                : "border-stone-300 bg-white text-stone-700 hover:border-neutral-800"
+                            className={`relative border rounded-md min-w-17.5 sm:min-w-22.5 px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                              !isAvailable
+                                ? "border-stone-200 bg-stone-100 text-stone-400 cursor-not-allowed line-through opacity-60"
+                                : isSelected
+                                  ? "border-neutral-900 bg-neutral-900 text-white shadow-sm cursor-pointer"
+                                  : "border-stone-300 bg-white text-stone-700 hover:border-neutral-800 cursor-pointer"
                             }`}
                           >
                             {val}
@@ -130,14 +171,17 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
             )}
           </div>
 
-          {/* Call to Actions */}
+          {/* Action Buttons */}
           <div className="flex flex-col gap-3 mt-8 sm:mt-10">
             <button
-              className={`relative z-10 w-full shrink-0 px-6 py-3.5 text-base font-medium text-white bg-neutral-800 rounded-full cursor-pointer flex justify-center items-center gap-3 border-2 border-black
-              overflow-hidden transition-colors duration-300 hover:text-neutral-800 before:content-[''] before:absolute before:inset-0 
-              before:w-0 before:bg-white before:-z-10 before:transition-all before:duration-300 hover:before:w-full`}
+              disabled={activeStock <= 0}
+              className={`relative z-10 w-full shrink-0 px-6 py-3.5 text-base font-medium border-2 border-black rounded-full transition-colors duration-300 overflow-hidden ${
+                activeStock <= 0
+                  ? "bg-stone-300 border-stone-300 text-stone-500 cursor-not-allowed"
+                  : "bg-neutral-800 text-white hover:text-neutral-800 cursor-pointer before:content-[''] before:absolute before:inset-0 before:w-0 before:bg-white before:-z-10 before:transition-all before:duration-300 hover:before:w-full"
+              }`}
             >
-              Add to cart
+              {activeStock > 0 ? "Add to cart" : "Out of Stock"}
             </button>
             <StoreButton
               buttonText="Buy it now"
