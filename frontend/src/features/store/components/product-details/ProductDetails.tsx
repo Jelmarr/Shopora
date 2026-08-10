@@ -8,6 +8,7 @@ import ProductDetailsImages from "./ProductDetailsImages";
 import { formatPrice } from "@/src/lib/utils/price-formatter";
 import StoreButton from "../StoreButton";
 import RelatedProducts from "./RelatedProducts";
+import { useCartStore } from "@/src/lib/store/cart-store";
 
 interface ProductDetailsProps {
   productId: string;
@@ -18,6 +19,8 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
   const [selectedVariants, setSelectedVariants] = useState<
     Record<string, string>
   >({});
+
+  const { addItem, openCart } = useCartStore();
 
   const {
     data: product,
@@ -69,6 +72,12 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
       ...prev,
       [variantName]: value,
     }));
+  };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    addItem(product, selectedVariants, activePrice, activeStock);
+    openCart();
   };
 
   if (isLoading) {
@@ -175,6 +184,7 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
           <div className="flex flex-col gap-3 mt-8 sm:mt-10">
             <button
               disabled={activeStock <= 0}
+              onClick={handleAddToCart}
               className={`relative z-10 w-full shrink-0 px-6 py-3.5 text-base font-medium border-2 border-black rounded-full transition-colors duration-300 overflow-hidden ${
                 activeStock <= 0
                   ? "bg-stone-300 border-stone-300 text-stone-500 cursor-not-allowed"

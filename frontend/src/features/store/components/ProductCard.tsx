@@ -3,7 +3,6 @@
 import { formatPrice } from "@/src/lib/utils/price-formatter";
 import Image from "next/image";
 import { ProductCardProps } from "./shop-page/ProductGrid";
-import StoreButton from "./StoreButton";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -37,13 +36,6 @@ const ProductCard = ({
           >
             <Eye size={18} />
           </Link>
-        </div>
-        <div className="absolute inset-x-0 bottom-4 flex justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10">
-          <StoreButton
-            buttonText="Add to cart"
-            onClick={() => console.log()}
-            whiteBorder={false}
-          />
         </div>
       </div>
 

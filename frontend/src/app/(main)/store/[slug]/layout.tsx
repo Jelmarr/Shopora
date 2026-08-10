@@ -1,3 +1,4 @@
+import CartDrawer from "@/src/features/store/components/CartDrawer";
 import Footer from "@/src/features/store/components/Footer";
 import NavHeader from "@/src/features/store/components/NavHeader";
 import { storeApiFetch } from "@/src/lib/store-api";
@@ -15,12 +16,12 @@ export default async function RootLayout({
   const store = await storeApiFetch<StoreSlugResponse>(`/api/store/${slug}`);
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <NavHeader storeName={store.name} slug={slug} />
-        {children}
-        <Footer storeName={store.name} />
-      </body>
-    </html>
+    <div>
+      <NavHeader storeName={store.name} slug={slug} />
+      {children}
+      <Footer storeName={store.name} />
+
+      <CartDrawer />
+    </div>
   );
 }
