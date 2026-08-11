@@ -20,7 +20,7 @@ const NavHeader = ({
       <nav className="flex gap-6">
         <Link href={`/store/${slug}`}>Home</Link>
         <Link href={`/store/${slug}/shop`}>Shop</Link>
-        <Link href={`/${slug}/contact`}>Contact</Link>
+        <Link href={`/store/${slug}/contact`}>Contact</Link>
       </nav>
       <div className="flex gap-4">
         <Search size={18} />
