@@ -44,7 +44,7 @@ const Shop = ({ store }: ShopProps) => {
 
   const { data, isLoading, isFetching, isError } = useQuery<ShopResponse>({
     queryKey: [
-      "products",
+      "shopProducts",
       store.id,
       search,
       categories,

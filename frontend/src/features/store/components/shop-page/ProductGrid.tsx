@@ -7,6 +7,7 @@ export interface ProductCardProps {
   price: number;
   comparePrice: number;
   images: string[];
+  primaryImage: string;
 }
 
 const ProductGrid = ({ products }: { products: ProductCardProps[] }) => {
@@ -21,6 +22,7 @@ const ProductGrid = ({ products }: { products: ProductCardProps[] }) => {
           price={product.price}
           comparePrice={product.comparePrice}
           images={product.images}
+          primaryImage={product.primaryImage}
         />
       ))}
     </section>

@@ -3,13 +3,24 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CategorySliderProps } from "@/src/lib/types/store-front";
+import { useQuery } from "@tanstack/react-query";
+import { TCategory } from "@/src/lib/types/category";
+import { storeApiFetch } from "@/src/lib/store-api";
 
 const CategorySlider = ({
-  categories,
+  storeId,
   activeCategoryId,
   onSelect,
 }: CategorySliderProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const { data, isLoading, isError } = useQuery<TCategory[]>({
+    queryKey: ["categories", storeId],
+    queryFn: () => storeApiFetch(`/api/store/categories/${storeId}`),
+    enabled: Boolean(storeId),
+  });
+
+  const categories = data ?? [];
 
   const scrollBy = (amount: number) => {
     scrollRef.current?.scrollBy({ left: amount, behavior: "smooth" });

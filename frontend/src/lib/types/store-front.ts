@@ -7,7 +7,7 @@ export interface StoreSlugResponse {
   name: string;
 }
 
-export type LatestProductResponse = Pick<
+export type HeroProps = Pick<
   TProduct,
   | "id"
   | "name"
@@ -18,21 +18,13 @@ export type LatestProductResponse = Pick<
   | "stock"
 >;
 
-export interface WhatsNewProps {
-  newProducts: Omit<LatestProductResponse, "description">[];
-}
-
-export interface FeaturedProductsProps {
-  featuredProducts: Omit<LatestProductResponse, "description">[];
-}
-
 export interface HeroSliderProps {
-  products: Omit<LatestProductResponse, "price" | "comparePrice" | "stock">[];
+  storeId: string;
   autoPlayMs?: number;
 }
 
 export interface CategorySliderProps {
-  categories: Pick<TCategory, "id" | "name">[];
+  storeId: string;
   activeCategoryId?: string;
   onSelect?: (categoryId: string) => void;
 }

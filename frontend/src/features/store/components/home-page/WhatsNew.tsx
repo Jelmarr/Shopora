@@ -1,61 +1,37 @@
-import { Button } from "@/src/components/ui/button";
-import { WhatsNewProps } from "@/src/lib/types/store-front";
-import { formatPrice } from "@/src/lib/utils/price-formatter";
-import { ShoppingCartIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-const WhatsNew = ({ newProducts }: WhatsNewProps) => {
+import Link from "next/link";
+import ProductCard from "../ProductCard";
+import { useQuery } from "@tanstack/react-query";
+import { storeApiFetch } from "@/src/lib/store-api";
+import { ProductCardProps } from "../shop-page/ProductGrid";
+
+const WhatsNew = ({ storeId }: { storeId: string }) => {
+  const { data, isLoading, isError } = useQuery<ProductCardProps[]>({
+    queryKey: ["latestProducts", storeId],
+    queryFn: () => storeApiFetch(`/api/store/latestProducts/${storeId}`),
+    enabled: Boolean(storeId),
+  });
+
+  const products = data ?? [];
   return (
     <section className="py-24">
       <h3 className="uppercase tracking-widest font-semibold text-center text-lg">
         What&apos;s New
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-24">
-        {newProducts.map((p) => {
-          const quantity = p.stock ?? 0;
-
-          return (
-            <div key={p.id} className="flex flex-col gap-2">
-              <Link
-                href=""
-                className="relative aspect-square w-full overflow-hidden rounded-lg"
-              >
-                <Image
-                  src={p.primaryImageUrl}
-                  alt={p.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-300 ease-in-out hover:scale-105"
-                />
-                {quantity <= 5 && quantity >= 1 && (
-                  <div className="bg-white rounded-md absolute top-5 left-5 uppercase text-[10px] font-semibold tracking-widest p-2">
-                    last few
-                  </div>
-                )}
-              </Link>
-
-              <div className="flex flex-col gap-4 mt-4">
-                <p className="font-semibold text-gray-900">{p.name}</p>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-4">
-                    <p className="text-gray-700">{formatPrice(p.price)}</p>
-                    {p.comparePrice && (
-                      <p className="line-through text-gray-500">
-                        {formatPrice(p.comparePrice)}
-                      </p>
-                    )}
-                  </div>
-                  <Button>
-                    Add to <ShoppingCartIcon />
-                  </Button>
-                </div>
-                <p className="text-gray-400 text-sm">Available: {quantity}</p>
-              </div>
-            </div>
-          );
-        })}
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            categoryName={product.categoryName}
+            price={product.price}
+            comparePrice={product.comparePrice}
+            images={product.images}
+            primaryImage={product.primaryImage}
+          />
+        ))}
       </div>
 
       <Link

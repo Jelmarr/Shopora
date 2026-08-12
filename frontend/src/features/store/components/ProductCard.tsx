@@ -14,6 +14,7 @@ const ProductCard = ({
   price,
   comparePrice,
   images,
+  primaryImage,
 }: ProductCardProps) => {
   const params = useParams<{ slug: string }>();
   const slug = params.slug;
@@ -22,7 +23,7 @@ const ProductCard = ({
     <div className="w-full rounded-lg bg-stone-100">
       <div className="relative w-full overflow-hidden aspect-square rounded-t-lg group">
         <Image
-          src={images[0]}
+          src={primaryImage}
           alt="product-card-image"
           fill
           className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"

@@ -3,12 +3,23 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { HeroSliderProps } from "@/src/lib/types/store-front";
+import { HeroProps, HeroSliderProps } from "@/src/lib/types/store-front";
 import StoreButton from "../StoreButton";
+import { useQuery } from "@tanstack/react-query";
+import { storeApiFetch } from "@/src/lib/store-api";
 
-const Hero = ({ products, autoPlayMs = 5000 }: HeroSliderProps) => {
+const Hero = ({ storeId, autoPlayMs = 5000 }: HeroSliderProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
+  const { data, isLoading, isError } = useQuery<HeroProps[]>({
+    queryKey: ["products", storeId],
+    queryFn: () => storeApiFetch(`/api/store/heroProducts/${storeId}`),
+
+    enabled: Boolean(storeId),
+  });
+
+  const products = data ?? [];
 
   const goTo = useCallback(
     (index: number) => {
