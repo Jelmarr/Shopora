@@ -29,7 +29,7 @@ const CategorySlider = ({
   if (categories.length === 0) return null;
 
   return (
-    <section className="relative w-full py-4">
+    <section className="relative w-full mt-20">
       <button
         onClick={() => scrollBy(-200)}
         aria-label="Scroll categories left"

@@ -83,7 +83,11 @@ public class GetProductHandler
                 ComparePrice = product.CompareAtPrice,
                 Images = product.Images
                     .Select(image => image.ImageUrl)
-                    .ToList()
+                    .ToList(),
+                PrimaryImage = product.Images
+                    .Where(img => img.IsPrimary)
+                    .Select(img => img.ImageUrl)
+                    .FirstOrDefault()
             })
             .ToListAsync(ct);
 

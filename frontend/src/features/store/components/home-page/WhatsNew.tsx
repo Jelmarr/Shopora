@@ -5,8 +5,12 @@ import ProductCard from "../ProductCard";
 import { useQuery } from "@tanstack/react-query";
 import { storeApiFetch } from "@/src/lib/store-api";
 import { ProductCardProps } from "../shop-page/ProductGrid";
+import { useParams } from "next/navigation";
 
 const WhatsNew = ({ storeId }: { storeId: string }) => {
+  const params = useParams<{ slug: string }>();
+  const slug = params.slug;
+
   const { data, isLoading, isError } = useQuery<ProductCardProps[]>({
     queryKey: ["latestProducts", storeId],
     queryFn: () => storeApiFetch(`/api/store/latestProducts/${storeId}`),
@@ -35,13 +39,13 @@ const WhatsNew = ({ storeId }: { storeId: string }) => {
       </div>
 
       <Link
-        href=""
+        href={`/store/${slug}/shop`}
         className="mx-auto my-0 justify-center flex mt-14 w-fit group"
       >
         <div>
-          <h3 className="tracking-widest uppercase text-xs group-hover:font-semibold">
+          <p className="tracking-widest uppercase text-xs group-hover:font-semibold">
             view all
-          </h3>
+          </p>
           <div className="w-full h-px bg-gray-500 mt-1 group-hover:bg-black" />
         </div>
       </Link>

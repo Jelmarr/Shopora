@@ -4,7 +4,7 @@ public static class GetHeroProducts
 {
     public static void MapGetHeroProducts(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/store/latestProducts/{storeId}", async (
+        app.MapGet("/api/store/heroProducts/{storeId}", async (
             Guid storeId,
             GetHeroProductsHandler handler,
             CancellationToken ct

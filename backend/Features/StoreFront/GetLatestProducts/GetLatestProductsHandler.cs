@@ -2,25 +2,26 @@ using backend.Core.Exceptions;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Features.StoreFront.GetFeaturedProducts;
+namespace backend.Features.StoreFront.GetLatestProducts;
 
-public class GetFeaturedProductsHandler
+public class GetLatestProductsHandler
 {
 
     private readonly AppDbContext _db;
 
-    public GetFeaturedProductsHandler(AppDbContext db)
+    public GetLatestProductsHandler(AppDbContext db)
     {
         _db = db;
     }
 
-    public async Task<List<GetFeaturedProductsResponse>> Handle(Guid storeId, CancellationToken ct)
+    public async Task<List<GetLatestProductsResponse>> Handle(Guid storeId, CancellationToken ct)
     {
 
-        var featuredProducts = await _db.Products
+        var latestProducts = await _db.Products
             .AsNoTracking()
-            .Where(product => product.IsFeatured && product.StoreId == storeId)
-            .Select(product => new GetFeaturedProductsResponse
+            .Include(product => product.Images)
+            .Where(product => product.StoreId == storeId)
+            .Select(product => new GetLatestProductsResponse
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -32,16 +33,16 @@ public class GetFeaturedProductsHandler
                     .Where(img => img.IsPrimary)
                     .Select(img => img.ImageUrl)
                     .FirstOrDefault(),
-                IsFeatured = product.IsFeatured,
                 Price = product.Price,
                 ComparePrice = product.CompareAtPrice,
                 Stock = product.Stock,
                 CreatedAt = product.CreatedAt
             })
-            .OrderByDescending(product => product.CreatedAt)
+            .OrderByDescending(p => p.CreatedAt)
+            .Take(5)
             .ToListAsync(ct);
 
-        return featuredProducts;
+        return latestProducts;
 
     }
 

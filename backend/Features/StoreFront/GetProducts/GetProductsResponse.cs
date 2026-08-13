@@ -13,6 +13,7 @@ public record GetProductResponse
     public int Stock { get; init; }
     public bool IsFeatured { get; init; }
     public List<string> Images { get; init; } = new List<string>();
+    public string? PrimaryImage { get; set; } = string.Empty;
 }
 
 public record GetProductsQuery

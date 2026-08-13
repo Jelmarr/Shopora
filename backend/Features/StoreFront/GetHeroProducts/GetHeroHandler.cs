@@ -17,7 +17,7 @@ public class GetHeroProductsHandler
     public async Task<List<GetHeroProductsResponse>> Handle(Guid storeId, CancellationToken ct)
     {
 
-        var latestProducts = await _db.Products
+        var heroProducts = await _db.Products
             .AsNoTracking()
             .Include(product => product.Images)
             .Where(product => product.StoreId == storeId)
@@ -39,12 +39,7 @@ public class GetHeroProductsHandler
             .Take(5)
             .ToListAsync(ct);
 
-        if (latestProducts.Count == 0)
-        {
-            throw new ConflictException("There's no product in this store");
-        }
-
-        return latestProducts;
+        return heroProducts;
 
     }
 
