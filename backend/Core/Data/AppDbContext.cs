@@ -1,3 +1,4 @@
+using backend.Core.Entities;
 using backend.Features.Admin.Categories.Models;
 using backend.Features.Admin.Products.Models;
 using backend.Features.Admin.Stores.Models;
@@ -22,6 +23,8 @@ public class AppDbContext : DbContext
     public DbSet<ProductOptionValue> ProductOptionValues { get; set; }
     public DbSet<ProductVariant> ProductVariants { get; set; }
     public DbSet<ProductVariantOption> ProductVariantOptions { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItem { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

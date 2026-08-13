@@ -1,3 +1,4 @@
+using backend.Features.StoreFront.Checkout.CreateCheckoutSession;
 using backend.Features.StoreFront.GetCategories;
 using backend.Features.StoreFront.GetFeaturedProducts;
 using backend.Features.StoreFront.GetHeroProducts;
@@ -6,6 +7,7 @@ using backend.Features.StoreFront.GetProductById;
 using backend.Features.StoreFront.GetProducts;
 using backend.Features.StoreFront.GetRelatedProducts;
 using backend.Features.StoreFront.GetStoreBySlug;
+using backend.Features.StoreFront.Webhooks.StripeWebhook;
 
 namespace backend.Features.StoreFront.Extensions;
 
@@ -23,6 +25,8 @@ public static class StoreExtensions
         storeGroup.MapGetProductById();
         storeGroup.MapGetRelatedProducts();
         storeGroup.MapGetLatestProducts();
+        storeGroup.MapCreateCheckoutSession();
+        storeGroup.MapStripeWebhook();
 
         storeGroup.RequireCors("_myAllowSpecificOrigins");
 

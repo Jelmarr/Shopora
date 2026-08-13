@@ -9,6 +9,7 @@ import { formatPrice } from "@/src/lib/utils/price-formatter";
 import StoreButton from "../StoreButton";
 import RelatedProducts from "./RelatedProducts";
 import { useCartStore } from "@/src/lib/store/cart-store";
+import CheckoutButton from "../CheckoutButton";
 
 interface ProductDetailsProps {
   productId: string;
@@ -193,11 +194,7 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
             >
               {activeStock > 0 ? "Add to cart" : "Out of Stock"}
             </button>
-            <StoreButton
-              buttonText="Buy it now"
-              onClick={() => {}}
-              whiteBorder={false}
-            />
+            <CheckoutButton />
           </div>
         </div>
       </section>

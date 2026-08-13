@@ -9,4 +9,5 @@ public record GetRelatedProductsResponse
     public decimal Price { get; init; }
     public decimal? ComparePrice { get; init; }
     public List<string> Images { get; init; } = new List<string>();
+    public string? PrimaryImage { get; set; } = string.Empty;
 }

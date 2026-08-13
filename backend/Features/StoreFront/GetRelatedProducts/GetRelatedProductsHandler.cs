@@ -38,7 +38,11 @@ public class GetRelatedProductsHandler
                 CategoryName = p.Category.Name,
                 ComparePrice = p.CompareAtPrice,
                 Price = p.Price,
-                Images = p.Images.Select(img => img.ImageUrl).ToList()
+                Images = p.Images.Select(img => img.ImageUrl).ToList(),
+                PrimaryImage = p.Images
+                    .Where(img => img.IsPrimary)
+                    .Select(img => img.ImageUrl)
+                    .FirstOrDefault()
             })
             .ToListAsync(ct);
 
@@ -65,7 +69,11 @@ public class GetRelatedProductsHandler
                 CategoryName = p.Category.Name,
                 ComparePrice = p.CompareAtPrice,
                 Price = p.Price,
-                Images = p.Images.Select(img => img.ImageUrl).ToList()
+                Images = p.Images.Select(img => img.ImageUrl).ToList(),
+                PrimaryImage = p.Images
+                    .Where(img => img.IsPrimary)
+                    .Select(img => img.ImageUrl)
+                    .FirstOrDefault()
             })
             .ToListAsync(ct);
 
