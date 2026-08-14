@@ -22,14 +22,6 @@ public class GetProductByIdHandler
 
         var product = await _db.Products
             .AsNoTracking()
-            .Include(p => p.Category)
-            .Include(p => p.Images)
-            .Include(p => p.Options)
-                .ThenInclude(o => o.Values)
-            .Include(p => p.Variants)
-                .ThenInclude(v => v.Options)
-                    .ThenInclude(o => o.ProductOptionValue)
-                        .ThenInclude(ov => ov.ProductOption)
             .Where(p => p.Id == id && p.StoreId == storeId && !p.IsDeleted)
             .Select(p => new GetProductByIdResponse
             {
@@ -56,6 +48,7 @@ public class GetProductByIdHandler
                 }).ToList(),
                 Variants = p.Variants.Select(variant => new ProductVariantResponse
                 {
+                    Id = variant.Id,
                     SKU = variant.SKU ?? "",
                     Price = variant.PriceOverride,
                     Available = variant.Stock,

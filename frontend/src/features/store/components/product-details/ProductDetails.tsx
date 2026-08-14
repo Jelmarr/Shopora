@@ -6,7 +6,6 @@ import { TProduct, TProductVariant } from "@/src/lib/types/product";
 import { useQuery } from "@tanstack/react-query";
 import ProductDetailsImages from "./ProductDetailsImages";
 import { formatPrice } from "@/src/lib/utils/price-formatter";
-import StoreButton from "../StoreButton";
 import RelatedProducts from "./RelatedProducts";
 import { useCartStore } from "@/src/lib/store/cart-store";
 import CheckoutButton from "../CheckoutButton";
@@ -77,7 +76,13 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
 
   const handleAddToCart = () => {
     if (!product) return;
-    addItem(product, selectedVariants, activePrice, activeStock);
+    addItem(
+      product,
+      selectedVariants,
+      activePrice,
+      activeStock,
+      selectedVariantCombination?.id,
+    );
     openCart();
   };
 

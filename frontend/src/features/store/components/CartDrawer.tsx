@@ -5,7 +5,7 @@ import CloseButton from "./CloseButton";
 import { useCartStore } from "@/src/lib/store/cart-store";
 import Image from "next/image";
 import { formatPrice } from "@/src/lib/utils/price-formatter";
-import { ChevronDown, ChevronUp, LockKeyhole, MoveUpRight } from "lucide-react";
+import { ChevronDown, ChevronUp, MoveUpRight } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import CheckoutButton from "./CheckoutButton";
@@ -116,6 +116,14 @@ const CartDrawer = () => {
                       <p className="text-xs uppercase tracking-widest text-stone-500">
                         {item.categoryName}
                       </p>
+                      {item.selectedVariants &&
+                        Object.keys(item.selectedVariants).length > 0 && (
+                          <p className="text-xs text-stone-500">
+                            {Object.entries(item.selectedVariants)
+                              .map(([name, value]) => `${name}: ${value}`)
+                              .join(" · ")}
+                          </p>
+                        )}
                       <p className="text-sm font-medium">
                         {formatPrice(item.price)}
                       </p>

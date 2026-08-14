@@ -21,6 +21,7 @@ export type TProduct = {
 export type ProductStatus = "Active" | "Archived" | "Draft";
 
 export type TProductVariant = {
+  id: string;
   combination: { name: string; value: string }[];
   sku: string;
   price: number;

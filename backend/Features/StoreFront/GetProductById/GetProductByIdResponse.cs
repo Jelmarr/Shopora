@@ -32,6 +32,7 @@ public record ProductOptionResponse
 
 public record ProductVariantResponse
 {
+    public Guid Id { get; set; }
     public string SKU { get; init; } = string.Empty;
     public decimal? Price { get; init; }
     public int? Available { get; set; }

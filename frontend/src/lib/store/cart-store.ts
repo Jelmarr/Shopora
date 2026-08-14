@@ -5,6 +5,7 @@ import { TProduct } from "../types/product";
 export type CartItem = {
   productId: string;
   variantKey: string;
+  productVariantId?: string;
   name: string;
   categoryName: string;
   price: number;
@@ -24,6 +25,7 @@ interface CartState {
     selectedVariants?: Record<string, string>,
     selectedPrice?: number,
     selectedStock?: number,
+    selectedVariantId?: string,
   ) => void;
   removeItem: (variantKey: string) => void;
   updateQuantity: (variantKey: string, quantity: number) => void;
@@ -32,17 +34,8 @@ interface CartState {
   getTotalPrice: () => number;
 }
 
-// Helper to create a unique identifier for product + variant combinations
-const generateVariantKey = (
-  productId: string,
-  variants?: Record<string, string>,
-) => {
-  if (!variants || Object.keys(variants).length === 0) return productId;
-  const sortedVariantString = Object.entries(variants)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([key, val]) => `${key}:${val}`)
-    .join("-");
-  return `${productId}-${sortedVariantString}`;
+const generateVariantKey = (productId: string, productVariantId?: string) => {
+  return productVariantId ?? productId;
 };
 
 export const useCartStore = create<CartState>()(
@@ -59,8 +52,9 @@ export const useCartStore = create<CartState>()(
         selectedVariants = {},
         selectedPrice,
         selectedStock,
+        selectedVariantId,
       ) => {
-        const variantKey = generateVariantKey(product.id, selectedVariants);
+        const variantKey = generateVariantKey(product.id, selectedVariantId);
         const price = selectedPrice ?? product.price;
         const maxStock = selectedStock ?? product.stock ?? 99;
         const image = product.images?.[0] || product.primaryImageUrl || "";
@@ -85,6 +79,7 @@ export const useCartStore = create<CartState>()(
 
           const newItem: CartItem = {
             productId: product.id,
+            productVariantId: selectedVariantId,
             variantKey,
             name: product.name,
             categoryName: product.categoryName,

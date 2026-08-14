@@ -1,5 +1,4 @@
 using System.Text.Json;
-using backend.Data;
 using Stripe;
 using Stripe.Checkout;
 
@@ -9,7 +8,7 @@ public class CreateCheckoutSessionHandler
 {
     private readonly IConfiguration _config;
 
-    public CreateCheckoutSessionHandler(AppDbContext db, IConfiguration config)
+    public CreateCheckoutSessionHandler(IConfiguration config)
     {
         _config = config;
     }
@@ -37,6 +36,7 @@ public class CreateCheckoutSessionHandler
         var cartSnapshot = request.Items.Select(item => new
         {
             productId = item.ProductId,
+            productVariantId = item.ProductVariantId,
             quantity = item.Quantity
         });
 

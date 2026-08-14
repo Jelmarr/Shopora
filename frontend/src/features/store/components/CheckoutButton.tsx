@@ -33,6 +33,7 @@ const CheckoutButton = () => {
           storeId: data.id,
           items: items.map((item) => ({
             productId: item.productId,
+            productVariantId: item.productVariantId,
             name: item.name,
             price: item.price,
             quantity: item.quantity,
