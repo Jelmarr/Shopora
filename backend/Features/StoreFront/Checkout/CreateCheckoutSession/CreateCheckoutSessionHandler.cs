@@ -44,6 +44,14 @@ public class CreateCheckoutSessionHandler
         {
             LineItems = lineItems,
             Mode = "payment",
+            ShippingAddressCollection = new SessionShippingAddressCollectionOptions
+            {
+                AllowedCountries = new List<string> { "PH", "US" }
+            },
+            PhoneNumberCollection = new SessionPhoneNumberCollectionOptions
+            {
+                Enabled = true
+            },
             SuccessUrl = $"{request.StoreUrl}/checkout/success?session_id={{CHECKOUT_SESSION_ID}}",
             CancelUrl = $"{request.StoreUrl}/checkout/cancel",
             Metadata = new Dictionary<string, string>

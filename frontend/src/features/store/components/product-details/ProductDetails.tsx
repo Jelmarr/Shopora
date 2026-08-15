@@ -8,7 +8,7 @@ import ProductDetailsImages from "./ProductDetailsImages";
 import { formatPrice } from "@/src/lib/utils/price-formatter";
 import RelatedProducts from "./RelatedProducts";
 import { useCartStore } from "@/src/lib/store/cart-store";
-import CheckoutButton from "../CheckoutButton";
+import BuyNowButton from "../BuyNowButton";
 
 interface ProductDetailsProps {
   productId: string;
@@ -113,6 +113,10 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
 
   const stock = product.stock ?? 0;
 
+  const hasVariants = variantOptions.length > 0;
+  const hasIncompleteSelection = hasVariants && !selectedVariantCombination;
+  const isPurchaseDisabled = activeStock <= 0 || hasIncompleteSelection;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
       <section className="flex flex-col lg:flex-row gap-8 lg:gap-12">
@@ -189,17 +193,30 @@ const ProductDetails = ({ productId, storeId }: ProductDetailsProps) => {
           {/* Action Buttons */}
           <div className="flex flex-col gap-3 mt-8 sm:mt-10">
             <button
-              disabled={activeStock <= 0}
+              disabled={isPurchaseDisabled}
               onClick={handleAddToCart}
               className={`relative z-10 w-full shrink-0 px-6 py-3.5 text-base font-medium border-2 border-black rounded-full transition-colors duration-300 overflow-hidden ${
-                activeStock <= 0
+                isPurchaseDisabled
                   ? "bg-stone-300 border-stone-300 text-stone-500 cursor-not-allowed"
                   : "bg-neutral-800 text-white hover:text-neutral-800 cursor-pointer before:content-[''] before:absolute before:inset-0 before:w-0 before:bg-white before:-z-10 before:transition-all before:duration-300 hover:before:w-full"
               }`}
             >
-              {activeStock > 0 ? "Add to cart" : "Out of Stock"}
+              {activeStock <= 0
+                ? "Out of Stock"
+                : hasIncompleteSelection
+                  ? "Select options"
+                  : "Add to cart"}
             </button>
-            <CheckoutButton />
+
+            {!isPurchaseDisabled && (
+              <BuyNowButton
+                name={product.name}
+                price={activePrice}
+                productId={product.id}
+                productVariantId={selectedVariantCombination?.id}
+                disabled={isPurchaseDisabled}
+              />
+            )}
           </div>
         </div>
       </section>
