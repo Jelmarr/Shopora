@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using backend.Core.Entities;
 using backend.Core.Extensions;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,9 @@ public class GetOrdersHandler
     )
     {
 
+        var page = query.Page ?? 1;
+        var pageSize = query.PageSize ?? 10;
+
         var storeId = user.GetStoreId();
 
         var queryOrder = _db.Orders
@@ -37,20 +41,24 @@ public class GetOrdersHandler
             );
         }
 
-        if (query.Status.HasValue)
+        if (!string.IsNullOrEmpty(query.Status) &&
+        Enum.TryParse<OrderStatus>(query.Status, ignoreCase: true, out var status))
         {
-            queryOrder = queryOrder.Where(o => o.Status == query.Status.Value);
+            queryOrder = queryOrder.Where(o => o.Status == status);
         }
+
+        bool isDescending = query.SortOrder?.ToLower() == "desc";
 
         queryOrder = query.SortBy?.ToLower() switch
         {
-            "newest" => queryOrder.OrderByDescending(order => order.CreatedAt),
+            "date" => isDescending
+                ? queryOrder.OrderByDescending(order => order.CreatedAt)
+                : queryOrder.OrderBy(order => order.CreatedAt),
 
-            "oldest" => queryOrder.OrderBy(order => order.CreatedAt),
 
-            "total-high" => queryOrder.OrderByDescending(order => order.Total),
-
-            "total-low" => queryOrder.OrderBy(order => order.Total),
+            "amount" => isDescending
+                ? queryOrder.OrderByDescending(order => order.Total)
+                : queryOrder.OrderBy(order => order.Total),
 
             _ => queryOrder.OrderByDescending(order => order.CreatedAt)
         };
@@ -58,8 +66,8 @@ public class GetOrdersHandler
         var totalCount = await queryOrder.CountAsync(ct);
 
         var orders = await queryOrder
-            .Skip((query.Page - 1) * query.PageSize)
-            .Take(query.PageSize)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(order => new GetOrdersResponse
             {
                 Id = order.Id,
@@ -71,13 +79,13 @@ public class GetOrdersHandler
             })
             .ToListAsync(ct);
 
-        var totalPages = totalCount == 0 ? 1 : (int)Math.Ceiling(totalCount / (double)query.PageSize);
+        var totalPages = totalCount == 0 ? 1 : (int)Math.Ceiling(totalCount / (double)pageSize);
 
         return new PageOrdersResponse
         {
             Orders = orders,
             TotalCount = totalCount,
-            CurrentPage = query.Page,
+            CurrentPage = page,
             TotalPages = totalPages
         };
 

@@ -70,7 +70,7 @@ const Shop = ({ store }: ShopProps) => {
           .forEach((cat) => params.append("categories", cat));
       }
 
-      return storeApiFetch<ShopResponse>(
+      return await storeApiFetch<ShopResponse>(
         `/api/store/products/${store.id}?${params.toString()}`,
         { signal },
       );

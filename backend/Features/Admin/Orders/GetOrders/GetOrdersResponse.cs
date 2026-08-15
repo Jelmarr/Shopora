@@ -16,10 +16,11 @@ public record GetOrdersResponse
 public record GetOrdersQuery
 {
     public string? Search { get; set; }
-    public OrderStatus? Status { get; set; }
+    public string? Status { get; set; }
     public string? SortBy { get; set; }
-    public int Page { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
+    public string? SortOrder { get; set; }
+    public int? Page { get; set; }
+    public int? PageSize { get; set; }
 }
 
 public record PageOrdersResponse

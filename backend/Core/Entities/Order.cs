@@ -20,7 +20,7 @@ public class Order
     public decimal ShippingFee { get; set; }
     public decimal Total { get; set; }
 
-    public OrderStatus Status { get; set; } = OrderStatus.Pending;
+    public OrderStatus Status { get; set; }
 
     public string? StripeSessionId { get; set; }
     public string? StripePaymentIntentId { get; set; }

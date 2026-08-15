@@ -2,9 +2,9 @@ namespace backend.Core.Entities;
 
 public enum OrderStatus
 {
-    Pending,
     Paid,
-    Failed,
+    Shipped,
+    Received,
     Cancelled,
     Refunded
 }
