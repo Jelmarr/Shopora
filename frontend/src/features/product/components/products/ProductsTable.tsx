@@ -152,7 +152,7 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
                           </DropdownMenuItem>
                         ))}
                         <DropdownMenuItem asChild className="gap-2">
-                          <Link href={`/store/products/${product.id}`}>
+                          <Link href={`/admin/products/${product.id}`}>
                             <ExternalLink className="h-3.5 w-3.5" />
                             View
                           </Link>

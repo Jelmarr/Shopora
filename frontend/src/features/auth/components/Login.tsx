@@ -73,7 +73,7 @@ const Login = () => {
       if (result?.error) {
         setShowError("Invalid email or password.");
       } else {
-        router.push("/store/dashboard");
+        router.push("/admin/dashboard");
         router.refresh();
       }
     } catch (err) {
