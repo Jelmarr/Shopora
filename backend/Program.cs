@@ -8,6 +8,7 @@ using backend.Features.StoreFront.Extensions;
 using backend.Features.Admin.Categories.Extension;
 using backend.Features.Admin.Orders;
 using backend.Features.Admin.Dashboard;
+using backend.Features.Dev.SeedOrders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,12 @@ app.MapDashboardFeatures();
 
 // Store
 app.MapStoreFeatures();
+
+//Dev
+if (app.Environment.IsDevelopment())
+{
+    app.MapSeedOrders();
+}
 
 app.Run();
 
