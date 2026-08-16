@@ -7,6 +7,7 @@ using backend.Features.Stores.Extensions;
 using backend.Features.StoreFront.Extensions;
 using backend.Features.Admin.Categories.Extension;
 using backend.Features.Admin.Orders;
+using backend.Features.Admin.Dashboard;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,7 @@ app.MapCategoryFeatures();
 app.MapProductFeatures();
 app.MapStoresFeatures();
 app.MapOrdersFeatures();
+app.MapDashboardFeatures();
 
 // Store
 app.MapStoreFeatures();
