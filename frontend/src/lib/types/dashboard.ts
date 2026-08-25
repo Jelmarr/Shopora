@@ -1,4 +1,4 @@
-export type DashboardRange = "7d" | "30d" | "90d" | "year";
+export type DashboardRange = "7d" | "30d" | "90d" | "360d";
 
 export type RevenuePoint = {
   date: string;

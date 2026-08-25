@@ -5,7 +5,7 @@ import MetricCard from "./components/MetricCard";
 import { RevenueChart } from "./components/RevenueChart";
 import { apiFetch } from "@/src/lib/api-client";
 import { DashboardRange, DashboardSummary } from "@/src/lib/types/dashboard";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -14,20 +14,48 @@ import {
   SelectValue,
 } from "@/src/components/ui/select";
 import { formatPrice } from "@/src/lib/utils/price-formatter";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const rangeOptions: { value: DashboardRange; label: string }[] = [
   { value: "7d", label: "Last 7 days" },
   { value: "30d", label: "Last 30 days" },
   { value: "90d", label: "Last 90 days" },
-  { value: "year", label: "Last year" },
+  { value: "360d", label: "Last year" },
 ];
 
 const DashboardPage = () => {
   const [range, setRange] = useState<DashboardRange>("30d");
 
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const updateParam = useCallback(
+    (key: string, value: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (value?.toString()) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [searchParams, pathname, router],
+  );
+
+  const rangeQuery = searchParams.get("range");
+
   const { data, isLoading } = useQuery<DashboardSummary>({
-    queryKey: ["dashboard-summary"],
-    queryFn: () => apiFetch(`/api/dashboard/summary`),
+    queryKey: ["dashboard-summary", rangeQuery],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+
+      if (rangeQuery) params.append("range", rangeQuery);
+
+      return await apiFetch(`/api/dashboard/summary?${params.toString()}`);
+    },
   });
 
   return (
@@ -37,7 +65,10 @@ const DashboardPage = () => {
 
         <Select
           value={range}
-          onValueChange={(v) => setRange(v as DashboardRange)}
+          onValueChange={(v) => {
+            setRange(v as DashboardRange);
+            updateParam("range", v);
+          }}
         >
           <SelectTrigger className="w-40">
             <SelectValue />
