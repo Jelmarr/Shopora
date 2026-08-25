@@ -22,7 +22,7 @@ public record GetDashboardSummaryResponse
 public record RecentOrderTableDto
 {
     public Guid Id { get; set; }
-    public decimal Amount { get; set; }
+    public decimal Total { get; set; }
     public string CustomerEmail { get; set; } = string.Empty;
     public OrderStatus Status { get; set; }
     public DateTime? PaidAt { get; set; }

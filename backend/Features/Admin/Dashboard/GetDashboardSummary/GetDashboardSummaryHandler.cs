@@ -78,11 +78,12 @@ public class GetDashboardSummaryHandler
 
         var recentOrders = await _db.Orders
             .AsNoTracking()
+            .Take(5)
             .Select(order => new RecentOrderTableDto
             {
                 Id = order.Id,
                 CustomerEmail = order.CustomerEmail,
-                Amount = order.Total,
+                Total = order.Total,
                 PaidAt = order.PaidAt,
                 Status = order.Status
             })

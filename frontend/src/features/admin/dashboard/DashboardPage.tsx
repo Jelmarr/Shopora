@@ -15,6 +15,7 @@ import {
 } from "@/src/components/ui/select";
 import { formatPrice } from "@/src/lib/utils/price-formatter";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import RecentOrders from "./components/RecentOrders";
 
 const rangeOptions: { value: DashboardRange; label: string }[] = [
   { value: "7d", label: "Last 7 days" },
@@ -115,12 +116,15 @@ const DashboardPage = () => {
               changePercent={0}
             />
           </div>
-          <div>
+          <div className="mb-6">
             <RevenueChart
               data={data.revenueOverTime}
               range={range}
               revenueChangePercent={data.revenueChangePercent}
             />
+          </div>
+          <div>
+            <RecentOrders orders={data.recentOrders} />
           </div>
         </>
       )}
