@@ -76,6 +76,18 @@ public class GetDashboardSummaryHandler
             .OrderBy(p => p.Date)
             .ToList();
 
+        var recentOrders = await _db.Orders
+            .AsNoTracking()
+            .Select(order => new RecentOrderTableDto
+            {
+                Id = order.Id,
+                CustomerEmail = order.CustomerEmail,
+                Amount = order.Total,
+                PaidAt = order.PaidAt,
+                Status = order.Status
+            })
+            .ToListAsync(ct);
+
         return new GetDashboardSummaryResponse
         {
             TotalRevenue = totalRevenue,
@@ -84,7 +96,8 @@ public class GetDashboardSummaryHandler
             OrdersChangePercent = CalculatePercentChange(previousOrders, totalOrders),
             TotalCustomers = totalCustomers,
             AverageOrderValue = averageOrderValue,
-            RevenueOverTime = revenueOverTime
+            RevenueOverTime = revenueOverTime,
+            RecentOrders = recentOrders
         };
     }
 

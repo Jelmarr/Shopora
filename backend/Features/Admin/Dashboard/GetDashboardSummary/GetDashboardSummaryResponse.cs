@@ -1,3 +1,5 @@
+using backend.Core.Entities;
+
 namespace backend.Features.Admin.Dashboard.GetDashboardSummary;
 
 public record GetDashboardSummaryQuery
@@ -14,6 +16,16 @@ public record GetDashboardSummaryResponse
     public int TotalCustomers { get; set; }
     public decimal AverageOrderValue { get; set; }
     public List<RevenuePointDto> RevenueOverTime { get; set; } = [];
+    public List<RecentOrderTableDto> RecentOrders { get; set; } = [];
+}
+
+public record RecentOrderTableDto
+{
+    public Guid Id { get; set; }
+    public decimal Amount { get; set; }
+    public string CustomerEmail { get; set; } = string.Empty;
+    public OrderStatus Status { get; set; }
+    public DateTime? PaidAt { get; set; }
 }
 
 public record RevenuePointDto
