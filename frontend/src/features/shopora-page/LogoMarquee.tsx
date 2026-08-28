@@ -71,7 +71,7 @@ const logos = [
 
 const LogoMarquee = () => {
   return (
-    <section className="py-30">
+    <section className="pt-40">
       <p className="text-center font-medium mb-2">
         Trusted by modern teams building with Shopora
       </p>
