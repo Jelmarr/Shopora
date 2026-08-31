@@ -1,4 +1,5 @@
 import { BentoFeatures } from "../features/shopora-page/BentoFeatures";
+import FAQ from "../features/shopora-page/FAQ";
 import { FeaturesCards } from "../features/shopora-page/FeatureCards";
 import Hero from "../features/shopora-page/Hero";
 import LogoMarquee from "../features/shopora-page/LogoMarquee";
@@ -16,6 +17,7 @@ const page = () => {
           <FeaturesCards />
           <ReviewsMarquee />
           <Pricing />
+          <FAQ />
         </div>
       </main>
     </div>
