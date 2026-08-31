@@ -79,7 +79,7 @@ const ReviewCard = ({
 
 export function ReviewsMarquee() {
   return (
-    <div className="mt-40">
+    <div className="my-40">
       <p className="text-center font-medium mb-2">
         Loved by people all over the universe
       </p>
