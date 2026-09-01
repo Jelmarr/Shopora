@@ -31,10 +31,24 @@ const faq = [
   {
     question: "What if I receive a damaged item?",
     answer:
-      "Please contact our support team within 48 hours of delivery with photos of the damaged item. We’ll arrange a replacement or refund.",
+      "Please contact our support team within 48 hours of delivery with photos of the damaged item. We'll arrange a replacement or refund.",
+  },
+  {
+    question: "Do I need to create an account to check out?",
+    answer:
+      "No, you can check out as a guest with just your email and shipping address. Creating an account is optional and lets you save your details and view order history for next time.",
+  },
+  {
+    question: "Can I cancel or change my order after placing it?",
+    answer:
+      "You can cancel or edit your order within 1 hour of placing it by contacting support. After that, your order enters fulfillment and can no longer be changed.",
+  },
+  {
+    question: "How do I use a discount code?",
+    answer:
+      "Enter your discount code in the promo code field at checkout before completing payment. The discount will be applied to your order total automatically.",
   },
 ];
-
 const FAQ = () => {
   return (
     <div className="px-6 mb-40">

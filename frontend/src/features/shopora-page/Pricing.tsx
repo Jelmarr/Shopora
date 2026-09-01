@@ -10,7 +10,7 @@ export default function Pricing() {
   const plans = PLANS[billing];
 
   return (
-    <section className="w-full px-6 mb-40">
+    <section className="w-full px-6 mb-40" id="pricing">
       <div className="mx-auto max-w-5xl">
         <div className="px-8">
           <h4 className="mx-auto max-w-5xl text-center text-3xl font-medium tracking-tight text-black lg:text-5xl lg:leading-tight dark:text-white">

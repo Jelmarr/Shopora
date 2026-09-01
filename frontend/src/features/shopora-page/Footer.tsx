@@ -1,3 +1,4 @@
+import ShoporaLogo from "@/src/components/ShoporaLogo";
 import Link from "next/link";
 import { IconType } from "react-icons";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
@@ -82,9 +83,7 @@ const Footer = () => {
         {/* Left Section */}
         <div className="flex flex-col gap-5">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-black text-xs font-black text-white dark:bg-white dark:text-black">
-              S
-            </div>
+            <ShoporaLogo className="h-8 w-auto text-black dark:text-white transition-colors duration-200" />
             <span className="text-base font-bold text-neutral-900 dark:text-white">
               Shopora
             </span>
