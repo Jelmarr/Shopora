@@ -75,7 +75,7 @@ const Signup = () => {
   return (
     <Card>
       <div
-        className={`peer h-14 w-full rounded-lg px-4 bg-violet-100 flex items-center justify-between`}
+        className={`peer h-14 w-full rounded-lg px-4 bg-neutral-100 flex items-center justify-between`}
       >
         <div>
           <p className="text-xs">Email address</p>

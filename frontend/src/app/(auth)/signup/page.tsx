@@ -1,13 +1,28 @@
+import { cn } from "@/lib/utils";
+import { InteractiveGridPattern } from "@/src/components/ui/interactive-grid-pattern";
 import Signup from "@/src/features/auth/components/Signup";
 import { Suspense } from "react";
 
 const page = () => {
   return (
-    <main className="flex justify-center mx-auto mt-20 mb-0">
-      <Suspense fallback={<div className="animate-pulse">Loading form...</div>}>
-        <Signup />
-      </Suspense>
-    </main>
+    <div className="bg-background relative flex h-80 w-full flex-col items-center justify-center rounded-lg ">
+      <InteractiveGridPattern
+        className={cn(
+          "mask-[radial-gradient(400px_circle_at_center,white,transparent)]",
+        )}
+        width={20}
+        height={20}
+        squares={[80, 80]}
+        squaresClassName="hover:fill-black"
+      />
+      <main className="flex absolute -bottom-40 justify-center mx-auto mt-20 mb-0">
+        <Suspense
+          fallback={<div className="animate-pulse">Loading form...</div>}
+        >
+          <Signup />
+        </Suspense>
+      </main>
+    </div>
   );
 };
 

@@ -155,12 +155,18 @@ export function NavBar() {
 
         {/* Desktop auth buttons */}
         <div className="hidden md:flex items-center gap-2">
-          <button className="text-sm font-medium px-3 py-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer">
+          <Link
+            href="/lookup"
+            className="text-sm font-medium px-3 py-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer"
+          >
             Log in
-          </button>
-          <button className="text-sm bg-slate-900 text-white px-4 py-2 rounded-md hover:bg-slate-800 cursor-pointer">
+          </Link>
+          <Link
+            href="/lookup"
+            className="text-sm bg-slate-900 text-white px-4 py-2 rounded-md hover:bg-slate-800 cursor-pointer"
+          >
             Start for free
-          </button>
+          </Link>
         </div>
 
         {/* Mobile menu trigger */}
@@ -245,12 +251,18 @@ export function NavBar() {
             ))}
 
             <div className="flex flex-col gap-2 pt-3 mt-2 border-t border-neutral-200">
-              <button className="text-sm font-medium px-4 py-2 rounded-lg border border-neutral-200 text-center">
+              <Link
+                href="/lookup"
+                className="text-sm font-medium px-4 py-2 rounded-lg border border-neutral-200 text-center"
+              >
                 Log in
-              </button>
-              <button className="text-sm font-medium px-4 py-2 rounded-lg bg-neutral-900 text-white text-center">
+              </Link>
+              <Link
+                href="/lookup"
+                className="text-sm font-medium px-4 py-2 rounded-lg bg-neutral-900 text-white text-center"
+              >
                 Start for free
-              </button>
+              </Link>
             </div>
           </div>
         </div>
