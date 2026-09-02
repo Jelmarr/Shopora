@@ -1,6 +1,7 @@
 import WavyRippleBackground from "@/src/components/lightswind/wavy-ripple-background";
 import { Button } from "@/src/components/ui/moving-border";
 import Image from "next/image";
+import PrimaryButton from "./components/ui/PrimaryButton";
 
 const Hero = () => {
   return (
@@ -23,9 +24,7 @@ const Hero = () => {
             <p>From first sale to scale — everything you need to run</p>
             <p>a modern online business, in one place.</p>
           </div>
-          <button className="bg-slate-900 text-white px-4 py-2 rounded-md mt-6 hover:bg-slate-800 cursor-pointer">
-            Start for free
-          </button>
+          <PrimaryButton />
         </div>
       </div>
 

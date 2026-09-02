@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import { BillingCycle, PLANS } from "@/src/lib/constants/pricing";
 import { NumberTicker } from "@/src/components/ui/number-ticker";
+import Link from "next/link";
 
 export default function Pricing() {
   const [billing, setBilling] = useState<BillingCycle>("monthly");
@@ -110,16 +111,16 @@ export default function Pricing() {
                   : "\u00A0"}
               </p>
 
-              <button
-                type="button"
-                className={`mt-6 w-full rounded-lg py-2.5 text-sm font-medium transition-colors ${
+              <Link
+                href="/lookup"
+                className={`mt-6 text-center w-full rounded-lg py-2.5 text-sm font-medium transition-colors ${
                   plan.popular
                     ? "bg-neutral-900 text-white hover:bg-neutral-800"
                     : "border border-neutral-200 text-neutral-900 hover:bg-neutral-50"
                 }`}
               >
                 {plan.cta}
-              </button>
+              </Link>
 
               <ul className="mt-8 space-y-3">
                 {plan.features.map((f) => (

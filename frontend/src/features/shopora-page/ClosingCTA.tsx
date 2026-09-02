@@ -1,4 +1,5 @@
 import { ThreeDMarquee } from "@/src/components/ui/3d-marquee";
+import PrimaryButton from "./components/ui/PrimaryButton";
 
 const images = [
   "/images/store/image1.png",
@@ -40,14 +41,12 @@ const ClosingCTA = () => {
         <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
           Start building your dream store today.
         </h2>
-        <p className="mt-6 max-w-lg text-base text-neutral-600 dark:text-neutral-400 lg:text-lg">
+        <p className="mt-6 max-w-lg text-base text-neutral-600 dark:text-neutral-400 lg:text-lg mb-8">
           Launch high-converting storefronts, personalize shopping experiences
           in real time, and automate inventory, customer support, and order
           fulfillment.
         </p>
-        <button className="bg-slate-900 text-white px-4 py-2 rounded-md mt-6 hover:bg-slate-800 cursor-pointer">
-          Start for free
-        </button>
+        <PrimaryButton />
       </div>
 
       <div className="w-full md:w-[calc(65%-2rem)] md:shrink-0">
