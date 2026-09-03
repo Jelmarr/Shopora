@@ -1,6 +1,6 @@
 "use client";
 
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
 import { Search } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";

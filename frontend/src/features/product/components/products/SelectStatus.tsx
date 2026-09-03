@@ -6,9 +6,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
-import { PRODUCT_STATUS } from "@/src/lib/constants/product-status";
+} from "@/components/ui/select";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
+import { PRODUCT_STATUS } from "@/lib/constants/product-status";
 import { useState } from "react";
 
 const SelectStatus = () => {

@@ -1,4 +1,4 @@
-import RenderSortIcon from "@/src/components/RenderSortIcon";
+import RenderSortIcon from "@/components/RenderSortIcon";
 import {
   Table,
   TableBody,
@@ -6,12 +6,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/src/components/ui/table";
+} from "@/components/ui/table";
 import { TOrder } from "../Orders";
-import { formatDate } from "@/src/lib/utils/date";
-import { formatPrice } from "@/src/lib/utils/price-formatter";
-import { Badge } from "@/src/components/ui/badge";
-import { useTableSort } from "@/src/hooks/useTableSort";
+import { formatDate } from "@/lib/utils/date";
+import { formatPrice } from "@/lib/utils/price-formatter";
+import { Badge } from "@/components/ui/badge";
+import { useTableSort } from "@/hooks/useTableSort";
 
 const OrdersTable = ({ orders }: { orders: TOrder[] }) => {
   const { handleSort } = useTableSort();

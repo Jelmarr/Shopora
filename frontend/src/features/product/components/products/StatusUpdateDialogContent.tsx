@@ -6,14 +6,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/src/components/ui/alert-dialog";
-import { apiFetch } from "@/src/lib/api-client";
-import { notify } from "@/src/lib/toast";
+} from "@/components/ui/alert-dialog";
+import { apiFetch } from "@/lib/api-client";
+import { notify } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TProductStatusUpdate } from "./ProductsTable";
 import { Dispatch, SetStateAction } from "react";
-import { ProductStatus } from "@/src/lib/types/product";
-import Spinner from "@/src/components/Spinner";
+import { ProductStatus } from "@/lib/types/product";
+import Spinner from "@/components/Spinner";
 
 const StatusUpdateDialogContent = ({
   products,

@@ -1,4 +1,4 @@
-import "@/src/global.css";
+import "@/global.css";
 import { Toaster } from "sileo";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";

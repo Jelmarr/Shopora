@@ -1,4 +1,4 @@
-import ShoporaLogo from "@/src/components/ShoporaLogo";
+import ShoporaLogo from "@/components/ShoporaLogo";
 import Link from "next/link";
 import { IconType } from "react-icons";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";

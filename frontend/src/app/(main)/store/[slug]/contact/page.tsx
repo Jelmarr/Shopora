@@ -1,6 +1,6 @@
-import ContactCard from "@/src/features/store/components/contact-page/ContactCard";
-import ContactForm from "@/src/features/store/components/contact-page/ContactForm";
-import ContactMap from "@/src/features/store/components/contact-page/ContactMap";
+import ContactCard from "@/features/store/components/contact-page/ContactCard";
+import ContactForm from "@/features/store/components/contact-page/ContactForm";
+import ContactMap from "@/features/store/components/contact-page/ContactMap";
 import {
   FaFacebookF,
   FaXTwitter,

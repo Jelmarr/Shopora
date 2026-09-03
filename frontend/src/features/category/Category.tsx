@@ -1,17 +1,17 @@
 "use client";
 
 import { FolderTree, Package, CircleCheck } from "lucide-react";
-import AddCategoryModal from "@/src/features/category/components/AddCategoryModal";
-import DataCards from "@/src/features/category/components/DataCards";
+import AddCategoryModal from "@/features/category/components/AddCategoryModal";
+import DataCards from "@/features/category/components/DataCards";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { apiFetch } from "@/src/lib/api-client";
-import { SortByCategory, TCategory } from "@/src/lib/types/category";
-import { TPagination } from "@/src/lib/types/pagination";
+import { apiFetch } from "@/lib/api-client";
+import { SortByCategory, TCategory } from "@/lib/types/category";
+import { TPagination } from "@/lib/types/pagination";
 import CategorySkeleton from "./components/CategorySkeleton";
-import { Card, CardFooter } from "@/src/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import TableCard from "./components/TableCard";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
-import TablePagination from "@/src/components/Pagination";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
+import TablePagination from "@/components/Pagination";
 
 export type ParentLookup = { name: string; id: string };
 

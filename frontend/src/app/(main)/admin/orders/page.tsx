@@ -1,4 +1,4 @@
-import Orders from "@/src/features/admin/orders/Orders";
+import Orders from "@/features/admin/orders/Orders";
 
 const page = () => {
   return <Orders />;

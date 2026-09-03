@@ -1,4 +1,4 @@
-import { NavItemProps } from "@/src/lib/types/sidebar.types";
+import { NavItemProps } from "@/lib/types/sidebar.types";
 import { ChevronDown } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import SubItem from "./SubItem";

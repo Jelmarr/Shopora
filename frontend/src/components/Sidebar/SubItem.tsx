@@ -1,4 +1,4 @@
-import { SubItemProps } from "@/src/lib/types/sidebar.types";
+import { SubItemProps } from "@/lib/types/sidebar.types";
 import Link from "next/link";
 
 const SubItem = ({ label, href, active }: SubItemProps) => {

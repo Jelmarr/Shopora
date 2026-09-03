@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import ProductGrid, { ProductCardProps } from "../shop-page/ProductGrid";
-import { storeApiFetch } from "@/src/lib/store-api";
+import { storeApiFetch } from "@/lib/store-api";
 
 type TRelatedProduct = ProductCardProps & {
   categoryId: string;

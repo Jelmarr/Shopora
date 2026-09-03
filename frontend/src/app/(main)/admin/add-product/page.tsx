@@ -1,4 +1,4 @@
-import ProductForm from "@/src/features/product/ProductForm";
+import ProductForm from "@/features/product/ProductForm";
 
 const page = () => {
   return <ProductForm mode="create" />;

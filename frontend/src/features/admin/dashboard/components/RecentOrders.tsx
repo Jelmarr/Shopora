@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/src/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -11,11 +6,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/src/components/ui/table";
+} from "@/components/ui/table";
 import { TOrder } from "../../orders/Orders";
-import { formatPrice } from "@/src/lib/utils/price-formatter";
-import { formatDate } from "@/src/lib/utils/date";
-import { Badge } from "@/src/components/ui/badge";
+import { formatPrice } from "@/lib/utils/price-formatter";
+import { formatDate } from "@/lib/utils/date";
+import { Badge } from "@/components/ui/badge";
 import { Ellipsis } from "lucide-react";
 
 const RecentOrders = ({

@@ -1,4 +1,4 @@
-import { apiFetch, setAccessToken } from "@/src/lib/api-client";
+import { apiFetch, setAccessToken } from "@/lib/api-client";
 import { signOut as nextAuthSignOut } from "next-auth/react";
 import { CheckEmailResponse, Login } from "../auth.types";
 

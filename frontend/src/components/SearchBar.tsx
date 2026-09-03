@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { Input } from "@/src/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useUpdateParam } from "../hooks/useUpdateParam";
 

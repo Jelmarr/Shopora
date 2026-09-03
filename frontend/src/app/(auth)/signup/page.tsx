@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { InteractiveGridPattern } from "@/src/components/ui/interactive-grid-pattern";
-import Signup from "@/src/features/auth/components/Signup";
+import { InteractiveGridPattern } from "@/components/ui/interactive-grid-pattern";
+import Signup from "@/features/auth/components/Signup";
 import { Suspense } from "react";
 
 const page = () => {

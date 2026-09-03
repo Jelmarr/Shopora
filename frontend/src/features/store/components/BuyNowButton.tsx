@@ -1,7 +1,7 @@
 "use client";
 
 import { Zap } from "lucide-react";
-import { useCheckout } from "@/src/hooks/useCheckout";
+import { useCheckout } from "@/hooks/useCheckout";
 
 interface BuyNowButtonProps {
   productId: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import SlidingLogoMarquee from "@/src/components/lightswind/sliding-logo-marquee";
+import SlidingLogoMarquee from "@/components/lightswind/sliding-logo-marquee";
 
 const logos = [
   {

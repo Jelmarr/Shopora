@@ -1,4 +1,4 @@
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Combobox,
   ComboboxContent,
@@ -7,10 +7,10 @@ import {
   ComboboxItem,
   ComboboxList,
   ComboboxTrigger,
-} from "@/src/components/ui/combobox";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
-import { apiFetch } from "@/src/lib/api-client";
-import { LookupCategory } from "@/src/lib/types/category";
+} from "@/components/ui/combobox";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
+import { apiFetch } from "@/lib/api-client";
+import { LookupCategory } from "@/lib/types/category";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";

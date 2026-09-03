@@ -4,7 +4,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import { useEffect } from "react";
-import { useCartStore } from "@/src/lib/store/cart-store";
+import { useCartStore } from "@/lib/store/cart-store";
 
 const SuccessPage = () => {
   const searchParams = useSearchParams();

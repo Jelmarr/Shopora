@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
 
 export interface SortOption {
   id: string;

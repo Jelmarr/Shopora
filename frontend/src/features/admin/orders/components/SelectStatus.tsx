@@ -6,9 +6,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
-import { ORDER_STATUS } from "@/src/lib/constants/order";
+} from "@/components/ui/select";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
+import { ORDER_STATUS } from "@/lib/constants/order";
 import { useState } from "react";
 
 const SelectStatus = () => {

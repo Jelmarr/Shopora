@@ -1,4 +1,4 @@
-import { TOrder } from "@/src/features/admin/orders/Orders";
+import { TOrder } from "@/features/admin/orders/Orders";
 
 export type DashboardRange = "7d" | "30d" | "90d" | "360d";
 

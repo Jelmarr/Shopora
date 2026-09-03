@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Slider } from "@/src/components/ui/slider";
-import { Label } from "@/src/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
 
 const MIN_PRICE = 0;
 const MAX_PRICE = 18000;

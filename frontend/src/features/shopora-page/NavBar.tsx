@@ -19,8 +19,8 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/src/components/ui/navigation-menu";
-import ShoporaLogo from "@/src/components/ShoporaLogo";
+} from "@/components/ui/navigation-menu";
+import ShoporaLogo from "@/components/ShoporaLogo";
 
 const mobileFeatures = [
   {

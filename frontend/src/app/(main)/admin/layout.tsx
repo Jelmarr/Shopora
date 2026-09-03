@@ -1,4 +1,4 @@
-import Sidebar from "@/src/components/Sidebar/Sidebar";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 export default function StoreLayout({
   children,

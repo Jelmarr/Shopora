@@ -4,16 +4,16 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/src/components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiFetch } from "@/src/lib/api-client";
-import { notify } from "@/src/lib/toast";
+import { apiFetch } from "@/lib/api-client";
+import { notify } from "@/lib/toast";
 
-import { TCategory } from "@/src/lib/types/category";
+import { TCategory } from "@/lib/types/category";
 import { ParentLookup } from "../Category";
 import { CategoryInput } from "../schemas/CategorySchema";
 import CategoryForm from "./CategoryForm";
-import { handleFormError } from "@/src/lib/form-errors";
+import { handleFormError } from "@/lib/form-errors";
 import { UseFormSetError } from "react-hook-form";
 
 interface UpdateCategoryModalProps {

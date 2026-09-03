@@ -2,10 +2,10 @@
 
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { CategorySliderProps } from "@/src/lib/types/store-front";
+import { CategorySliderProps } from "@/lib/types/store-front";
 import { useQuery } from "@tanstack/react-query";
-import { TCategory } from "@/src/lib/types/category";
-import { storeApiFetch } from "@/src/lib/store-api";
+import { TCategory } from "@/lib/types/category";
+import { storeApiFetch } from "@/lib/store-api";
 
 const CategorySlider = ({
   storeId,

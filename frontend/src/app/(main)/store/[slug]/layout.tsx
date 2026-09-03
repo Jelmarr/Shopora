@@ -1,8 +1,8 @@
-import CartDrawer from "@/src/features/store/components/CartDrawer";
-import Footer from "@/src/features/store/components/Footer";
-import NavHeader from "@/src/features/store/components/NavHeader";
-import { storeApiFetch } from "@/src/lib/store-api";
-import { StoreSlugResponse } from "@/src/lib/types/store-front";
+import CartDrawer from "@/features/store/components/CartDrawer";
+import Footer from "@/features/store/components/Footer";
+import NavHeader from "@/features/store/components/NavHeader";
+import { storeApiFetch } from "@/lib/store-api";
+import { StoreSlugResponse } from "@/lib/types/store-front";
 
 export default async function RootLayout({
   children,

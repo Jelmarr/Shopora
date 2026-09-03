@@ -1,5 +1,5 @@
-import WavyRippleBackground from "@/src/components/lightswind/wavy-ripple-background";
-import { Button } from "@/src/components/ui/moving-border";
+import WavyRippleBackground from "@/components/lightswind/wavy-ripple-background";
+import { Button } from "@/components/ui/moving-border";
 import Image from "next/image";
 import PrimaryButton from "./components/ui/PrimaryButton";
 

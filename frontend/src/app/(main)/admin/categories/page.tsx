@@ -1,6 +1,6 @@
-import Category from "@/src/features/category/Category";
-import CategorySkeleton from "@/src/features/category/components/CategorySkeleton";
-import { SortByCategory } from "@/src/lib/types/category";
+import Category from "@/features/category/Category";
+import CategorySkeleton from "@/features/category/components/CategorySkeleton";
+import { SortByCategory } from "@/lib/types/category";
 import { Suspense } from "react";
 
 const page = async ({

@@ -1,7 +1,7 @@
-import CardSkeleton from "@/src/components/skeletons/CardSkeleton";
-import TableSkeleton from "@/src/components/skeletons/TableSkeleton";
+import CardSkeleton from "@/components/skeletons/CardSkeleton";
+import TableSkeleton from "@/components/skeletons/TableSkeleton";
 
-import { Skeleton } from "@/src/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CategorySkeleton() {
   return (

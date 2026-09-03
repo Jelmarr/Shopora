@@ -1,5 +1,5 @@
-import Spinner from "@/src/components/Spinner";
-import { Button } from "@/src/components/ui/button";
+import Spinner from "@/components/Spinner";
+import { Button } from "@/components/ui/button";
 import { Save } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 

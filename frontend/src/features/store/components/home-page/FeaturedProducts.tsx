@@ -3,7 +3,7 @@
 import Link from "next/link";
 import ProductCard from "../ProductCard";
 import { ProductCardProps } from "../shop-page/ProductGrid";
-import { storeApiFetch } from "@/src/lib/store-api";
+import { storeApiFetch } from "@/lib/store-api";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 

@@ -17,8 +17,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
-import { RevenuePoint } from "@/src/lib/types/dashboard";
+} from "@/components/ui/card";
+import { RevenuePoint } from "@/lib/types/dashboard";
 
 export const description = "A linear area chart";
 

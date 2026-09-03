@@ -1,6 +1,6 @@
-import Shop from "@/src/features/store/components/shop-page/Shop";
-import { storeApiFetch } from "@/src/lib/store-api";
-import { StoreSlugResponse } from "@/src/lib/types/store-front";
+import Shop from "@/features/store/components/shop-page/Shop";
+import { storeApiFetch } from "@/lib/store-api";
+import { StoreSlugResponse } from "@/lib/types/store-front";
 
 interface PageProps {
   params: Promise<{

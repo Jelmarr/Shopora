@@ -5,19 +5,19 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/src/components/ui/card";
-import SearchBar from "@/src/components/SearchBar";
-import { Separator } from "@/src/components/ui/separator";
+} from "@/components/ui/card";
+import SearchBar from "@/components/SearchBar";
+import { Separator } from "@/components/ui/separator";
 import { Box } from "lucide-react";
-import TablePagination from "@/src/components/Pagination";
+import TablePagination from "@/components/Pagination";
 import SelectStatus from "./components/SelectStatus";
 import { useSearchParams } from "next/navigation";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { apiFetch } from "@/src/lib/api-client";
-import { TPagination } from "@/src/lib/types/pagination";
+import { apiFetch } from "@/lib/api-client";
+import { TPagination } from "@/lib/types/pagination";
 import OrdersTable from "./components/OrdersTable";
-import TableSkeleton from "@/src/components/skeletons/TableSkeleton";
+import TableSkeleton from "@/components/skeletons/TableSkeleton";
 
 export type OrderSortBy = "date" | "amount";
 export type OrderStatus =

@@ -2,11 +2,7 @@
 
 import { useState } from "react";
 import { ChevronsLeft, ChevronsRight, X, Menu } from "lucide-react";
-import {
-  MINI_W,
-  SIDEBAR_W,
-  sidebarNavigation,
-} from "@/src/lib/constants/sidebar";
+import { MINI_W, SIDEBAR_W, sidebarNavigation } from "@/lib/constants/sidebar";
 import NavItem from "./NavItem";
 
 const Sidebar = () => {

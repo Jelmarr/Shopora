@@ -1,7 +1,7 @@
 "use client";
 
-import { ApiError } from "@/src/lib/api-client";
-import { getErrorMessage } from "@/src/lib/error-handler";
+import { ApiError } from "@/lib/api-client";
+import { getErrorMessage } from "@/lib/error-handler";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";

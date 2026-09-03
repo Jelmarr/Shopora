@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { storeApiFetch } from "@/src/lib/store-api";
-import { TProduct, TProductVariant } from "@/src/lib/types/product";
+import { storeApiFetch } from "@/lib/store-api";
+import { TProduct, TProductVariant } from "@/lib/types/product";
 import { useQuery } from "@tanstack/react-query";
 import ProductDetailsImages from "./ProductDetailsImages";
-import { formatPrice } from "@/src/lib/utils/price-formatter";
+import { formatPrice } from "@/lib/utils/price-formatter";
 import RelatedProducts from "./RelatedProducts";
-import { useCartStore } from "@/src/lib/store/cart-store";
+import { useCartStore } from "@/lib/store/cart-store";
 import BuyNowButton from "../BuyNowButton";
 
 interface ProductDetailsProps {

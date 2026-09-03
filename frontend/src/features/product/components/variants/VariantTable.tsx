@@ -2,16 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { Input } from "@/src/components/ui/input";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
+} from "@/components/ui/select";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { VariantForm, VariantOption } from "@/src/lib/types/product";
+import { VariantForm, VariantOption } from "@/lib/types/product";
 
 function buildCombinations(options: VariantOption[]): Record<string, string>[] {
   const usable = options.filter(

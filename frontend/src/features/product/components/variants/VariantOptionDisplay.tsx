@@ -1,4 +1,4 @@
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { CreateProductInput } from "../../schemas/AddProductSchema";

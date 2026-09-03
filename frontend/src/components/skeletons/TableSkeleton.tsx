@@ -3,7 +3,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/src/components/ui/card";
+} from "@/components/ui/card";
 import { Skeleton } from "../ui/skeleton";
 
 const TableSkeleton = () => {

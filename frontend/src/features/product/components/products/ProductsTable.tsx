@@ -1,10 +1,10 @@
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -12,19 +12,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/src/components/ui/table";
+} from "@/components/ui/table";
 import { ExternalLink, MoreHorizontal, Trash2 } from "lucide-react";
-import { Badge } from "@/src/components/ui/badge";
-import { ProductStatus, TProduct } from "@/src/lib/types/product";
-import RenderSortIcon from "@/src/components/RenderSortIcon";
-import { useTableSort } from "@/src/hooks/useTableSort";
-import { formatDate } from "@/src/lib/utils/date";
-import { Separator } from "@/src/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { ProductStatus, TProduct } from "@/lib/types/product";
+import RenderSortIcon from "@/components/RenderSortIcon";
+import { useTableSort } from "@/hooks/useTableSort";
+import { formatDate } from "@/lib/utils/date";
+import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-import { AlertDialog } from "@/src/components/ui/alert-dialog";
+import { AlertDialog } from "@/components/ui/alert-dialog";
 import { DeleteDialogContent } from "./DeleteDialogContent";
 import StatusUpdateDialogContent from "./StatusUpdateDialogContent";
-import { STATUS_OPTIONS } from "@/src/lib/constants/product-status";
+import { STATUS_OPTIONS } from "@/lib/constants/product-status";
 import Link from "next/link";
 import Image from "next/image";
 

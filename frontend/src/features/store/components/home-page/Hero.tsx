@@ -3,10 +3,10 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { HeroProps, HeroSliderProps } from "@/src/lib/types/store-front";
+import { HeroProps, HeroSliderProps } from "@/lib/types/store-front";
 import StoreButton from "../StoreButton";
 import { useQuery } from "@tanstack/react-query";
-import { storeApiFetch } from "@/src/lib/store-api";
+import { storeApiFetch } from "@/lib/store-api";
 import { useParams, useRouter } from "next/navigation";
 
 const Hero = ({ storeId, autoPlayMs = 5000 }: HeroSliderProps) => {

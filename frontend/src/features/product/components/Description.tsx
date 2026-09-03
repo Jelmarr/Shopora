@@ -4,8 +4,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
-import { Textarea } from "@/src/components/ui/textarea";
+} from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { useFormContext } from "react-hook-form";
 const Description = () => {
   const {

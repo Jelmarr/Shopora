@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@/src/components/ui/button";
-import { Badge } from "@/src/components/ui/badge";
-import { Separator } from "@/src/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 import {
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
+} from "@/components/ui/card";
 
 import {
   Table,
@@ -18,13 +18,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/src/components/ui/table";
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,19 +34,19 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/src/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import { TCategory } from "@/src/lib/types/category";
-import SearchBar from "@/src/components/SearchBar";
-import { useTableSort } from "@/src/hooks/useTableSort";
-import RenderSortIcon from "@/src/components/RenderSortIcon";
+import { TCategory } from "@/lib/types/category";
+import SearchBar from "@/components/SearchBar";
+import { useTableSort } from "@/hooks/useTableSort";
+import RenderSortIcon from "@/components/RenderSortIcon";
 import { useState } from "react";
 import UpdateCategoryModal from "./UpdateCategoryModal";
 import { ParentLookup } from "../Category";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiFetch } from "@/src/lib/api-client";
-import { notify } from "@/src/lib/toast";
-import Spinner from "@/src/components/Spinner";
+import { apiFetch } from "@/lib/api-client";
+import { notify } from "@/lib/toast";
+import Spinner from "@/components/Spinner";
 
 type TableCardProps = {
   categories: TCategory[];

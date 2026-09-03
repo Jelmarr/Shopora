@@ -1,6 +1,6 @@
 "use client";
 
-import { formatPrice } from "@/src/lib/utils/price-formatter";
+import { formatPrice } from "@/lib/utils/price-formatter";
 import Image from "next/image";
 import { ProductCardProps } from "./shop-page/ProductGrid";
 import { Eye } from "lucide-react";

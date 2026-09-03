@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { SORT_OPTIONS, SortOption } from "../SortDropdown";
 import CloseButton from "../CloseButton";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Dot } from "lucide-react";

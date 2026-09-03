@@ -1,7 +1,7 @@
 "use client";
 
-import { getErrorMessage } from "@/src/lib/error-handler";
-import { EMAIL_REGEX } from "@/src/lib/utils/email";
+import { getErrorMessage } from "@/lib/error-handler";
+import { EMAIL_REGEX } from "@/lib/utils/email";
 import { AlertCircleIcon } from "lucide-react";
 import { useState } from "react";
 import SocialLinks from "./SocialLinks";

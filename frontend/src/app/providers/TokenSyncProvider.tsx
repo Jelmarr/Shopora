@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { setAccessToken } from "@/src/lib/api-client";
+import { setAccessToken } from "@/lib/api-client";
 
 export default function TokenSyncProvider({
   children,

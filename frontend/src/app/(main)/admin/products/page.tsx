@@ -1,4 +1,4 @@
-import Products from "@/src/features/product/Products";
+import Products from "@/features/product/Products";
 
 const page = async ({
   searchParams,

@@ -1,8 +1,8 @@
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { apiFetch } from "@/src/lib/api-client";
-import { notify } from "@/src/lib/toast";
-import { handleFormError } from "@/src/lib/form-errors";
+import { apiFetch } from "@/lib/api-client";
+import { notify } from "@/lib/toast";
+import { handleFormError } from "@/lib/form-errors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import {
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/src/components/ui/dialog";
+} from "@/components/ui/dialog";
 
 import { CategoryInput } from "../schemas/CategorySchema";
 import CategoryForm from "./CategoryForm";

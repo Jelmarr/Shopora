@@ -1,6 +1,6 @@
-import ProductDetails from "@/src/features/store/components/product-details/ProductDetails";
-import { storeApiFetch } from "@/src/lib/store-api";
-import { StoreSlugResponse } from "@/src/lib/types/store-front";
+import ProductDetails from "@/features/store/components/product-details/ProductDetails";
+import { storeApiFetch } from "@/lib/store-api";
+import { StoreSlugResponse } from "@/lib/types/store-front";
 
 const page = async ({
   params,

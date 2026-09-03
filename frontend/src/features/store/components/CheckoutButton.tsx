@@ -1,8 +1,8 @@
 "use client";
 
-import { useCartStore } from "@/src/lib/store/cart-store";
+import { useCartStore } from "@/lib/store/cart-store";
 import { LockKeyhole } from "lucide-react";
-import { useCheckout } from "@/src/hooks/useCheckout";
+import { useCheckout } from "@/hooks/useCheckout";
 
 const CheckoutButton = () => {
   const { items } = useCartStore();

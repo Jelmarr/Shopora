@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Check } from "lucide-react";
-import { BillingCycle, PLANS } from "@/src/lib/constants/pricing";
-import { NumberTicker } from "@/src/components/ui/number-ticker";
+import { BillingCycle, PLANS } from "@/lib/constants/pricing";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import Link from "next/link";
 
 export default function Pricing() {

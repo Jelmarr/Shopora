@@ -1,15 +1,15 @@
 "use client";
 
-import TablePagination from "@/src/components/Pagination";
+import TablePagination from "@/components/Pagination";
 import ProductGrid, {
   ProductCardProps,
-} from "@/src/features/store/components/shop-page/ProductGrid";
-import SearchAndFilter from "@/src/features/store/components/shop-page/SearchAndFilter";
-import ShopBanner from "@/src/features/store/components/shop-page/ShopBanner";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
-import { storeApiFetch } from "@/src/lib/store-api";
-import { TPagination } from "@/src/lib/types/pagination";
-import { StoreSlugResponse } from "@/src/lib/types/store-front";
+} from "@/features/store/components/shop-page/ProductGrid";
+import SearchAndFilter from "@/features/store/components/shop-page/SearchAndFilter";
+import ShopBanner from "@/features/store/components/shop-page/ShopBanner";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
+import { storeApiFetch } from "@/lib/store-api";
+import { TPagination } from "@/lib/types/pagination";
+import { StoreSlugResponse } from "@/lib/types/store-front";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 

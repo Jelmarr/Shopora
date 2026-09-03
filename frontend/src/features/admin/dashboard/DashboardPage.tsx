@@ -3,8 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import MetricCard from "./components/MetricCard";
 import { RevenueChart } from "./components/RevenueChart";
-import { apiFetch } from "@/src/lib/api-client";
-import { DashboardRange, DashboardSummary } from "@/src/lib/types/dashboard";
+import { apiFetch } from "@/lib/api-client";
+import { DashboardRange, DashboardSummary } from "@/lib/types/dashboard";
 import { useCallback, useState } from "react";
 import {
   Select,
@@ -12,8 +12,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
-import { formatPrice } from "@/src/lib/utils/price-formatter";
+} from "@/components/ui/select";
+import { formatPrice } from "@/lib/utils/price-formatter";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RecentOrders from "./components/RecentOrders";
 

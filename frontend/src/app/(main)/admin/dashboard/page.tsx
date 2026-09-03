@@ -1,4 +1,4 @@
-import DashboardPage from "@/src/features/admin/dashboard/DashboardPage";
+import DashboardPage from "@/features/admin/dashboard/DashboardPage";
 
 const page = () => {
   return (

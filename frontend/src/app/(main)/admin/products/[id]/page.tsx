@@ -1,8 +1,8 @@
 "use client";
 
-import ProductForm from "@/src/features/product/ProductForm";
-import { apiFetch } from "@/src/lib/api-client";
-import { TProduct } from "@/src/lib/types/product";
+import ProductForm from "@/features/product/ProductForm";
+import { apiFetch } from "@/lib/api-client";
+import { TProduct } from "@/lib/types/product";
 import { useQuery } from "@tanstack/react-query";
 import { use } from "react";
 

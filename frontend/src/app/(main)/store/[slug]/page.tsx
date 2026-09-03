@@ -1,11 +1,11 @@
-import FeaturedProducts from "@/src/features/store/components/home-page/FeaturedProducts";
-import Hero from "@/src/features/store/components/home-page/Hero";
-import PromoBanner from "@/src/features/store/components/home-page/PromoBanner";
-import Testimonials from "@/src/features/store/components/home-page/Testimonials";
-import WhatsNew from "@/src/features/store/components/home-page/WhatsNew";
-import { storeApiFetch } from "@/src/lib/store-api";
-import { StoreSlugResponse } from "@/src/lib/types/store-front";
-import CategorySlider from "@/src/features/store/components/home-page/CategorySlider";
+import FeaturedProducts from "@/features/store/components/home-page/FeaturedProducts";
+import Hero from "@/features/store/components/home-page/Hero";
+import PromoBanner from "@/features/store/components/home-page/PromoBanner";
+import Testimonials from "@/features/store/components/home-page/Testimonials";
+import WhatsNew from "@/features/store/components/home-page/WhatsNew";
+import { storeApiFetch } from "@/lib/store-api";
+import { StoreSlugResponse } from "@/lib/types/store-front";
+import CategorySlider from "@/features/store/components/home-page/CategorySlider";
 
 const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;

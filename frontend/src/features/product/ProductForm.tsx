@@ -1,24 +1,24 @@
 "use client";
 
-import BasicInformation from "@/src/features/product/components/BasicInformation";
-import StatusAndVisibility from "@/src/features/product/components/StatusAndVisibility";
-import Pricing from "@/src/features/product/components/Pricing";
-import Inventory from "@/src/features/product/components/Inventory";
-import Images from "@/src/features/product/components/Images";
-import Description from "@/src/features/product/components/Description";
-import BottomBar from "@/src/features/product/components/BottomBar";
+import BasicInformation from "@/features/product/components/BasicInformation";
+import StatusAndVisibility from "@/features/product/components/StatusAndVisibility";
+import Pricing from "@/features/product/components/Pricing";
+import Inventory from "@/features/product/components/Inventory";
+import Images from "@/features/product/components/Images";
+import Description from "@/features/product/components/Description";
+import BottomBar from "@/features/product/components/BottomBar";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   CreateProductFormInput,
   CreateProductInput,
   createProductSchema,
 } from "./schemas/AddProductSchema";
-import { apiFetch } from "@/src/lib/api-client";
-import { handleFormError } from "@/src/lib/form-errors";
-import { notify } from "@/src/lib/toast";
+import { apiFetch } from "@/lib/api-client";
+import { handleFormError } from "@/lib/form-errors";
+import { notify } from "@/lib/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Variants from "./components/variants/Variants";
-import { TProduct } from "@/src/lib/types/product";
+import { TProduct } from "@/lib/types/product";
 import { useQueryClient } from "@tanstack/react-query";
 
 type ProductFormProps =

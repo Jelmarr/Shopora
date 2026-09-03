@@ -1,4 +1,4 @@
-import { ThreeDMarquee } from "@/src/components/ui/3d-marquee";
+import { ThreeDMarquee } from "@/components/ui/3d-marquee";
 import PrimaryButton from "./components/ui/PrimaryButton";
 
 const images = [

@@ -3,8 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import Link from "next/link";
-import { apiFetch } from "@/src/lib/api-client";
-import { handleFormError } from "@/src/lib/form-errors";
+import { apiFetch } from "@/lib/api-client";
+import { handleFormError } from "@/lib/form-errors";
 import { useEffect } from "react";
 import Input from "./ui/Input";
 import PasswordStrength from "./ui/PasswordStrength";

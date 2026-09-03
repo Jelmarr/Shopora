@@ -1,4 +1,4 @@
-import Spinner from "@/src/components/Spinner";
+import Spinner from "@/components/Spinner";
 
 const SubmitButton = ({
   name,

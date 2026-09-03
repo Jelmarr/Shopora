@@ -5,11 +5,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
+} from "@/components/ui/card";
 import { ImagePlus, X } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import Image from "next/image";
-import { Badge } from "@/src/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 const Images = () => {
   const {

@@ -6,7 +6,7 @@ import StoreSearch from "../StoreSearch";
 import FiltersSlideOver from "./FiltersSlideOver";
 import { useState } from "react";
 import SortDropdown from "./SortDropdown";
-import { StoreSlugResponse } from "@/src/lib/types/store-front";
+import { StoreSlugResponse } from "@/lib/types/store-front";
 
 const SearchAndFilter = ({ store }: { store: StoreSlugResponse }) => {
   const [isOpenFiltersSlider, setIsOpenFitlersSlider] = useState(false);

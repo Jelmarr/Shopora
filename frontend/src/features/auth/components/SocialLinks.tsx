@@ -1,5 +1,5 @@
-import Spinner from "@/src/components/Spinner";
-import { getErrorMessage } from "@/src/lib/error-handler";
+import Spinner from "@/components/Spinner";
+import { getErrorMessage } from "@/lib/error-handler";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 

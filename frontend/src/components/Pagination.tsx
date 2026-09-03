@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/src/components/ui/pagination";
+} from "@/components/ui/pagination";
 
 type TablePagination = {
   currentPage: number;

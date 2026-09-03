@@ -9,11 +9,11 @@ import {
   AlertDialogHeader,
   AlertDialogMedia,
   AlertDialogTitle,
-} from "@/src/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiFetch } from "@/src/lib/api-client";
+import { apiFetch } from "@/lib/api-client";
 import { Dispatch } from "react";
-import { notify } from "@/src/lib/toast";
+import { notify } from "@/lib/toast";
 import { TProductToDelete } from "./ProductsTable";
 
 export function DeleteDialogContent({

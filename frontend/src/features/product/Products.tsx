@@ -4,21 +4,21 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/src/components/ui/card";
-import SearchBar from "@/src/components/SearchBar";
-import { Separator } from "@/src/components/ui/separator";
+} from "@/components/ui/card";
+import SearchBar from "@/components/SearchBar";
+import { Separator } from "@/components/ui/separator";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { apiFetch } from "@/src/lib/api-client";
-import { TPagination } from "@/src/lib/types/pagination";
-import { TProduct } from "@/src/lib/types/product";
+import { apiFetch } from "@/lib/api-client";
+import { TPagination } from "@/lib/types/pagination";
+import { TProduct } from "@/lib/types/product";
 import SelectCategory from "./components/products/SelectCategory";
 import ProductsTable from "./components/products/ProductsTable";
 import SelectStatus from "./components/products/SelectStatus";
 import { Tag } from "lucide-react";
-import { useUpdateParam } from "@/src/hooks/useUpdateParam";
-import TablePagination from "@/src/components/Pagination";
-import TableSkeleton from "@/src/components/skeletons/TableSkeleton";
-import { Button } from "@/src/components/ui/button";
+import { useUpdateParam } from "@/hooks/useUpdateParam";
+import TablePagination from "@/components/Pagination";
+import TableSkeleton from "@/components/skeletons/TableSkeleton";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export type ProductResponse = TPagination & {

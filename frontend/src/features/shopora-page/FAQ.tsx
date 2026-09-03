@@ -5,7 +5,7 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-} from "@/src/components/ui/accordion";
+} from "@/components/ui/accordion";
 
 const faq = [
   {

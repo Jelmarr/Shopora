@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import { InteractiveGridPattern } from "@/src/components/ui/interactive-grid-pattern";
-import EmailLookup from "@/src/features/auth/components/EmailLookup";
-import Card from "@/src/features/auth/components/ui/Card";
+import { InteractiveGridPattern } from "@/components/ui/interactive-grid-pattern";
+import EmailLookup from "@/features/auth/components/EmailLookup";
+import Card from "@/features/auth/components/ui/Card";
 
 export default function LookUpPage() {
   return (

@@ -1,6 +1,6 @@
-import FormInput from "@/src/components/FormInput";
-import { FormSelect } from "@/src/components/FormSelect";
-import { FormTextarea } from "@/src/components/FormTextArea";
+import FormInput from "@/components/FormInput";
+import { FormSelect } from "@/components/FormSelect";
+import { FormTextarea } from "@/components/FormTextArea";
 import StorePrimaryButton from "../StorePrimaryButton";
 
 const ContactForm = () => {

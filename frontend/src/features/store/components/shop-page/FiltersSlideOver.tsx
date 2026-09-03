@@ -4,9 +4,9 @@ import SortDropdown from "../SortDropdown";
 import PriceSlider from "../PriceSlider";
 import CloseButton from "../CloseButton";
 import { useQuery } from "@tanstack/react-query";
-import { storeApiFetch } from "@/src/lib/store-api";
-import { StoreSlugResponse } from "@/src/lib/types/store-front";
-import Spinner from "@/src/components/Spinner";
+import { storeApiFetch } from "@/lib/store-api";
+import { StoreSlugResponse } from "@/lib/types/store-front";
+import Spinner from "@/components/Spinner";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export interface Category {

@@ -2,9 +2,9 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import CloseButton from "./CloseButton";
-import { useCartStore } from "@/src/lib/store/cart-store";
+import { useCartStore } from "@/lib/store/cart-store";
 import Image from "next/image";
-import { formatPrice } from "@/src/lib/utils/price-formatter";
+import { formatPrice } from "@/lib/utils/price-formatter";
 import { ChevronDown, ChevronUp, MoveUpRight } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
