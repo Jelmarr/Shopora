@@ -24,20 +24,6 @@ const FeaturedProducts = ({ storeId }: { storeId: string }) => {
       <h3 className="uppercase tracking-widest font-semibold text-center text-lg">
         Featured Products
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-24">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            categoryName={product.categoryName}
-            price={product.price}
-            comparePrice={product.comparePrice}
-            images={product.images}
-            primaryImage={product.primaryImage}
-          />
-        ))}
-      </div>
 
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-24">

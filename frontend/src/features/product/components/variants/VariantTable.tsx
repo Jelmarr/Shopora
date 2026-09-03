@@ -110,12 +110,14 @@ const VariantTable = () => {
 
       return existing
         ? {
+            id: existing.id, // Preserve existing ID
             combination: combo,
             sku: existing.sku ?? "",
             price: (existing.price ?? Number(defaultPriceValue)) || 0,
             available: existing.available ?? 0,
           }
         : {
+            id: crypto.randomUUID(), // Or "" depending on backend requirements
             combination: combo,
             sku: "",
             price: Number(defaultPriceValue) || 0,

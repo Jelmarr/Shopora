@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react";
+
 export interface SubItemProps {
   label: string;
   href: string;
@@ -14,7 +16,7 @@ export interface NavItemProps {
 export interface SidebarItem {
   label: string;
   href?: string;
-  icon: any;
+  icon: LucideIcon;
   subMenu?: { label: string; href: string }[];
 }
 

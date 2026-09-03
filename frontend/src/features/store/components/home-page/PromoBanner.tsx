@@ -1,7 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import StoreButton from "../StoreButton";
+import { useParams, useRouter } from "next/navigation";
 
 const PromoBanner = () => {
+  const router = useRouter();
+
+  const params = useParams<{ slug: string }>();
+  const slug = params.slug;
+
   return (
     <section className="relative min-h-70 rounded-xl overflow-hidden bg-[#0a0a0a]">
       <Image
@@ -31,7 +39,11 @@ const PromoBanner = () => {
           A backdrop that lets any product take center stage.
         </p>
 
-        <StoreButton buttonText="Shop the collection" whiteBorder />
+        <StoreButton
+          onClick={() => router.push(`/store/${slug}/shop`)}
+          buttonText="Shop the collection"
+          whiteBorder
+        />
       </div>
     </section>
   );

@@ -14,11 +14,7 @@ const NavItem = ({
     hasMenu && item.subMenu!.some((s) => s.href === activeHref);
   const [open, setOpen] = useState(isChildActive);
   const isSelfActive = !hasMenu && item.href === activeHref;
-
-  // Collapse submenus when sidebar minifies
-  useEffect(() => {
-    if (minified) setOpen(false);
-  }, [minified]);
+  const isOpen = open && !minified;
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -64,7 +60,7 @@ const NavItem = ({
       {hasMenu && !minified && (
         <div
           className="overflow-hidden transition-[max-height] duration-250 ease-in-out"
-          style={{ maxHeight: open ? "500px" : "0px" }}
+          style={{ maxHeight: isOpen ? "500px" : "0px" }}
         >
           <ul className="mt-0.5 space-y-0.5 pb-1">
             {item.subMenu!.map((sub) => (

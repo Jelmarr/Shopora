@@ -1,5 +1,11 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export interface ApiErrorResponse {
+  detail?: string;
+  errors?: Record<string, string[]>;
+  [key: string]: unknown;
+}
+
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -101,7 +107,7 @@ export async function apiFetch<T>(
 
   // 4. Parse the response body cleanly (matching your original logic)
   const text = await response.text();
-  let data: any = {};
+  let data: ApiErrorResponse = {};
   if (text) {
     try {
       data = JSON.parse(text);

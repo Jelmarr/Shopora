@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 export function formatCurrency(
   amount: number,
   currency = "USD",
-  options?: Omit<Intl.NumberFormatOptions, "style" | "currency">
+  options?: Omit<Intl.NumberFormatOptions, "style" | "currency">,
 ) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -41,23 +41,33 @@ export function formatDate(date: Date, options?: Intl.DateTimeFormatOptions) {
 }
 
 // Utility function to debounce function calls
-export function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
+export function debounce<T extends (...args: unknown[]) => void>(
+  func: T,
+  wait: number,
+): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
+
   return function (...args: Parameters<T>) {
     const later = () => {
       timeout = null;
       func(...args);
     };
+
     if (timeout !== null) {
       clearTimeout(timeout);
     }
+
     timeout = setTimeout(later, wait);
   };
 }
 
 // Utility function to throttle function calls
-export function throttle<T extends (...args: any[]) => void>(func: T, limit: number) {
+export function throttle<T extends (...args: unknown[]) => void>(
+  func: T,
+  limit: number,
+): (...args: Parameters<T>) => void {
   let inThrottle = false;
+
   return function (...args: Parameters<T>) {
     if (!inThrottle) {
       func(...args);
@@ -68,4 +78,3 @@ export function throttle<T extends (...args: any[]) => void>(func: T, limit: num
     }
   };
 }
-
