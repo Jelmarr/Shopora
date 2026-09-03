@@ -19,6 +19,7 @@ public class GetFeaturedProductsHandler
 
         var featuredProducts = await _db.Products
             .AsNoTracking()
+            .Take(4)
             .Where(product => product.IsFeatured && product.StoreId == storeId)
             .Select(product => new GetFeaturedProductsResponse
             {

@@ -26,7 +26,7 @@ public record GetProductsFilter(
 
 public record GetProductsPagination(
     int Page = 1,
-    int PageSize = 25
+    int PageSize = 10
 );
 
 public record PageProductsRespose(

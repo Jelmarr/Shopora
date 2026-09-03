@@ -20,6 +20,7 @@ public class GetLatestProductsHandler
         var latestProducts = await _db.Products
             .AsNoTracking()
             .Include(product => product.Images)
+            .Take(4)
             .Where(product => product.StoreId == storeId)
             .Select(product => new GetLatestProductsResponse
             {
@@ -39,7 +40,6 @@ public class GetLatestProductsHandler
                 CreatedAt = product.CreatedAt
             })
             .OrderByDescending(p => p.CreatedAt)
-            .Take(5)
             .ToListAsync(ct);
 
         return latestProducts;

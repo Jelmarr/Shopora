@@ -15,15 +15,24 @@ public static class InfrastructureExtensions
     {
         // CORS Setup
         services.AddCors(options =>
-        {
-            options.AddPolicy(name: AllowSpecificOrigins, policy =>
-            {
-                policy.WithOrigins("http://localhost:3000")
+          {
+              options.AddPolicy(name: AllowSpecificOrigins, policy =>
+              {
+                  var frontendUrl = configuration["FrontendUrl"];
+
+                  if (string.IsNullOrEmpty(frontendUrl))
+                  {
+                      throw new InvalidOperationException(
+                          "FrontendUrl configuration is missing."
+                      );
+                  }
+
+                  policy.WithOrigins(frontendUrl)
                       .AllowAnyHeader()
                       .AllowAnyMethod()
                       .AllowCredentials();
-            });
-        });
+              });
+          });
 
         // Global JSON Setup
         services.ConfigureHttpJsonOptions(options =>

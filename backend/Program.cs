@@ -9,6 +9,9 @@ using backend.Features.Admin.Categories.Extension;
 using backend.Features.Admin.Orders;
 using backend.Features.Admin.Dashboard;
 using backend.Features.Dev.SeedOrders;
+using backend.Features.Dev.SeedShoes;
+using backend.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,14 @@ builder.Services
     .AddAuthRateLimiting();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider
+        .GetRequiredService<AppDbContext>();
+
+    dbContext.Database.Migrate();
+}
 
 // HTTP Request Processing Pipeline Order
 app.UseExceptionHandler();
@@ -53,6 +64,7 @@ app.MapStoreFeatures();
 if (app.Environment.IsDevelopment())
 {
     app.MapSeedOrders();
+    app.MapSeedShoes();
 }
 
 app.Run();

@@ -79,6 +79,7 @@ public class GetDashboardSummaryHandler
         var recentOrders = await _db.Orders
             .AsNoTracking()
             .Take(5)
+            .Where(order => order.StoreId == storeId)
             .Select(order => new RecentOrderTableDto
             {
                 Id = order.Id,
