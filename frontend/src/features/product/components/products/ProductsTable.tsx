@@ -71,7 +71,7 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
           {products.length === 0 ? (
             <TableRow>
               <TableCell
-                colSpan={5}
+                colSpan={6}
                 className="h-32 text-center text-muted-foreground"
               >
                 <div className="flex flex-col items-center justify-center gap-1">

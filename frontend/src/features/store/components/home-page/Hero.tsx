@@ -7,6 +7,7 @@ import { HeroProps, HeroSliderProps } from "@/src/lib/types/store-front";
 import StoreButton from "../StoreButton";
 import { useQuery } from "@tanstack/react-query";
 import { storeApiFetch } from "@/src/lib/store-api";
+import { useParams, useRouter } from "next/navigation";
 
 const Hero = ({ storeId, autoPlayMs = 5000 }: HeroSliderProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -38,8 +39,48 @@ const Hero = ({ storeId, autoPlayMs = 5000 }: HeroSliderProps) => {
     return () => clearInterval(timer);
   }, [goNext, isPaused, autoPlayMs, products.length]);
 
-  if (products.length === 0) return null;
+  const router = useRouter();
 
+  const params = useParams<{ slug: string }>();
+  const slug = params.slug;
+
+  if (isLoading) {
+    return (
+      <section className="relative w-full h-105 md:h-130 overflow-hidden rounded-lg bg-gray-200 animate-pulse">
+        <div className="absolute inset-0 flex flex-col items-start justify-end gap-3 p-6 md:p-12 max-w-xl">
+          <div className="h-8 md:h-12 w-3/4 rounded-md bg-gray-300" />
+          <div className="h-4 w-full rounded-md bg-gray-300" />
+          <div className="h-4 w-2/3 rounded-md bg-gray-300" />
+          <div className="h-10 w-32 rounded-md bg-gray-300 mt-2" />
+        </div>
+      </section>
+    );
+  }
+
+  if (isError || products.length === 0) {
+    return (
+      <section className="relative w-full h-105 md:h-130 overflow-hidden rounded-lg bg-gray-100 flex flex-col items-center justify-center gap-2 text-gray-400">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <path d="M21 15l-5-5L5 21" />
+        </svg>
+        <p className="text-sm md:text-base">
+          {isError
+            ? "Couldn't load featured products"
+            : "No featured products available"}
+        </p>
+      </section>
+    );
+  }
   return (
     <section
       className="relative w-full h-105 md:h-130 overflow-hidden rounded-lg"
@@ -74,7 +115,11 @@ const Hero = ({ storeId, autoPlayMs = 5000 }: HeroSliderProps) => {
               {product.description}
             </p>
 
-            <StoreButton buttonText="Shop now" whiteBorder />
+            <StoreButton
+              buttonText="Shop now"
+              whiteBorder
+              onClick={() => router.push(`/store/${slug}/shop`)}
+            />
           </div>
         </div>
       ))}

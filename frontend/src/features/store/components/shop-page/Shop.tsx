@@ -31,6 +31,19 @@ type ShopResponse = TPagination & {
   products: ProductCardProps[];
 };
 
+const ProductGridSkeleton = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {Array.from({ length: 8 }).map((_, index) => (
+      <div key={index} className="animate-pulse">
+        <div className="aspect-square w-full rounded-md bg-gray-200" />
+        <div className="h-3 w-1/3 rounded bg-gray-200 mt-3" />
+        <div className="h-4 w-2/3 rounded bg-gray-200 mt-2" />
+        <div className="h-4 w-1/4 rounded bg-gray-200 mt-2" />
+      </div>
+    ))}
+  </div>
+);
+
 const Shop = ({ store }: ShopProps) => {
   const { handlePageChange } = useUpdateParam();
   const searchParams = useSearchParams();
@@ -89,21 +102,26 @@ const Shop = ({ store }: ShopProps) => {
       <ShopBanner />
       <div className="py-10 mx max-w-360 mx-auto px-8 2xl:px-0">
         <SearchAndFilter store={store} />
-        <div
-          className={`transition-opacity duration-200 ${
-            isFetching && !isLoading
-              ? "opacity-50 pointer-events-none"
-              : "opacity-100"
-          }`}
-        >
-          {products.length === 0 && !isLoading ? (
-            <div className="py-20 text-center text-neutral-500">
-              No products found matching your filter.
-            </div>
-          ) : (
-            <ProductGrid products={products} />
-          )}
-        </div>
+
+        {isLoading ? (
+          <ProductGridSkeleton />
+        ) : (
+          <div
+            className={`transition-opacity duration-200 ${
+              isFetching ? "opacity-50 pointer-events-none" : "opacity-100"
+            }`}
+          >
+            {products.length === 0 ? (
+              <div className="py-20 text-center text-neutral-500">
+                {isError
+                  ? "Something went wrong loading products."
+                  : "No products found matching your filter."}
+              </div>
+            ) : (
+              <ProductGrid products={products} />
+            )}
+          </div>
+        )}
 
         <div className="flex items-center justify-between mt-12">
           <TablePagination
