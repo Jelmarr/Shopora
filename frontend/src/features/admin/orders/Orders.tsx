@@ -17,7 +17,6 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/api-client";
 import { TPagination } from "@/lib/types/pagination";
 import OrdersTable from "./components/OrdersTable";
-import TableSkeleton from "@/components/skeletons/TableSkeleton";
 
 export type OrderSortBy = "date" | "amount";
 export type OrderStatus =
@@ -49,7 +48,7 @@ const Orders = () => {
   const sortOrder = searchParams.get("sortOrder") || "desc";
   const page = Number(searchParams.get("page")) || 1;
 
-  const { data, isLoading, isError } = useQuery<OrdersResponse>({
+  const { data, isError } = useQuery<OrdersResponse>({
     queryKey: ["orders", search, status, sortBy, sortOrder, page],
     queryFn: async ({ signal }) => {
       const params = new URLSearchParams();
@@ -83,33 +82,29 @@ const Orders = () => {
         </div>
       </header>
       <main>
-        {isLoading ? (
-          <TableSkeleton />
-        ) : (
-          <Card>
-            <CardHeader className="pb-4">
-              <div className="flex gap-2">
-                <SearchBar placeholder="Search customer name or email..." />
-                <SelectStatus />
-              </div>
-            </CardHeader>
+        <Card>
+          <CardHeader className="pb-4">
+            <div className="flex gap-2">
+              <SearchBar placeholder="Search customer name or email..." />
+              <SelectStatus />
+            </div>
+          </CardHeader>
 
-            <Separator />
+          <Separator />
 
-            <CardContent className="px-6">
-              <OrdersTable orders={orders} />
-            </CardContent>
-            <CardFooter className="bg-white flex flex-col items-center justify-between gap-3 h-24 sm:flex-row">
-              <TablePagination
-                itemLabel="orders"
-                onPageChange={handlePageChange}
-                currentPage={currentPage}
-                totalCount={totalCount}
-                totalPages={totalPages}
-              />
-            </CardFooter>
-          </Card>
-        )}
+          <CardContent className="px-6">
+            <OrdersTable orders={orders} />
+          </CardContent>
+          <CardFooter className="bg-white flex flex-col items-center justify-between gap-3 h-24 sm:flex-row">
+            <TablePagination
+              itemLabel="orders"
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
+              totalCount={totalCount}
+              totalPages={totalPages}
+            />
+          </CardFooter>
+        </Card>
       </main>
     </div>
   );

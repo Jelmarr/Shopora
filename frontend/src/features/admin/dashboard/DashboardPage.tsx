@@ -48,7 +48,7 @@ const DashboardPage = () => {
 
   const rangeQuery = searchParams.get("range");
 
-  const { data, isLoading } = useQuery<DashboardSummary>({
+  const { data } = useQuery<DashboardSummary>({
     queryKey: ["dashboard-summary", rangeQuery],
     queryFn: async () => {
       const params = new URLSearchParams();
@@ -83,7 +83,7 @@ const DashboardPage = () => {
           </SelectContent>
         </Select>
       </header>
-      {isLoading || !data ? (
+      {!data ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {Array.from({ length: 4 }).map((_, i) => (
             <div
