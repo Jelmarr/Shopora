@@ -44,7 +44,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Environment Specifications
-app.UseDevelopmentDocumentation();
+app.UseApiDocumentation();
 
 // Vertical Slice Domain Mappings
 app.MapAuthFeatures();
