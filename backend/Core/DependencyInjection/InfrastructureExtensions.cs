@@ -64,13 +64,11 @@ public static class InfrastructureExtensions
         return services;
     }
 
-    public static IApplicationBuilder UseDevelopmentDocumentation(this WebApplication app)
+    public static IApplicationBuilder UseApiDocumentation(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapOpenApi();
-            app.MapScalarApiReference();
-        }
+        app.MapOpenApi();
+        app.MapScalarApiReference();
+
         return app;
     }
 }
