@@ -56,7 +56,7 @@ const Signup = () => {
         body: JSON.stringify(data),
       });
 
-      router.push("/store/dashboard");
+      router.push("/admin/dashboard");
     } catch (err) {
       handleFormError(err, setError);
     }
