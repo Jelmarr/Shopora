@@ -8,9 +8,6 @@ export interface SubItemProps {
 
 export interface NavItemProps {
   item: SidebarGroup["items"][number];
-  minified: boolean;
-  activeHref: string;
-  setActiveHref: (href: string) => void;
 }
 
 export interface SidebarItem {
