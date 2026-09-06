@@ -16,12 +16,8 @@ export const sidebarNavigation: SidebarGroup[] = [
       { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
       {
         label: "Analytics",
+        href: "/admin/analytics",
         icon: BarChart3,
-        subMenu: [
-          { label: "Sales Performance", href: "/admin/analytics/sales" },
-          { label: "Inventory Reports", href: "/admin/analytics/inventory" },
-          { label: "Financial Summaries", href: "/admin/analytics/finance" },
-        ],
       },
     ],
   },

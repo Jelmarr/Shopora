@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, Store } from "lucide-react";
+import { LogOut, Menu, Store } from "lucide-react";
 import { SIDEBAR_W, sidebarNavigation } from "@/lib/constants/sidebar";
 import NavItem from "./NavItem";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/api-client";
+import { signOut } from "next-auth/react";
 
 interface StoreResponse {
   id: string;
@@ -57,6 +58,22 @@ const Sidebar = () => {
 
         {/* Nav groups */}
         <nav className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200">
+          <div>
+            <p className="mb-1 px-2.5 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+              Store
+            </p>
+
+            <Link
+              href={`/store/${store?.slug}`}
+              target="_blank"
+              className={[
+                "flex items-center gap-x-3 px-2.5 py-2 rounded-lg text-sm transition-colors select-none text-gray-600 hover:bg-gray-100 hover:text-gray-800",
+              ].join(" ")}
+            >
+              <Store size={16} className="shrink-0" />
+              <span className="flex-1 truncate">Store</span>
+            </Link>
+          </div>
           <div className="py-3 px-2 space-y-4">
             {sidebarNavigation.map((group) => (
               <div key={group.groupName}>
@@ -72,24 +89,19 @@ const Sidebar = () => {
                 </ul>
               </div>
             ))}
-            <div>
-              <p className="mb-1 px-2.5 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                Store
-              </p>
-
-              <Link
-                href={`/store/${store?.slug}`}
-                target="_blank"
-                className={[
-                  "flex items-center gap-x-3 px-2.5 py-2 rounded-lg text-sm transition-colors select-none text-gray-600 hover:bg-gray-100 hover:text-gray-800",
-                ].join(" ")}
-              >
-                <Store size={16} className="shrink-0" />
-                <span className="flex-1 truncate">Store</span>
-              </Link>
-            </div>
           </div>
         </nav>
+
+        {/* Logout button */}
+        <button
+          className="flex hover:bg-red-50 px-3 mx-3 rounded-md mb-2 items-center gap-4 py-3 cursor-pointer text-muted-foreground hover:text-red-500 transition-colors duration-200"
+          onClick={() => signOut({ callbackUrl: "/" })}
+        >
+          <span>
+            <LogOut size={18} />
+          </span>
+          Logout
+        </button>
 
         {/* User footer */}
         <div className={`border-t border-gray-100 p-3 shrink-0`}>
@@ -119,7 +131,6 @@ const Sidebar = () => {
           aria-label="Open sidebar"
         >
           <Menu size={16} />
-          Open Menu
         </button>
       </div>
     </>

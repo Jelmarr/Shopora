@@ -77,7 +77,7 @@ const Products = ({
             <Tag size={15} /> Products
           </h3>
         </div>
-        <Link href="/store/add-product">
+        <Link href="/admin/add-product">
           <Button>Add product</Button>
         </Link>
       </header>
